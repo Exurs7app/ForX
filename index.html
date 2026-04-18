@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>منصة تداول العملات الرقمية - تسجيل الدخول</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'light-bg': '#f8fafc',
+                        'light-card': '#ffffff',
+                        'light-border': '#e2e8f0',
+                        'crypto-green': '#02c076',
+                        'crypto-red': '#f84960',
+                        'crypto-blue': '#3772ff',
+                        'text-primary': '#1e293b',
+                        'text-secondary': '#64748b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+        
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* بطاقات زجاجية فاتحة */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3772ff 0%, #5a4cfa 100%);
+            transition: all 0.2s ease;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(55, 114, 255, 0.2);
+        }
+        
+        .bottom-nav-item {
+            transition: all 0.2s ease;
+            color: #94a3b8;
+        }
+        .bottom-nav-item.active {
+            color: #3772ff;
+        }
+        .bottom-nav-item i {
+            font-size: 1.4rem;
+        }
+        
+        .asset-row {
+            border-bottom: 1px solid #e2e8f0;
+            transition: background 0.15s;
+        }
+        .asset-row:hover {
+            background: rgba(0, 0, 0, 0.02);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* تنسيق حقول الإدخال */
+        .auth-input {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 14px 16px;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .auth-input:focus {
+            outline: none;
+            border-color: #3772ff;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(55,114,255,0.1);
+        }
+        .tab-active {
+            color: #3772ff;
+            border-bottom: 2px solid #3772ff;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-light-bg text-primary antialiased">
+
+<!-- الحاوية الرئيسية -->
+<div class="max-w-md mx-auto bg-light-bg min-h-screen relative shadow-2xl shadow-gray-100">
+    
+    <!-- ======================= -->
+    <!-- شاشة تسجيل الدخول / إنشاء حساب -->
+    <!-- ======================= -->
+    <div id="auth-screen" class="fade-in flex flex-col min-h-screen bg-white">
+        <!-- شعار وأعلى -->
+        <div class="pt-12 px-6 text-center">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-crypto-blue to-purple-500 shadow-lg mb-4">
+                <i class="fas fa-bolt text-white text-2xl"></i>
+            </div>
+            <h1 class="text-3xl font-bold text-primary">مرحباً بك</h1>
+            <p class="text-secondary mt-2 text-sm">قم بتسجيل الدخول أو إنشاء حساب جديد للمتابعة</p>
+        </div>
+
+        <!-- التبويبات -->
+        <div class="px-6 mt-8">
+            <div class="flex border-b border-light-border">
+                <button id="tab-login" class="flex-1 py-3 text-center font-medium text-secondary tab-active transition-all">تسجيل الدخول</button>
+                <button id="tab-signup" class="flex-1 py-3 text-center font-medium text-secondary transition-all">إنشاء حساب</button>
+            </div>
+        </div>
+
+        <!-- نموذج تسجيل الدخول -->
+        <div id="login-form" class="px-6 mt-6 space-y-5">
+            <div>
+                <label class="block text-sm font-medium text-secondary mb-1">البريد الإلكتروني أو اسم المستخدم</label>
+                <div class="relative">
+                    <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="email" class="auth-input pr-10" placeholder="أدخل بريدك الإلكتروني" value="trader@example.com">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-secondary mb-1">كلمة المرور</label>
+                <div class="relative">
+                    <i class="fas fa-lock absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="password" class="auth-input pr-10" placeholder="••••••••" value="12345678">
+                </div>
+            </div>
+            <div class="flex items-center justify-between">
+                <label class="flex items-center gap-2 text-sm text-secondary">
+                    <input type="checkbox" class="rounded border-gray-300 text-crypto-blue focus:ring-crypto-blue"> تذكرني
+                </label>
+                <a href="#" class="text-sm text-crypto-blue font-medium">نسيت كلمة المرور؟</a>
+            </div>
+            <button id="login-btn" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2 mt-4">
+                <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+            </button>
+            <p class="text-center text-secondary text-sm mt-4">ليس لديك حساب؟ <span id="switch-to-signup" class="text-crypto-blue font-medium cursor-pointer">إنشاء حساب جديد</span></p>
+        </div>
+
+        <!-- نموذج إنشاء حساب (مخفي افتراضياً) -->
+        <div id="signup-form" class="px-6 mt-6 space-y-5 hidden">
+            <div>
+                <label class="block text-sm font-medium text-secondary mb-1">الاسم الكامل</label>
+                <div class="relative">
+                    <i class="fas fa-user absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" class="auth-input pr-10" placeholder="أدخل اسمك الكامل">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-secondary mb-1">البريد الإلكتروني</label>
+                <div class="relative">
+                    <i class="fas fa-envelope absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="email" class="auth-input pr-10" placeholder="بريدك الإلكتروني">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-secondary mb-1">كلمة المرور</label>
+                <div class="relative">
+                    <i class="fas fa-lock absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="password" class="auth-input pr-10" placeholder="كلمة مرور قوية">
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-secondary mb-1">تأكيد كلمة المرور</label>
+                <div class="relative">
+                    <i class="fas fa-check-circle absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    <input type="password" class="auth-input pr-10" placeholder="أعد كتابة كلمة المرور">
+                </div>
+            </div>
+            <div class="flex items-start gap-2 mt-2">
+                <input type="checkbox" class="mt-1 rounded border-gray-300 text-crypto-blue focus:ring-crypto-blue">
+                <span class="text-xs text-secondary">أوافق على <a href="#" class="text-crypto-blue">الشروط والأحكام</a> وسياسة الخصوصية</span>
+            </div>
+            <button id="signup-btn" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2 mt-4">
+                <i class="fas fa-user-plus"></i> إنشاء حساب جديد
+            </button>
+            <p class="text-center text-secondary text-sm mt-4">لديك حساب بالفعل؟ <span id="switch-to-login" class="text-crypto-blue font-medium cursor-pointer">تسجيل الدخول</span></p>
+        </div>
+
+        <!-- دخول سريع كضيف (اختياري) -->
+        <div class="mt-auto px-6 pb-8 pt-6">
+            <button id="guest-login-btn" class="w-full py-3 rounded-xl border border-light-border text-secondary font-medium text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition">
+                <i class="fas fa-user-secret"></i> الدخول كضيف (تجربة المنصة)
+            </button>
+        </div>
+    </div>
+
+    <!-- ======================= -->
+    <!-- شاشة المنصة الرئيسية (مخفية بداية) -->
+    <!-- ======================= -->
+    <div id="main-screen" class="hidden min-h-screen pb-20 relative">
+        
+        <!-- Header فاتح -->
+        <div class="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-light-border px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-bolt text-crypto-blue text-xl"></i>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-crypto-blue to-purple-500 bg-clip-text text-transparent">CryptoTrader</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <i class="fas fa-search text-gray-500 text-lg"></i>
+                <i class="fas fa-bell text-gray-500 text-lg"></i>
+                <!-- أيقونة تسجيل الخروج للعودة لشاشة الدخول -->
+                <button id="logout-btn" class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center hover:opacity-80 transition">
+                    <i class="fas fa-sign-out-alt text-gray-600 text-sm"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="px-4 py-3 space-y-4 fade-in">
+            
+            <!-- بطاقة الإيداع فاتحة -->
+            <div class="glass-card rounded-2xl p-5 bg-white border border-light-border shadow-md">
+                <div class="flex items-center gap-2 text-secondary mb-2">
+                    <i class="fas fa-wallet text-crypto-blue"></i>
+                    <span class="text-sm font-medium">الإيداع</span>
+                </div>
+                <div class="text-4xl font-bold tracking-tight text-primary">1,250.00 USD</div>
+                <div class="flex items-center gap-2 mt-2 text-sm">
+                    <span class="text-secondary flex items-center gap-1"><i class="fas fa-minus-circle text-crypto-red"></i> 124.50 USD</span>
+                    <span class="text-secondary flex items-center gap-1"><i class="fas fa-plus-circle text-crypto-green"></i> 380.20 USD</span>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button class="btn-primary flex-1 py-2.5 rounded-xl text-white font-semibold text-sm shadow-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-arrow-down"></i> إيداع
+                    </button>
+                    <button class="flex-1 py-2.5 rounded-xl border border-light-border text-secondary font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition">
+                        <i class="fas fa-arrow-up"></i> سحب
+                    </button>
+                </div>
+            </div>
+
+            <!-- صف سريع -->
+            <div class="grid grid-cols-5 gap-2">
+                <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white">
+                    <i class="fas fa-star text-yellow-500 text-lg"></i>
+                    <span class="text-xs mt-1 text-secondary">New</span>
+                </div>
+                <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white">
+                    <i class="fas fa-chart-line text-crypto-blue text-lg"></i>
+                    <span class="text-xs mt-1 text-secondary">عرض</span>
+                </div>
+                <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white">
+                    <i class="fas fa-credit-card text-purple-500 text-lg"></i>
+                    <span class="text-xs mt-1 text-secondary">V-Wallet</span>
+                </div>
+                <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white">
+                    <i class="fas fa-newspaper text-crypto-green text-lg"></i>
+                    <span class="text-xs mt-1 text-secondary">أخبار</span>
+                </div>
+                <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white">
+                    <i class="fas fa-calendar-alt text-orange-400 text-lg"></i>
+                    <span class="text-xs mt-1 text-secondary">التقويم</span>
+                </div>
+            </div>
+
+            <!-- أفضل مزودي الإشارات -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold flex items-center gap-2 text-primary">
+                        <i class="fas fa-trophy text-yellow-500"></i>
+                        أفضل 20 مزود إشارات
+                    </h2>
+                    <button class="text-crypto-blue text-sm font-medium flex items-center gap-1">
+                        عرض المزيد <i class="fas fa-chevron-left text-xs"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- بطاقة 1 -->
+                    <div class="glass-card rounded-xl p-4 bg-white border border-light-border shadow-sm">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <h3 class="font-bold text-base text-primary">GROW MORE T...</h3>
+                                <span class="text-xs text-secondary flex items-center gap-1 mt-1">
+                                    <i class="fab fa-bitcoin text-yellow-500"></i> Crypto
+                                </span>
+                            </div>
+                            <i class="fas fa-chevron-left text-gray-400 text-xs"></i>
+                        </div>
+                        <div class="mt-3">
+                            <span class="text-xs text-secondary">عائد 30 يوم</span>
+                            <div class="text-2xl font-bold text-crypto-green">+153.65%</div>
+                        </div>
+                        <div class="mt-3 h-10 w-full">
+                            <svg viewBox="0 0 100 20" class="w-full h-full">
+                                <polyline points="0,15 10,12 20,14 30,8 40,10 50,5 60,7 70,3 80,6 90,2 100,4" stroke="#02c076" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <!-- بطاقة 2 -->
+                    <div class="glass-card rounded-xl p-4 bg-white border border-light-border shadow-sm">
+                        <div class="flex items-start justify-between mb-2">
+                            <div>
+                                <h3 class="font-bold text-base text-primary">G Horizon Fund...</h3>
+                                <span class="text-xs text-secondary flex items-center gap-1 mt-1">
+                                    <i class="fas fa-oil-can text-orange-400"></i> Commodities
+                                </span>
+                            </div>
+                            <i class="fas fa-chevron-left text-gray-400 text-xs"></i>
+                        </div>
+                        <div class="mt-3">
+                            <span class="text-xs text-secondary">عائد 30 يوم</span>
+                            <div class="text-2xl font-bold text-crypto-green">+70.58%</div>
+                        </div>
+                        <div class="mt-3 h-10 w-full">
+                            <svg viewBox="0 0 100 20" class="w-full h-full">
+                                <polyline points="0,12 10,10 20,13 30,6 40,8 50,4 60,5 70,2 80,4 90,1 100,3" stroke="#02c076" stroke-width="1.5" fill="none"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- قائمة المراقبة -->
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-bold flex items-center gap-2 text-primary">
+                        <i class="fas fa-eye text-crypto-blue"></i>
+                        قائمة المراقبة
+                    </h2>
+                    <button class="text-crypto-blue text-sm font-medium">
+                        <i class="fas fa-plus-circle"></i> إضافة
+                    </button>
+                </div>
+                
+                <div class="glass-card rounded-xl overflow-hidden border border-light-border bg-white shadow-sm">
+                    <div class="grid grid-cols-3 text-xs text-secondary py-3 px-3 border-b border-light-border bg-gray-50/80">
+                        <div>الزوج</div>
+                        <div class="text-center">آخر سعر</div>
+                        <div class="text-right">24س تغير</div>
+                    </div>
+                    
+                    <div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                        <div class="flex items-center gap-2">
+                            <i class="fab fa-bitcoin text-yellow-500 text-lg"></i>
+                            <div>
+                                <div class="font-semibold text-primary">BTC/USDT</div>
+                                <div class="text-xs text-secondary">Bitcoin</div>
+                            </div>
+                        </div>
+                        <div class="text-center font-semibold text-primary">$68,245.50</div>
+                        <div class="text-right text-crypto-green font-semibold">+2.34%</div>
+                    </div>
+                    
+                    <div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                        <div class="flex items-center gap-2">
+                            <i class="fab fa-ethereum text-purple-500 text-lg"></i>
+                            <div>
+                                <div class="font-semibold text-primary">ETH/USDT</div>
+                                <div class="text-xs text-secondary">Ethereum</div>
+                            </div>
+                        </div>
+                        <div class="text-center font-semibold text-primary">$3,421.80</div>
+                        <div class="text-right text-crypto-green font-semibold">+1.87%</div>
+                    </div>
+                    
+                    <div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-sun text-orange-400 text-lg"></i>
+                            <div>
+                                <div class="font-semibold text-primary">SOL/USDT</div>
+                                <div class="text-xs text-secondary">Solana</div>
+                            </div>
+                        </div>
+                        <div class="text-center font-semibold text-primary">$172.35</div>
+                        <div class="text-right text-crypto-red font-semibold">-0.82%</div>
+                    </div>
+                    
+                    <div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-coins text-yellow-500 text-lg"></i>
+                            <div>
+                                <div class="font-semibold text-primary">BNB/USDT</div>
+                                <div class="text-xs text-secondary">Binance Coin</div>
+                            </div>
+                        </div>
+                        <div class="text-center font-semibold text-primary">$602.10</div>
+                        <div class="text-right text-crypto-green font-semibold">+0.45%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- شريط التنقل السفلي -->
+        <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-light-border px-4 py-2 flex items-center justify-around z-40 shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
+            <div class="bottom-nav-item active flex flex-col items-center">
+                <i class="fas fa-home"></i>
+                <span class="text-[10px] mt-0.5">الرئيسية</span>
+            </div>
+            <div class="bottom-nav-item flex flex-col items-center">
+                <i class="fas fa-chart-bar"></i>
+                <span class="text-[10px] mt-0.5">الأسواق</span>
+            </div>
+            <div class="bottom-nav-item flex flex-col items-center">
+                <i class="fas fa-arrow-trend-up"></i>
+                <span class="text-[10px] mt-0.5">التداول</span>
+            </div>
+            <div class="bottom-nav-item flex flex-col items-center">
+                <i class="fas fa-wallet"></i>
+                <span class="text-[10px] mt-0.5">المحفظة</span>
+            </div>
+            <div class="bottom-nav-item flex flex-col items-center">
+                <i class="fas fa-user"></i>
+                <span class="text-[10px] mt-0.5">الحساب</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        'use strict';
+        
+        // ----- العناصر -----
+        const authScreen = document.getElementById('auth-screen');
+        const mainScreen = document.getElementById('main-screen');
+        
+        // التبويبات والنماذج
+        const tabLogin = document.getElementById('tab-login');
+        const tabSignup = document.getElementById('tab-signup');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const switchToSignup = document.getElementById('switch-to-signup');
+        const switchToLogin = document.getElementById('switch-to-login');
+        
+        // أزرار الإجراءات
+        const loginBtn = document.getElementById('login-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const guestBtn = document.getElementById('guest-login-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // ----- دوال التبديل بين التبويبات -----
+        function showLoginTab() {
+            loginForm.classList.remove('hidden');
+            signupForm.classList.add('hidden');
+            tabLogin.classList.add('tab-active', 'text-crypto-blue');
+            tabSignup.classList.remove('tab-active', 'text-crypto-blue');
+            tabSignup.classList.add('text-secondary');
+            tabLogin.classList.remove('text-secondary');
+        }
+        
+        function showSignupTab() {
+            signupForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+            tabSignup.classList.add('tab-active', 'text-crypto-blue');
+            tabLogin.classList.remove('tab-active', 'text-crypto-blue');
+            tabLogin.classList.add('text-secondary');
+            tabSignup.classList.remove('text-secondary');
+        }
+        
+        // ----- الانتقال إلى المنصة (بعد تسجيل الدخول أو إنشاء حساب) -----
+        function openMainApp() {
+            authScreen.classList.add('hidden');
+            mainScreen.classList.remove('hidden');
+            // تفعيل التنقل السفلي
+            const navItems = document.querySelectorAll('.bottom-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(nav => {
+                        nav.classList.remove('active');
+                        nav.style.color = '#94a3b8';
+                    });
+                    this.classList.add('active');
+                    this.style.color = '#3772ff';
+                });
+            });
+            // تعيين النشط الافتراضي
+            document.querySelector('.bottom-nav-item.active').style.color = '#3772ff';
+        }
+        
+        // ----- العودة إلى شاشة المصادقة (تسجيل الخروج) -----
+        function logout() {
+            authScreen.classList.remove('hidden');
+            mainScreen.classList.add('hidden');
+            // إعادة تعيين التبويب إلى تسجيل الدخول
+            showLoginTab();
+        }
+        
+        // ----- ربط الأحداث -----
+        
+        // التبويبات
+        tabLogin.addEventListener('click', showLoginTab);
+        tabSignup.addEventListener('click', showSignupTab);
+        switchToSignup.addEventListener('click', showSignupTab);
+        switchToLogin.addEventListener('click', showLoginTab);
+        
+        // أزرار الدخول وإنشاء حساب
+        loginBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openMainApp();
+        });
+        
+        signupBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openMainApp();
+        });
+        
+        // دخول كضيف
+        guestBtn.addEventListener('click', () => {
+            openMainApp();
+        });
+        
+        // تسجيل الخروج من المنصة
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', logout);
+        }
+        
+        // التهيئة الأولية: تأكد من أن شاشة المصادقة مرئية والمنصة مخفية
+        authScreen.classList.remove('hidden');
+        mainScreen.classList.add('hidden');
+        showLoginTab();  // عرض تبويب تسجيل الدخول افتراضياً
+        
+        // تحسين: إمكانية الضغط على زر الإرسال في النماذج (منع إعادة التحميل)
+        const forms = document.querySelectorAll('form');
+        forms.forEach(f => {
+            f.addEventListener('submit', (e) => e.preventDefault());
+        });
+        
+        console.log('✅ واجهة تسجيل الدخول والمنصة جاهزة - تصميم فاتح RTL');
+    })();
+</script>
+
+<!-- معالجة إضافية لمنع أي تعارض في التنسيق -->
+<style>
+    /* ضبط بعض التفاصيل */
+    #auth-screen, #main-screen {
+        transition: opacity 0.25s ease;
+    }
+    .tab-active {
+        position: relative;
+    }
+    .bottom-nav-item {
+        cursor: pointer;
+    }
+    #logout-btn {
+        cursor: pointer;
+    }
+    /* تحسين مظهر الحقول */
+    input {
+        font-family: 'Cairo', sans-serif;
+    }
+</style>
+
+</body>
+</html>
