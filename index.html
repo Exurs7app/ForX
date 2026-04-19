@@ -90,6 +90,10 @@
         .symbol-chip.active { background: #3772ff; color: white; border-color: #3772ff; box-shadow: 0 4px 8px rgba(55,114,255,0.2); }
         .symbol-chip i { margin-left: 6px; }
         canvas { touch-action: none; }
+        .news-item { transition: background 0.2s; }
+        .news-item:hover { background: #f8fafc; }
+        .wallet-asset-row { border-bottom: 1px solid #f1f5f9; }
+        .wallet-asset-row:last-child { border-bottom: none; }
     </style>
 </head>
 <body class="bg-light-bg text-primary antialiased">
@@ -229,10 +233,10 @@
                     <button id="home-withdraw-btn" class="flex-1 py-2.5 rounded-xl border border-light-border text-secondary font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition"><i class="fas fa-arrow-up"></i> سحب</button>
                 </div>
             </div>
-            <!-- صف سريع (بدون خانة "عرض") -->
+            <!-- صف سريع (مع تفعيل New و V-Wallet) -->
             <div class="grid grid-cols-4 gap-2">
-                <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white"><i class="fas fa-star text-yellow-500 text-lg"></i><span class="text-xs mt-1 text-secondary">New</span></div>
-                <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white"><i class="fas fa-credit-card text-purple-500 text-lg"></i><span class="text-xs mt-1 text-secondary">V-Wallet</span></div>
+                <div id="new-news-btn" class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white cursor-pointer hover:shadow-md transition"><i class="fas fa-star text-yellow-500 text-lg"></i><span class="text-xs mt-1 text-secondary">New</span></div>
+                <div id="v-wallet-btn" class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white cursor-pointer hover:shadow-md transition"><i class="fas fa-credit-card text-purple-500 text-lg"></i><span class="text-xs mt-1 text-secondary">V-Wallet</span></div>
                 <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white"><i class="fas fa-newspaper text-crypto-green text-lg"></i><span class="text-xs mt-1 text-secondary">أخبار</span></div>
                 <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white"><i class="fas fa-calendar-alt text-orange-400 text-lg"></i><span class="text-xs mt-1 text-secondary">التقويم</span></div>
             </div>
@@ -417,7 +421,7 @@
         </div>
     </div>
 
-    <!-- ========== الموديلات (الإيداع، السحب، تغيير كلمة المرور، مزودي الإشارات، ترخيص المنصة) ========== -->
+    <!-- ========== الموديلات ========== -->
     <!-- مودال الإيداع -->
     <div id="deposit-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
         <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
@@ -519,6 +523,246 @@
             </div>
         </div>
     </div>
+
+    <!-- مودال الأخبار الجديدة (New) -->
+    <div id="news-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+        <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar">
+            <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
+                <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-star text-yellow-500"></i> ما الجديد في ForX</h3>
+                <button id="close-news-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+            </div>
+            <div class="space-y-4">
+                <!-- إطلاق عملات جديدة -->
+                <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-xl border border-purple-100">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-rocket ml-1"></i> إطلاق جديد</span>
+                        <span class="text-xs text-secondary">منذ ساعتين</span>
+                    </div>
+                    <h4 class="font-bold text-primary mb-1">عملات رقمية جديدة متاحة للتداول</h4>
+                    <p class="text-sm text-secondary mb-3">تمت إضافة 5 عملات رقمية واعدة إلى منصتنا، مع سيولة عالية ورسوم تداول 0.1% فقط.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fab fa-bitcoin text-yellow-500 ml-1"></i> ARB/USDT</span>
+                        <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-chart-line text-blue-500 ml-1"></i> OP/USDT</span>
+                        <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-link text-purple-500 ml-1"></i> LINK/USDT</span>
+                        <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-feather text-green-500 ml-1"></i> NEAR/USDT</span>
+                        <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-atom text-indigo-500 ml-1"></i> ATOM/USDT</span>
+                    </div>
+                </div>
+
+                <!-- تحديثات النظام -->
+                <div class="bg-gradient-to-r from-green-50 to-teal-50 p-4 rounded-xl border border-green-100">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-sync-alt ml-1"></i> تحديث النظام</span>
+                        <span class="text-xs text-secondary">أمس</span>
+                    </div>
+                    <h4 class="font-bold text-primary mb-1">تحديث واجهة المستخدم وتحسين الأداء</h4>
+                    <p class="text-sm text-secondary">قمنا بتحديث التصميم ليكون أكثر سلاسة، مع تحسين سرعة تنفيذ الصفقات بنسبة 40% وإضافة ميزة الإشعارات الفورية.</p>
+                    <div class="mt-2 flex items-center gap-2">
+                        <i class="fas fa-check-circle text-crypto-green text-xs"></i>
+                        <span class="text-xs text-secondary">الوضع الليلي التلقائي</span>
+                        <i class="fas fa-check-circle text-crypto-green text-xs mr-2"></i>
+                        <span class="text-xs text-secondary">تحسين الرسم البياني</span>
+                    </div>
+                </div>
+
+                <!-- عروض ترويجية -->
+                <div class="bg-gradient-to-r from-orange-50 to-yellow-50 p-4 rounded-xl border border-orange-100">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-gift ml-1"></i> عرض لفترة محدودة</span>
+                        <span class="text-xs text-secondary">3 أيام متبقية</span>
+                    </div>
+                    <h4 class="font-bold text-primary mb-1">🎉 استرداد 50% من رسوم التداول</h4>
+                    <p class="text-sm text-secondary">لكل مستخدم يقوم بإيداع 100 USDT أو أكثر خلال الأسبوع الحالي، سيتم استرداد 50% من رسوم التداول في صورة USDT.</p>
+                    <button class="mt-3 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium py-2 px-4 rounded-xl w-full transition">تفعيل العرض الآن</button>
+                </div>
+
+                <!-- أخبار السوق -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-newspaper ml-1"></i> أخبار السوق</span>
+                        <span class="text-xs text-secondary">3 أيام</span>
+                    </div>
+                    <h4 class="font-bold text-primary mb-1">بيتكوين تتجاوز 70,000$ للمرة الأولى</h4>
+                    <p class="text-sm text-secondary">ارتفاع قياسي جديد لعملة البيتكوين مع تزايد التبني المؤسسي والموافقة على صناديق الاستثمار المتداولة.</p>
+                </div>
+
+                <!-- ميزة جديدة قادمة -->
+                <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-clock ml-1"></i> قريباً</span>
+                    </div>
+                    <h4 class="font-bold text-primary mb-1">المحفظة الرقمية ForX Wallet</h4>
+                    <p class="text-sm text-secondary">قريباً يمكنك تخزين وإدارة جميع عملاتك الرقمية في محفظة ForX الآمنة مع دعم Staking وعوائد تصل إلى 12% سنوياً.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال المحفظة الرقمية (V-Wallet) -->
+    <div id="wallet-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+        <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar">
+            <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
+                <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-credit-card text-purple-500"></i> محفظة ForX الرقمية</h3>
+                <button id="close-wallet-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+            </div>
+            
+            <!-- الرصيد الإجمالي -->
+            <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl p-5 text-white mb-4">
+                <p class="text-sm opacity-80 mb-1">الرصيد الإجمالي (تقديري)</p>
+                <div class="text-3xl font-bold" id="wallet-total-balance">0.00 USDT</div>
+                <div class="flex items-center gap-2 mt-2">
+                    <i class="fas fa-shield-alt text-xs"></i>
+                    <span class="text-xs opacity-80">مؤمن بالكامل</span>
+                </div>
+            </div>
+
+            <!-- أزرار سريعة -->
+            <div class="flex gap-3 mb-4">
+                <button id="wallet-deposit-btn" class="flex-1 bg-crypto-blue text-white py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"><i class="fas fa-arrow-down"></i> إيداع</button>
+                <button id="wallet-withdraw-btn" class="flex-1 border border-light-border text-secondary py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"><i class="fas fa-arrow-up"></i> سحب</button>
+                <button id="wallet-transfer-btn" class="flex-1 border border-light-border text-secondary py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"><i class="fas fa-exchange-alt"></i> تحويل</button>
+            </div>
+
+            <!-- قائمة العملات -->
+            <div class="mb-4">
+                <h4 class="font-bold text-primary mb-2 flex items-center gap-2"><i class="fas fa-coins text-yellow-500"></i> عملاتي</h4>
+                <div class="bg-gray-50 rounded-xl border border-light-border overflow-hidden">
+                    <!-- USDT -->
+                    <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                                <i class="fas fa-dollar-sign text-green-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-primary">USDT</p>
+                                <p class="text-xs text-secondary">Tether</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-primary" id="wallet-usdt-balance">0.00</p>
+                            <p class="text-xs text-secondary">≈ 0.00 $</p>
+                        </div>
+                    </div>
+                    <!-- BTC -->
+                    <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
+                                <i class="fab fa-bitcoin text-yellow-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-primary">BTC</p>
+                                <p class="text-xs text-secondary">Bitcoin</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-primary" id="wallet-btc-balance">0.0000</p>
+                            <p class="text-xs text-secondary">≈ 0.00 $</p>
+                        </div>
+                    </div>
+                    <!-- ETH -->
+                    <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                                <i class="fab fa-ethereum text-purple-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-primary">ETH</p>
+                                <p class="text-xs text-secondary">Ethereum</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-bold text-primary" id="wallet-eth-balance">0.0000</p>
+                            <p class="text-xs text-secondary">≈ 0.00 $</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- آخر المعاملات -->
+            <div>
+                <h4 class="font-bold text-primary mb-2 flex items-center gap-2"><i class="fas fa-history text-gray-500"></i> آخر العمليات</h4>
+                <div id="wallet-transactions-list" class="space-y-2 text-sm max-h-40 overflow-y-auto">
+                    <!-- يتم ملؤها ديناميكيًا -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مودال التحويل (خانة التحويل بتفاصيل حقيقية) -->
+    <div id="transfer-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+        <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
+            <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
+                <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-paper-plane text-crypto-blue"></i> تحويل عملات</h3>
+                <button id="close-transfer-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- اختيار العملة -->
+                <div>
+                    <label class="block text-sm font-medium text-secondary mb-1">العملة</label>
+                    <select id="transfer-coin" class="profile-input">
+                        <option value="USDT" selected>USDT - Tether (TRC20/BEP20)</option>
+                        <option value="BTC">BTC - Bitcoin</option>
+                        <option value="ETH">ETH - Ethereum</option>
+                    </select>
+                    <div class="flex justify-between text-xs text-secondary mt-1">
+                        <span>الرصيد المتاح: <span id="transfer-available">0.00</span> <span id="transfer-coin-label">USDT</span></span>
+                        <span class="text-crypto-blue cursor-pointer" id="max-transfer">الحد الأقصى</span>
+                    </div>
+                </div>
+
+                <!-- اختيار الشبكة (شبكات حقيقية مع رسوم) -->
+                <div>
+                    <label class="block text-sm font-medium text-secondary mb-1">شبكة التحويل</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button id="transfer-net-trc20" class="network-btn active-network py-2 rounded-lg border text-sm font-medium transition" data-fee="1.0">TRC20</button>
+                        <button id="transfer-net-bep20" class="network-btn py-2 rounded-lg border border-light-border text-sm font-medium transition" data-fee="0.5">BEP20 (BSC)</button>
+                        <button id="transfer-net-erc20" class="network-btn py-2 rounded-lg border border-light-border text-sm font-medium transition" data-fee="5.0">ERC20</button>
+                    </div>
+                    <p class="warning-text flex items-center gap-1 mt-1"><i class="fas fa-exclamation-triangle text-[10px]"></i> تأكد من أن الشبكة تدعمها المحفظة المستقبلة.</p>
+                </div>
+
+                <!-- عنوان المستلم -->
+                <div>
+                    <label class="block text-sm font-medium text-secondary mb-1">عنوان المستلم</label>
+                    <div class="relative">
+                        <input type="text" id="transfer-address" class="profile-input pr-10" placeholder="أدخل عنوان المحفظة">
+                        <button id="paste-address-btn" class="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 text-crypto-blue hover:bg-gray-100 rounded-lg"><i class="fas fa-paste"></i></button>
+                    </div>
+                    <p class="text-xs text-secondary mt-1">مثال: TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN (TRC20)</p>
+                </div>
+
+                <!-- المبلغ -->
+                <div>
+                    <label class="block text-sm font-medium text-secondary mb-1">المبلغ</label>
+                    <input type="number" id="transfer-amount" min="0.0001" step="0.0001" class="profile-input" placeholder="0.00">
+                </div>
+
+                <!-- ملخص الرسوم والصافي -->
+                <div class="bg-gray-50 p-3 rounded-xl border border-light-border text-sm space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-secondary">رسوم الشبكة</span>
+                        <span id="transfer-fee-amount">1.00 USDT</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-secondary">المبلغ المستلم</span>
+                        <span class="font-bold text-primary" id="transfer-receive-amount">0.00 USDT</span>
+                    </div>
+                    <div class="border-t border-gray-200 pt-2 text-xs text-secondary">
+                        <i class="fas fa-clock ml-1"></i> وقت الوصول: 5-30 دقيقة (حسب الشبكة)
+                    </div>
+                </div>
+
+                <div id="transfer-error" class="error-message hidden"></div>
+
+                <!-- زر التأكيد -->
+                <button id="confirm-transfer-btn" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2">
+                    <i class="fas fa-check-circle"></i> تأكيد التحويل
+                </button>
+                <p class="text-xs text-secondary text-center">بالضغط على تأكيد، أنت توافق على شروط التحويل.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -545,7 +789,7 @@
 
     // ---------- إدارة المستخدمين والجلسة ----------
     const STORAGE_KEY = 'forx_users_db', SESSION_KEY = 'forx_current_user';
-    function initDB() { if(!localStorage.getItem(STORAGE_KEY)) { localStorage.setItem(STORAGE_KEY, JSON.stringify([{ fullName:'متداول تجريبي', email:'demo@forx.com', password:btoa('demo1234'), balance: 0, transactions: [], joinDate: new Date().toISOString().split('T')[0] }])); } }
+    function initDB() { if(!localStorage.getItem(STORAGE_KEY)) { localStorage.setItem(STORAGE_KEY, JSON.stringify([{ fullName:'متداول تجريبي', email:'demo@forx.com', password:btoa('demo1234'), balance: 1000.00, transactions: [], joinDate: new Date().toISOString().split('T')[0] }])); } }
     initDB();
     function getUsers() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
     function saveUsers(users) { localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); }
@@ -571,7 +815,7 @@
         const user = getCurrentUser(); if(!user) return;
         const balance = user.balance || 0;
         const totalDeposited = (user.transactions || []).filter(t=>t.type==='deposit').reduce((s,t)=>s+t.amount,0);
-        const totalWithdrawn = (user.transactions || []).filter(t=>t.type==='withdraw').reduce((s,t)=>s+t.amount,0);
+        const totalWithdrawn = (user.transactions || []).filter(t=>t.type==='withdraw' || t.type==='transfer').reduce((s,t)=>s+t.amount,0);
         document.getElementById('home-balance').textContent = balance.toFixed(2) + ' USDT';
         document.getElementById('home-deposited').textContent = totalDeposited.toFixed(2);
         document.getElementById('home-withdrawn').textContent = totalWithdrawn.toFixed(2);
@@ -590,10 +834,69 @@
         if(txs.length===0) txList.innerHTML = '<p class="text-secondary text-center py-2">لا توجد عمليات حديثة</p>';
         else {
             txList.innerHTML = txs.map(tx => {
-                const isDeposit = tx.type === 'deposit';
-                return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas ${isDeposit ? 'fa-arrow-down text-crypto-green' : 'fa-arrow-up text-crypto-red'}"></i><span>${isDeposit ? 'إيداع' : 'سحب'}</span></div><div class="font-medium ${isDeposit ? 'text-crypto-green' : 'text-crypto-red'}">${isDeposit?'+':'-'}${tx.amount.toFixed(2)} USDT</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
+                let typeLabel = tx.type === 'deposit' ? 'إيداع' : (tx.type === 'withdraw' ? 'سحب' : 'تحويل');
+                let icon = tx.type === 'deposit' ? 'fa-arrow-down text-crypto-green' : (tx.type === 'withdraw' ? 'fa-arrow-up text-crypto-red' : 'fa-exchange-alt text-blue-500');
+                let amountSign = tx.type === 'deposit' ? '+' : '-';
+                return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas ${icon}"></i><span>${typeLabel}</span></div><div class="font-medium ${tx.type === 'deposit' ? 'text-crypto-green' : 'text-crypto-red'}">${amountSign}${tx.amount.toFixed(2)} ${tx.coin || 'USDT'}</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
             }).join('');
         }
+        
+        // تحديث المحفظة أيضًا
+        updateWalletModalData();
+        updateTransferAvailable();
+    }
+
+    // تحديث بيانات مودال المحفظة
+    function updateWalletModalData() {
+        const user = getCurrentUser();
+        if (!user) return;
+        
+        const usdtBalance = user.balance || 0;
+        // محاكاة أرصدة BTC و ETH بناءً على USDT (للتوضيح)
+        const btcPrice = window.currentMarketPrices?.bitcoin?.usd || 68245.50;
+        const ethPrice = window.currentMarketPrices?.ethereum?.usd || 3421.80;
+        const btcBalance = (usdtBalance * 0.4 / btcPrice) || 0;
+        const ethBalance = (usdtBalance * 0.3 / ethPrice) || 0;
+        
+        document.getElementById('wallet-total-balance').textContent = usdtBalance.toFixed(2) + ' USDT';
+        document.getElementById('wallet-usdt-balance').textContent = usdtBalance.toFixed(2);
+        document.getElementById('wallet-btc-balance').textContent = btcBalance.toFixed(6);
+        document.getElementById('wallet-eth-balance').textContent = ethBalance.toFixed(6);
+        
+        // تحديث القيم بالدولار
+        const usdtRow = document.querySelector('#wallet-usdt-balance').closest('.wallet-asset-row');
+        const btcRow = document.querySelector('#wallet-btc-balance').closest('.wallet-asset-row');
+        const ethRow = document.querySelector('#wallet-eth-balance').closest('.wallet-asset-row');
+        if (usdtRow) usdtRow.querySelector('p:last-child').textContent = `≈ ${usdtBalance.toFixed(2)} $`;
+        if (btcRow) btcRow.querySelector('p:last-child').textContent = `≈ ${(btcBalance * btcPrice).toFixed(2)} $`;
+        if (ethRow) ethRow.querySelector('p:last-child').textContent = `≈ ${(ethBalance * ethPrice).toFixed(2)} $`;
+        
+        // تحديث قائمة المعاملات في المحفظة
+        const walletTxList = document.getElementById('wallet-transactions-list');
+        const txs = (user.transactions || []).slice().reverse().slice(0,3);
+        if(txs.length===0) walletTxList.innerHTML = '<p class="text-secondary text-center py-2 text-sm">لا توجد عمليات حديثة</p>';
+        else {
+            walletTxList.innerHTML = txs.map(tx => {
+                let typeLabel = tx.type === 'deposit' ? 'إيداع' : (tx.type === 'withdraw' ? 'سحب' : 'تحويل');
+                let icon = tx.type === 'deposit' ? 'fa-arrow-down text-crypto-green' : (tx.type === 'withdraw' ? 'fa-arrow-up text-crypto-red' : 'fa-exchange-alt text-blue-500');
+                let amountSign = tx.type === 'deposit' ? '+' : '-';
+                return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas ${icon} text-xs"></i><span class="text-xs">${typeLabel} ${tx.coin || 'USDT'}</span></div><div class="font-medium ${tx.type === 'deposit' ? 'text-crypto-green' : 'text-crypto-red'} text-sm">${amountSign}${tx.amount.toFixed(2)}</div></div>`;
+            }).join('');
+        }
+    }
+
+    // تحديث الرصيد المتاح في مودال التحويل
+    function updateTransferAvailable() {
+        const user = getCurrentUser();
+        if (!user) return;
+        const coin = document.getElementById('transfer-coin').value;
+        let available = 0;
+        if (coin === 'USDT') available = user.balance || 0;
+        else if (coin === 'BTC') available = (user.balance * 0.4 / (window.currentMarketPrices?.bitcoin?.usd || 68245.50)) || 0;
+        else if (coin === 'ETH') available = (user.balance * 0.3 / (window.currentMarketPrices?.ethereum?.usd || 3421.80)) || 0;
+        document.getElementById('transfer-available').textContent = available.toFixed(coin === 'USDT' ? 2 : 6);
+        document.getElementById('transfer-coin-label').textContent = coin;
+        calculateReceiveAmount();
     }
 
     function processWithdraw(address, amount) {
@@ -602,11 +905,45 @@
         if(isNaN(amount) || amount <= 0) { showToast('المبلغ غير صالح', true); return false; }
         if(amount > (user.balance||0)) { showToast('رصيدك غير كافٍ', true); return false; }
         const newBalance = (user.balance||0) - amount;
-        const transaction = { type: 'withdraw', amount, date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'}), address: address.trim() };
+        const transaction = { type: 'withdraw', amount, coin: 'USDT', date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'}), address: address.trim() };
         const transactions = [...(user.transactions || []), transaction];
         updateUser(user.email, { balance: newBalance, transactions });
         refreshBalanceAndTransactions();
         showToast(`تم سحب ${amount.toFixed(2)} USDT بنجاح`);
+        return true;
+    }
+
+    function processTransfer(coin, network, address, amount, fee) {
+        const user = getCurrentUser(); if(!user) return false;
+        if(!address || address.trim().length < 5) { showToast('عنوان المستلم غير صالح', true); return false; }
+        if(isNaN(amount) || amount <= 0) { showToast('المبلغ غير صالح', true); return false; }
+        
+        let available = 0;
+        if (coin === 'USDT') available = user.balance || 0;
+        else if (coin === 'BTC') available = (user.balance * 0.4 / (window.currentMarketPrices?.bitcoin?.usd || 68245.50)) || 0;
+        else if (coin === 'ETH') available = (user.balance * 0.3 / (window.currentMarketPrices?.ethereum?.usd || 3421.80)) || 0;
+        
+        if (amount > available) { showToast('الرصيد غير كافٍ', true); return false; }
+        
+        // تحويل المبلغ إلى USDT للخصم من الرصيد الرئيسي (للبساطة نخصم فقط USDT)
+        let amountInUSDT = amount;
+        if (coin === 'BTC') amountInUSDT = amount * (window.currentMarketPrices?.bitcoin?.usd || 68245.50);
+        else if (coin === 'ETH') amountInUSDT = amount * (window.currentMarketPrices?.ethereum?.usd || 3421.80);
+        
+        const newBalance = user.balance - amountInUSDT;
+        const transaction = { 
+            type: 'transfer', 
+            amount: amountInUSDT, 
+            coin: coin, 
+            network, 
+            fee: fee,
+            date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'}), 
+            address: address.trim() 
+        };
+        const transactions = [...(user.transactions || []), transaction];
+        updateUser(user.email, { balance: newBalance, transactions });
+        refreshBalanceAndTransactions();
+        showToast(`تم تحويل ${amount} ${coin} بنجاح عبر ${network}`);
         return true;
     }
 
@@ -633,17 +970,15 @@
         navItems.forEach(item => { item.classList.remove('active'); item.style.color = '#94a3b8'; });
         const activeNav = Array.from(navItems).find(el => el.dataset.page === pageId);
         if(activeNav) { activeNav.classList.add('active'); activeNav.style.color = '#3772ff'; }
-        // التعامل مع الصفحات غير الموجودة
-        if(!pages[pageId] && pageId !== 'home' && pageId !== 'markets' && pageId !== 'sync' && pageId !== 'wallet' && pageId !== 'account') { 
-            showToast('قريباً...', false); 
-            switchPage('home'); 
+        if (pageId === 'wallet') {
+            // فتح مودال المحفظة عند النقر على أيقونة المحفظة في شريط التنقل
+            document.getElementById('wallet-modal').classList.remove('hidden');
+            updateWalletModalData();
+            switchPage('home'); // العودة للرئيسية
         }
         if (pageId === 'markets') {
             drawChartForCurrentSymbol();
-        }
-        if (pageId === 'wallet' || pageId === 'trade') {
-            showToast('قريباً...', false);
-            switchPage('home');
+            fetchMarketData(true); // تحديث فوري عند دخول الأسواق
         }
     }
 
@@ -690,64 +1025,126 @@
         container.innerHTML = html;
     }
 
-    // ---------- بيانات السوق (جميع العملات) ----------
+    // ---------- بيانات السوق الحقيقية (CoinGecko API) ----------
     const symbols = [
-        { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', basePrice: 68245.50, volatility: 0.005 },
-        { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', basePrice: 3421.80, volatility: 0.008 },
-        { id: 'BNB', name: 'Binance Coin', icon: 'fas fa-coins text-yellow-500', basePrice: 602.10, volatility: 0.006 },
-        { id: 'SOL', name: 'Solana', icon: 'fas fa-sun text-orange-400', basePrice: 172.35, volatility: 0.012 },
-        { id: 'XRP', name: 'Ripple', icon: 'fas fa-water text-blue-400', basePrice: 0.62, volatility: 0.007 },
-        { id: 'ADA', name: 'Cardano', icon: 'fas fa-circle text-blue-500', basePrice: 0.45, volatility: 0.009 },
-        { id: 'DOGE', name: 'Dogecoin', icon: 'fas fa-dog text-yellow-600', basePrice: 0.12, volatility: 0.015 }
+        { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', coingeckoId: 'bitcoin' },
+        { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', coingeckoId: 'ethereum' },
+        { id: 'BNB', name: 'Binance Coin', icon: 'fas fa-coins text-yellow-500', coingeckoId: 'binancecoin' },
+        { id: 'SOL', name: 'Solana', icon: 'fas fa-sun text-orange-400', coingeckoId: 'solana' },
+        { id: 'XRP', name: 'Ripple', icon: 'fas fa-water text-blue-400', coingeckoId: 'ripple' },
+        { id: 'ADA', name: 'Cardano', icon: 'fas fa-circle text-blue-500', coingeckoId: 'cardano' },
+        { id: 'DOGE', name: 'Dogecoin', icon: 'fas fa-dog text-yellow-600', coingeckoId: 'dogecoin' }
     ];
 
     let currentSymbol = symbols[0];
     let marketChartData = [];
     let currentTf = '1D';
     let simulationInterval = null;
+    let isUsingFallback = false;
+    let lastFetchTime = 0;
+    const FETCH_COOLDOWN = 10000; // 10 ثواني بين الطلبات لتجنب rate limit
+    
+    window.currentMarketPrices = {};
 
-    function generateInitialCandles(count, basePrice, volatility) {
+    async function fetchMarketData(force = false) {
+        const now = Date.now();
+        if (!force && now - lastFetchTime < FETCH_COOLDOWN) return;
+        lastFetchTime = now;
+        
+        try {
+            const ids = symbols.map(s => s.coingeckoId).join(',');
+            const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h`);
+            if (!response.ok) throw new Error('API limit');
+            const data = await response.json();
+            
+            // تخزين الأسعار الحالية
+            data.forEach(coin => {
+                window.currentMarketPrices[coin.id] = { usd: coin.current_price, change24h: coin.price_change_percentage_24h };
+            });
+            
+            // تحديث السعر للعملة الحالية
+            const currentCoinData = data.find(c => c.id === currentSymbol.coingeckoId);
+            if (currentCoinData) {
+                updateCurrentPriceFromAPI(currentCoinData.current_price, currentCoinData.price_change_percentage_24h);
+            }
+            
+            updateTopMarketsWithRealData(data);
+            isUsingFallback = false;
+        } catch (error) {
+            console.warn('Using fallback market data');
+            if (!isUsingFallback) {
+                isUsingFallback = true;
+                initFallbackMarketData();
+            }
+        }
+    }
+
+    async function fetchChartData(coinId, days) {
+        try {
+            const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}&interval=${days > 30 ? 'daily' : 'hourly'}`);
+            if (!response.ok) throw new Error('API limit');
+            const data = await response.json();
+            return data.prices; // [[timestamp, price], ...]
+        } catch (error) {
+            console.warn('Chart API failed, using fallback');
+            return null;
+        }
+    }
+
+    function processChartPrices(prices) {
+        if (!prices || prices.length < 5) return generateFallbackCandles(60, currentSymbol.id === 'BTC' ? 68245 : 3421);
+        // تحويل إلى شموع مبسطة (open, high, low, close) - نستخدم close لكل نقطة كشمعة صغيرة
+        const candles = [];
+        for (let i = 0; i < prices.length; i += Math.max(1, Math.floor(prices.length / 60))) {
+            const slice = prices.slice(i, i + Math.floor(prices.length / 60));
+            if (slice.length === 0) continue;
+            const open = slice[0][1];
+            const close = slice[slice.length-1][1];
+            const high = Math.max(...slice.map(p => p[1]));
+            const low = Math.min(...slice.map(p => p[1]));
+            candles.push({ open, high, low, close });
+        }
+        return candles.slice(-60);
+    }
+
+    function generateFallbackCandles(count, basePrice) {
         const data = [];
         let close = basePrice;
         for (let i = 0; i < count; i++) {
             const open = close;
-            const change = (Math.random() - 0.5) * volatility * basePrice;
+            const change = (Math.random() - 0.5) * 0.02 * basePrice;
             close = Math.max(open + change, basePrice * 0.7);
-            const high = Math.max(open, close) + Math.random() * volatility * basePrice;
-            const low = Math.min(open, close) - Math.random() * volatility * basePrice;
+            const high = Math.max(open, close) + Math.random() * 0.01 * basePrice;
+            const low = Math.min(open, close) - Math.random() * 0.01 * basePrice;
             data.push({ open, high, low, close });
         }
         return data;
     }
 
-    function updateMarketSimulation() {
-        if (!marketChartData.length) return;
-        const last = marketChartData[marketChartData.length - 1];
-        const volatility = currentSymbol.volatility * currentSymbol.basePrice;
-        const change = (Math.random() - 0.5) * volatility;
-        const newClose = Math.max(last.close + change, currentSymbol.basePrice * 0.5);
-        const newHigh = Math.max(last.high, newClose + Math.random() * volatility * 0.3);
-        const newLow = Math.min(last.low, newClose - Math.random() * volatility * 0.3);
-        // تحديث آخر شمعة (نموذج الشمعة الحية)
-        last.close = newClose;
-        last.high = newHigh;
-        last.low = newLow;
-        
-        // إضافة شمعة جديدة كل 10 تحديثات تقريبًا (لمحاكاة مرور الوقت)
-        if (Math.random() < 0.2) {
-            const newCandle = {
-                open: last.close,
-                high: last.close + Math.random() * volatility * 0.5,
-                low: last.close - Math.random() * volatility * 0.5,
-                close: last.close + (Math.random() - 0.5) * volatility
-            };
-            marketChartData.push(newCandle);
-            if (marketChartData.length > 60) marketChartData.shift();
+    function updateCurrentPriceFromAPI(price, change24h) {
+        const last = marketChartData.length ? marketChartData[marketChartData.length-1] : { close: price };
+        if (marketChartData.length) {
+            last.close = price;
         }
-        
+        document.getElementById('current-price').textContent = price.toFixed(2);
+        const changeSpan = document.getElementById('price-change');
+        changeSpan.textContent = (change24h > 0 ? '+' : '') + change24h.toFixed(2) + '%';
+        changeSpan.className = `text-sm font-medium px-2 py-1 rounded-lg ${change24h >= 0 ? 'text-crypto-green bg-green-50' : 'text-crypto-red bg-red-50'}`;
         drawChart();
-        updatePriceDisplay();
-        updateTopMarkets();
+    }
+
+    async function loadChartForSymbol(symbol, tf) {
+        const daysMap = { '1D': 1, '1W': 7, '1M': 30, '3M': 90, '1Y': 365 };
+        const days = daysMap[tf] || 1;
+        const prices = await fetchChartData(symbol.coingeckoId, days);
+        if (prices) {
+            marketChartData = processChartPrices(prices);
+        } else {
+            const basePrice = window.currentMarketPrices[symbol.coingeckoId]?.usd || (symbol.id === 'BTC' ? 68245 : 3421);
+            marketChartData = generateFallbackCandles(Math.min(days * 24, 60), basePrice);
+        }
+        drawChart();
+        await fetchMarketData(true); // تحديث السعر الحالي
     }
 
     function drawChart() {
@@ -786,30 +1183,49 @@
             ctx.stroke();
         });
         
-        document.getElementById('chart-start-label').textContent = new Date(Date.now() - marketChartData.length * 3600000).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById('chart-end-label').textContent = new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+        const startDate = new Date();
+        startDate.setDate(startDate.getDate() - (currentTf === '1D' ? 1 : currentTf === '1W' ? 7 : currentTf === '1M' ? 30 : currentTf === '3M' ? 90 : 365));
+        document.getElementById('chart-start-label').textContent = startDate.toLocaleDateString('ar-EG', {month:'short', day:'numeric'});
+        document.getElementById('chart-end-label').textContent = new Date().toLocaleDateString('ar-EG', {month:'short', day:'numeric'});
     }
 
-    function updatePriceDisplay() {
-        const last = marketChartData[marketChartData.length - 1];
-        const prev = marketChartData[marketChartData.length - 2] || last;
-        const change = ((last.close - prev.close) / prev.close * 100);
-        document.getElementById('current-price').textContent = last.close.toFixed(2);
-        const changeSpan = document.getElementById('price-change');
-        changeSpan.textContent = (change > 0 ? '+' : '') + change.toFixed(2) + '%';
-        changeSpan.className = `text-sm font-medium px-2 py-1 rounded-lg ${change >= 0 ? 'text-crypto-green bg-green-50' : 'text-crypto-red bg-red-50'}`;
+    function updateTopMarketsWithRealData(marketData) {
+        const container = document.getElementById('top-markets-list');
+        if (!marketData) return;
+        const top = marketData.slice(0, 5);
+        container.innerHTML = top.map(coin => {
+            const symbolInfo = symbols.find(s => s.coingeckoId === coin.id) || { id: coin.symbol.toUpperCase(), icon: 'fas fa-coins' };
+            const change = coin.price_change_percentage_24h || 0;
+            const changeClass = change >= 0 ? 'text-crypto-green' : 'text-crypto-red';
+            return `<div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                <div class="flex items-center gap-2"><i class="${symbolInfo.icon} text-lg"></i><div><div class="font-semibold text-primary">${symbolInfo.id}/USDT</div></div></div>
+                <div class="text-center font-semibold">$${coin.current_price.toFixed(2)}</div>
+                <div class="text-right ${changeClass}">${change > 0 ? '+' : ''}${change.toFixed(2)}%</div>
+            </div>`;
+        }).join('');
     }
 
-    function switchSymbol(symbol) {
+    function initFallbackMarketData() {
+        // محاكاة بسيطة للبيانات
+        const fakeData = symbols.map(s => ({
+            id: s.coingeckoId,
+            symbol: s.id,
+            current_price: s.id === 'BTC' ? 68245.50 : (s.id === 'ETH' ? 3421.80 : 600 + Math.random() * 100),
+            price_change_percentage_24h: (Math.random() * 6 - 2)
+        }));
+        fakeData.forEach(coin => {
+            window.currentMarketPrices[coin.id] = { usd: coin.current_price, change24h: coin.price_change_percentage_24h };
+        });
+        updateTopMarketsWithRealData(fakeData);
+        const currentFake = fakeData.find(c => c.id === currentSymbol.coingeckoId);
+        if (currentFake) updateCurrentPriceFromAPI(currentFake.current_price, currentFake.price_change_percentage_24h);
+    }
+
+    async function switchSymbol(symbol) {
         currentSymbol = symbol;
         document.getElementById('market-title').innerHTML = `<i class="${symbol.icon}"></i> ${symbol.id}/USDT`;
-        // إعادة توليد البيانات
-        const count = currentTf === '1D' ? 24 : (currentTf === '1W' ? 7*24 : (currentTf === '1M' ? 30 : (currentTf === '3M' ? 90 : 365)));
-        marketChartData = generateInitialCandles(Math.min(count, 60), symbol.basePrice, symbol.volatility);
-        drawChart();
-        updatePriceDisplay();
+        await loadChartForSymbol(symbol, currentTf);
         
-        // تحديث شريط الاختيار
         document.querySelectorAll('.symbol-chip').forEach(chip => {
             chip.classList.remove('active', 'bg-crypto-blue', 'text-white');
             chip.classList.add('bg-gray-100', 'text-primary');
@@ -836,26 +1252,23 @@
     }
 
     function updateTopMarkets() {
-        const container = document.getElementById('top-markets-list');
-        const top = symbols.slice(0, 5);
-        container.innerHTML = top.map(s => {
-            const price = s.id === currentSymbol.id ? marketChartData[marketChartData.length-1].close : s.basePrice * (1 + (Math.random() - 0.5) * 0.02);
-            const change = (Math.random() * 6 - 2).toFixed(2);
-            const changeClass = change >= 0 ? 'text-crypto-green' : 'text-crypto-red';
-            return `<div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
-                <div class="flex items-center gap-2"><i class="${s.icon} text-lg"></i><div><div class="font-semibold text-primary">${s.id}/USDT</div></div></div>
-                <div class="text-center font-semibold">$${price.toFixed(2)}</div>
-                <div class="text-right ${changeClass}">${change > 0 ? '+' : ''}${change}%</div>
-            </div>`;
-        }).join('');
+        // تستخدم الآن updateTopMarketsWithRealData
+        if (Object.keys(window.currentMarketPrices).length === 0) {
+            initFallbackMarketData();
+        } else {
+            const fakeData = symbols.map(s => ({
+                id: s.coingeckoId,
+                symbol: s.id,
+                current_price: window.currentMarketPrices[s.coingeckoId]?.usd || 0,
+                price_change_percentage_24h: window.currentMarketPrices[s.coingeckoId]?.change24h || 0
+            }));
+            updateTopMarketsWithRealData(fakeData);
+        }
     }
 
-    function changeTimeframe(tf) {
+    async function changeTimeframe(tf) {
         currentTf = tf;
-        const count = tf === '1D' ? 24 : (tf === '1W' ? 7*24 : (tf === '1M' ? 30 : (tf === '3M' ? 90 : 365)));
-        marketChartData = generateInitialCandles(Math.min(count, 60), currentSymbol.basePrice, currentSymbol.volatility);
-        drawChart();
-        updatePriceDisplay();
+        await loadChartForSymbol(currentSymbol, tf);
         document.querySelectorAll('.timeframe-btn').forEach(btn => {
             btn.classList.remove('active');
             if (btn.dataset.tf === tf) btn.classList.add('active');
@@ -866,15 +1279,16 @@
         if (marketChartData.length) drawChart();
     }
 
-    function initMarketData() {
+    async function initMarketData() {
         renderSymbolChips();
-        switchSymbol(symbols[0]);
-        // بدء المحاكاة الحية
+        await fetchMarketData(true);
+        await loadChartForSymbol(currentSymbol, currentTf);
+        // بدء تحديث دوري للأسعار
         if (simulationInterval) clearInterval(simulationInterval);
-        simulationInterval = setInterval(() => updateMarketSimulation(), 3000);
+        simulationInterval = setInterval(() => fetchMarketData(), 30000); // كل 30 ثانية
     }
 
-    // ---------- مزامنة الصفقة (إدخال كود الطلب) ----------
+    // ---------- مزامنة الصفقة ----------
     function initSyncPage() {
         const codeInput = document.getElementById('sync-order-code');
         const submitBtn = document.getElementById('sync-submit-btn');
@@ -902,15 +1316,129 @@
         });
     }
 
+    // ---------- مودال التحويل (خانة التحويل) ----------
+    function initTransferModal() {
+        const modal = document.getElementById('transfer-modal');
+        const coinSelect = document.getElementById('transfer-coin');
+        const netButtons = document.querySelectorAll('#transfer-net-trc20, #transfer-net-bep20, #transfer-net-erc20');
+        const feeSpan = document.getElementById('transfer-fee-amount');
+        const receiveSpan = document.getElementById('transfer-receive-amount');
+        const amountInput = document.getElementById('transfer-amount');
+        const addressInput = document.getElementById('transfer-address');
+        const pasteBtn = document.getElementById('paste-address-btn');
+        const maxBtn = document.getElementById('max-transfer');
+        const confirmBtn = document.getElementById('confirm-transfer-btn');
+        const errorDiv = document.getElementById('transfer-error');
+        const closeBtn = document.getElementById('close-transfer-modal');
+        const walletTransferBtn = document.getElementById('wallet-transfer-btn');
+
+        let currentFee = 1.0;
+        let currentNetwork = 'TRC20';
+
+        function setActiveTransferNetwork(network, fee) {
+            netButtons.forEach(btn => {
+                btn.classList.remove('active-network', 'bg-crypto-blue', 'text-white');
+                btn.classList.add('border-light-border');
+            });
+            const activeBtn = document.getElementById(`transfer-net-${network.toLowerCase()}`);
+            activeBtn.classList.add('active-network', 'bg-crypto-blue', 'text-white');
+            activeBtn.classList.remove('border-light-border');
+            currentFee = fee;
+            currentNetwork = network;
+            feeSpan.textContent = `${fee.toFixed(2)} USDT`;
+            calculateReceiveAmount();
+        }
+
+        netButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const network = btn.id.includes('trc20') ? 'TRC20' : (btn.id.includes('bep20') ? 'BEP20' : 'ERC20');
+                const fee = parseFloat(btn.dataset.fee);
+                setActiveTransferNetwork(network, fee);
+            });
+        });
+
+        window.calculateReceiveAmount = function() {
+            const amount = parseFloat(amountInput.value) || 0;
+            const receive = Math.max(0, amount - currentFee);
+            receiveSpan.textContent = `${receive.toFixed(coinSelect.value === 'USDT' ? 2 : 6)} ${coinSelect.value}`;
+        };
+
+        coinSelect.addEventListener('change', () => {
+            updateTransferAvailable();
+            calculateReceiveAmount();
+        });
+
+        amountInput.addEventListener('input', calculateReceiveAmount);
+        
+        pasteBtn.addEventListener('click', async () => {
+            try {
+                const text = await navigator.clipboard.readText();
+                addressInput.value = text;
+            } catch (e) {
+                showToast('تعذر اللصق، ألصق يدوياً', true);
+            }
+        });
+
+        maxBtn.addEventListener('click', () => {
+            const coin = coinSelect.value;
+            const user = getCurrentUser();
+            if (!user) return;
+            let max = 0;
+            if (coin === 'USDT') max = user.balance || 0;
+            else if (coin === 'BTC') max = (user.balance * 0.4 / (window.currentMarketPrices?.bitcoin?.usd || 68245.50)) || 0;
+            else if (coin === 'ETH') max = (user.balance * 0.3 / (window.currentMarketPrices?.ethereum?.usd || 3421.80)) || 0;
+            amountInput.value = max.toFixed(coin === 'USDT' ? 2 : 6);
+            calculateReceiveAmount();
+        });
+
+        confirmBtn.addEventListener('click', () => {
+            const coin = coinSelect.value;
+            const address = addressInput.value.trim();
+            const amount = parseFloat(amountInput.value);
+            errorDiv.classList.add('hidden');
+            
+            if (!address) {
+                errorDiv.textContent = 'الرجاء إدخال عنوان المستلم';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+            if (isNaN(amount) || amount <= 0) {
+                errorDiv.textContent = 'المبلغ غير صحيح';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+            
+            const success = processTransfer(coin, currentNetwork, address, amount, currentFee);
+            if (success) {
+                modal.classList.add('hidden');
+                updateWalletModalData();
+            } else {
+                errorDiv.textContent = 'فشل التحويل، تأكد من الرصيد والعنوان';
+                errorDiv.classList.remove('hidden');
+            }
+        });
+
+        walletTransferBtn.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            updateTransferAvailable();
+            setActiveTransferNetwork('TRC20', 1.0);
+            amountInput.value = '';
+            addressInput.value = '';
+            errorDiv.classList.add('hidden');
+        });
+
+        closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+        modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
+    }
+
     // ---------- ربط الأحداث ----------
     document.addEventListener('DOMContentLoaded', () => {
         const TRC20_ADDRESS = 'TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN';
         const BEP20_ADDRESS = '0xe0e64955c9d15c093858902B9cb5A18507870BA5';
         
-        // تهيئة صفحة المزامنة
         initSyncPage();
+        initTransferModal();
         
-        // المصادقة
         const tabLogin=document.getElementById('tab-login'), tabSignup=document.getElementById('tab-signup');
         const loginForm=document.getElementById('login-form'), signupForm=document.getElementById('signup-form');
         const loginEmail=document.getElementById('login-email'), loginPass=document.getElementById('login-password');
@@ -1034,7 +1562,7 @@
         document.getElementById('close-providers-modal').addEventListener('click', () => providersModal.classList.add('hidden'));
         providersModal.addEventListener('click', (e) => { if (e.target === providersModal) providersModal.classList.add('hidden'); });
 
-        // مودال ترخيص المنصة (عند النقر على أيقونة الجرس)
+        // مودال ترخيص المنصة
         const licenseModal = document.getElementById('license-modal');
         const bellIcon = document.getElementById('bell-license-icon');
         const closeLicenseBtn = document.getElementById('close-license-modal');
@@ -1044,6 +1572,31 @@
         closeLicenseBtn.addEventListener('click', () => licenseModal.classList.add('hidden'));
         closeLicenseBtn2.addEventListener('click', () => licenseModal.classList.add('hidden'));
         licenseModal.addEventListener('click', (e) => { if (e.target === licenseModal) licenseModal.classList.add('hidden'); });
+
+        // مودال الأخبار الجديدة
+        const newsModal = document.getElementById('news-modal');
+        const newsBtn = document.getElementById('new-news-btn');
+        const closeNewsBtn = document.getElementById('close-news-modal');
+        
+        newsBtn.addEventListener('click', () => newsModal.classList.remove('hidden'));
+        closeNewsBtn.addEventListener('click', () => newsModal.classList.add('hidden'));
+        newsModal.addEventListener('click', (e) => { if (e.target === newsModal) newsModal.classList.add('hidden'); });
+
+        // مودال المحفظة V-Wallet
+        const walletModal = document.getElementById('wallet-modal');
+        const vWalletBtn = document.getElementById('v-wallet-btn');
+        const closeWalletBtn = document.getElementById('close-wallet-modal');
+        const walletDepositBtn = document.getElementById('wallet-deposit-btn');
+        const walletWithdrawBtn = document.getElementById('wallet-withdraw-btn');
+        
+        vWalletBtn.addEventListener('click', () => { 
+            updateWalletModalData(); 
+            walletModal.classList.remove('hidden'); 
+        });
+        closeWalletBtn.addEventListener('click', () => walletModal.classList.add('hidden'));
+        walletModal.addEventListener('click', (e) => { if (e.target === walletModal) walletModal.classList.add('hidden'); });
+        walletDepositBtn.addEventListener('click', () => { walletModal.classList.add('hidden'); openDepositModal(); });
+        walletWithdrawBtn.addEventListener('click', () => { walletModal.classList.add('hidden'); openWithdrawModal(); });
 
         // أزرار الإطار الزمني
         document.querySelectorAll('.timeframe-btn').forEach(btn => {
@@ -1087,4 +1640,4 @@
     });
 </script>
 </body>
-                </html>
+                                                                                                                                                                                                     </html>
