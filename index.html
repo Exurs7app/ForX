@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+here<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     
-    <!-- PWA Meta Tags -->
+    <!-- PWA Meta Tags - مُحسَّنة لضمان ظهور التطبيق في درج التطبيقات -->
     <meta name="application-name" content="ForX">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -13,7 +13,7 @@
     <meta name="theme-color" content="#3772ff">
     <meta name="description" content="منصة تداول العملات الرقمية ForX - تداول آمن وسريع">
     
-    <!-- أيقونات -->
+    <!-- أيقونات متعددة الأحجام لضمان التوافق مع WebAPK وظهور الأيقونة في الدرج -->
     <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="manifest" id="pwa-manifest">
@@ -766,20 +766,89 @@
 </div>
 
 <script>
-    // ---------- PWA والإعدادات الأساسية ----------
+    // ---------- PWA والإعدادات الأساسية (محسّنة لضمان ظهور التطبيق في درج التطبيقات) ----------
     (function setupPWA() {
-        const manifest = { name: "ForX - تداول العملات الرقمية", short_name: "ForX", theme_color: "#3772ff", background_color: "#f8fafc", display: "standalone", orientation: "portrait", scope: "/", start_url: window.location.origin + window.location.pathname, lang: "ar", dir: "rtl", icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml" }] };
+        // إنشاء Manifest متوافق مع WebAPK (يظهر في درج التطبيقات على أندرويد)
+        const manifest = {
+            name: "ForX - تداول العملات الرقمية",
+            short_name: "ForX",
+            description: "منصة تداول آمنة وسريعة للعملات الرقمية",
+            theme_color: "#3772ff",
+            background_color: "#f8fafc",
+            display: "standalone",
+            display_override: ["standalone", "minimal-ui"],
+            orientation: "portrait",
+            scope: "/",
+            start_url: window.location.origin + window.location.pathname,
+            lang: "ar",
+            dir: "rtl",
+            categories: ["finance", "cryptocurrency"],
+            icons: [
+                {
+                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E",
+                    sizes: "512x512",
+                    type: "image/svg+xml",
+                    purpose: "any maskable"
+                },
+                {
+                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='36' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M96 48l24 48h-18l-6 48 18-36 18 36-6-48h-18l-12-48z'/%3E%3C/svg%3E",
+                    sizes: "192x192",
+                    type: "image/svg+xml",
+                    purpose: "any maskable"
+                }
+            ],
+            shortcuts: [
+                {
+                    name: "الأسواق",
+                    url: "/?page=markets",
+                    icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='16' fill='%233772ff'/%3E%3Cpath fill='%23fff' d='M48 24L60 48h-24L48 24z'/%3E%3C/svg%3E", sizes: "96x96" }]
+                }
+            ]
+        };
         const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
         document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
+        
+        // تسجيل Service Worker لدعم التثبيت والتخزين المؤقت
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install',()=>self.skipWaiting()); self.addEventListener('activate',()=>clients.claim()); self.addEventListener('fetch',(e)=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))));`], {type: 'application/javascript'})));
+            navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
+                self.addEventListener('install', (event) => {
+                    self.skipWaiting();
+                });
+                self.addEventListener('activate', (event) => {
+                    event.waitUntil(clients.claim());
+                });
+                self.addEventListener('fetch', (event) => {
+                    event.respondWith(
+                        fetch(event.request).catch(() => caches.match(event.request))
+                    );
+                });
+            `], {type: 'application/javascript'})));
         }
+        
         let deferredPrompt;
         const installIcons = [document.getElementById('install-icon-auth'), document.getElementById('install-icon-main')];
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installIcons.forEach(icon => icon.classList.remove('hidden')); });
-        async function installHandler() { if(!deferredPrompt) return; deferredPrompt.prompt(); const {outcome} = await deferredPrompt.userChoice; if(outcome === 'accepted') { showToast('🎉 تم تثبيت ForX!'); installIcons.forEach(icon => icon.classList.add('hidden')); } deferredPrompt = null; }
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installIcons.forEach(icon => icon.classList.remove('hidden'));
+        });
+        
+        async function installHandler() {
+            if(!deferredPrompt) return;
+            deferredPrompt.prompt();
+            const {outcome} = await deferredPrompt.userChoice;
+            if(outcome === 'accepted') {
+                showToast('🎉 تم تثبيت ForX! ستجده في درج التطبيقات.');
+                installIcons.forEach(icon => icon.classList.add('hidden'));
+            }
+            deferredPrompt = null;
+        }
         installIcons.forEach(icon => icon.addEventListener('click', installHandler));
-        window.addEventListener('appinstalled', () => installIcons.forEach(icon => icon.classList.add('hidden')));
+        window.addEventListener('appinstalled', () => {
+            installIcons.forEach(icon => icon.classList.add('hidden'));
+            showToast('تم التثبيت بنجاح!');
+        });
     })();
 
     function showToast(msg, isError = false) {
@@ -853,8 +922,8 @@
         
         const usdtBalance = user.balance || 0;
         // محاكاة أرصدة BTC و ETH بناءً على USDT (للتوضيح)
-        const btcPrice = window.currentMarketPrices?.bitcoin?.usd || 68245.50;
-        const ethPrice = window.currentMarketPrices?.ethereum?.usd || 3421.80;
+        const btcPrice = 68245.50;
+        const ethPrice = 3421.80;
         const btcBalance = (usdtBalance * 0.4 / btcPrice) || 0;
         const ethBalance = (usdtBalance * 0.3 / ethPrice) || 0;
         
@@ -892,8 +961,8 @@
         const coin = document.getElementById('transfer-coin').value;
         let available = 0;
         if (coin === 'USDT') available = user.balance || 0;
-        else if (coin === 'BTC') available = (user.balance * 0.4 / (window.currentMarketPrices?.bitcoin?.usd || 68245.50)) || 0;
-        else if (coin === 'ETH') available = (user.balance * 0.3 / (window.currentMarketPrices?.ethereum?.usd || 3421.80)) || 0;
+        else if (coin === 'BTC') available = (user.balance * 0.4 / 68245.50) || 0;
+        else if (coin === 'ETH') available = (user.balance * 0.3 / 3421.80) || 0;
         document.getElementById('transfer-available').textContent = available.toFixed(coin === 'USDT' ? 2 : 6);
         document.getElementById('transfer-coin-label').textContent = coin;
         calculateReceiveAmount();
@@ -920,15 +989,15 @@
         
         let available = 0;
         if (coin === 'USDT') available = user.balance || 0;
-        else if (coin === 'BTC') available = (user.balance * 0.4 / (window.currentMarketPrices?.bitcoin?.usd || 68245.50)) || 0;
-        else if (coin === 'ETH') available = (user.balance * 0.3 / (window.currentMarketPrices?.ethereum?.usd || 3421.80)) || 0;
+        else if (coin === 'BTC') available = (user.balance * 0.4 / 68245.50) || 0;
+        else if (coin === 'ETH') available = (user.balance * 0.3 / 3421.80) || 0;
         
         if (amount > available) { showToast('الرصيد غير كافٍ', true); return false; }
         
         // تحويل المبلغ إلى USDT للخصم من الرصيد الرئيسي (للبساطة نخصم فقط USDT)
         let amountInUSDT = amount;
-        if (coin === 'BTC') amountInUSDT = amount * (window.currentMarketPrices?.bitcoin?.usd || 68245.50);
-        else if (coin === 'ETH') amountInUSDT = amount * (window.currentMarketPrices?.ethereum?.usd || 3421.80);
+        if (coin === 'BTC') amountInUSDT = amount * 68245.50;
+        else if (coin === 'ETH') amountInUSDT = amount * 3421.80;
         
         const newBalance = user.balance - amountInUSDT;
         const transaction = { 
@@ -978,7 +1047,6 @@
         }
         if (pageId === 'markets') {
             drawChartForCurrentSymbol();
-            fetchMarketData(true); // تحديث فوري عند دخول الأسواق
         }
     }
 
@@ -1025,126 +1093,62 @@
         container.innerHTML = html;
     }
 
-    // ---------- بيانات السوق الحقيقية (CoinGecko API) ----------
+    // ---------- بيانات السوق (جميع العملات) ----------
     const symbols = [
-        { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', coingeckoId: 'bitcoin' },
-        { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', coingeckoId: 'ethereum' },
-        { id: 'BNB', name: 'Binance Coin', icon: 'fas fa-coins text-yellow-500', coingeckoId: 'binancecoin' },
-        { id: 'SOL', name: 'Solana', icon: 'fas fa-sun text-orange-400', coingeckoId: 'solana' },
-        { id: 'XRP', name: 'Ripple', icon: 'fas fa-water text-blue-400', coingeckoId: 'ripple' },
-        { id: 'ADA', name: 'Cardano', icon: 'fas fa-circle text-blue-500', coingeckoId: 'cardano' },
-        { id: 'DOGE', name: 'Dogecoin', icon: 'fas fa-dog text-yellow-600', coingeckoId: 'dogecoin' }
+        { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', basePrice: 68245.50, volatility: 0.005 },
+        { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', basePrice: 3421.80, volatility: 0.008 },
+        { id: 'BNB', name: 'Binance Coin', icon: 'fas fa-coins text-yellow-500', basePrice: 602.10, volatility: 0.006 },
+        { id: 'SOL', name: 'Solana', icon: 'fas fa-sun text-orange-400', basePrice: 172.35, volatility: 0.012 },
+        { id: 'XRP', name: 'Ripple', icon: 'fas fa-water text-blue-400', basePrice: 0.62, volatility: 0.007 },
+        { id: 'ADA', name: 'Cardano', icon: 'fas fa-circle text-blue-500', basePrice: 0.45, volatility: 0.009 },
+        { id: 'DOGE', name: 'Dogecoin', icon: 'fas fa-dog text-yellow-600', basePrice: 0.12, volatility: 0.015 }
     ];
 
     let currentSymbol = symbols[0];
     let marketChartData = [];
     let currentTf = '1D';
     let simulationInterval = null;
-    let isUsingFallback = false;
-    let lastFetchTime = 0;
-    const FETCH_COOLDOWN = 10000; // 10 ثواني بين الطلبات لتجنب rate limit
-    
-    window.currentMarketPrices = {};
 
-    async function fetchMarketData(force = false) {
-        const now = Date.now();
-        if (!force && now - lastFetchTime < FETCH_COOLDOWN) return;
-        lastFetchTime = now;
-        
-        try {
-            const ids = symbols.map(s => s.coingeckoId).join(',');
-            const response = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${ids}&order=market_cap_desc&per_page=20&page=1&sparkline=false&price_change_percentage=24h`);
-            if (!response.ok) throw new Error('API limit');
-            const data = await response.json();
-            
-            // تخزين الأسعار الحالية
-            data.forEach(coin => {
-                window.currentMarketPrices[coin.id] = { usd: coin.current_price, change24h: coin.price_change_percentage_24h };
-            });
-            
-            // تحديث السعر للعملة الحالية
-            const currentCoinData = data.find(c => c.id === currentSymbol.coingeckoId);
-            if (currentCoinData) {
-                updateCurrentPriceFromAPI(currentCoinData.current_price, currentCoinData.price_change_percentage_24h);
-            }
-            
-            updateTopMarketsWithRealData(data);
-            isUsingFallback = false;
-        } catch (error) {
-            console.warn('Using fallback market data');
-            if (!isUsingFallback) {
-                isUsingFallback = true;
-                initFallbackMarketData();
-            }
-        }
-    }
-
-    async function fetchChartData(coinId, days) {
-        try {
-            const response = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}&interval=${days > 30 ? 'daily' : 'hourly'}`);
-            if (!response.ok) throw new Error('API limit');
-            const data = await response.json();
-            return data.prices; // [[timestamp, price], ...]
-        } catch (error) {
-            console.warn('Chart API failed, using fallback');
-            return null;
-        }
-    }
-
-    function processChartPrices(prices) {
-        if (!prices || prices.length < 5) return generateFallbackCandles(60, currentSymbol.id === 'BTC' ? 68245 : 3421);
-        // تحويل إلى شموع مبسطة (open, high, low, close) - نستخدم close لكل نقطة كشمعة صغيرة
-        const candles = [];
-        for (let i = 0; i < prices.length; i += Math.max(1, Math.floor(prices.length / 60))) {
-            const slice = prices.slice(i, i + Math.floor(prices.length / 60));
-            if (slice.length === 0) continue;
-            const open = slice[0][1];
-            const close = slice[slice.length-1][1];
-            const high = Math.max(...slice.map(p => p[1]));
-            const low = Math.min(...slice.map(p => p[1]));
-            candles.push({ open, high, low, close });
-        }
-        return candles.slice(-60);
-    }
-
-    function generateFallbackCandles(count, basePrice) {
+    function generateInitialCandles(count, basePrice, volatility) {
         const data = [];
         let close = basePrice;
         for (let i = 0; i < count; i++) {
             const open = close;
-            const change = (Math.random() - 0.5) * 0.02 * basePrice;
+            const change = (Math.random() - 0.5) * volatility * basePrice;
             close = Math.max(open + change, basePrice * 0.7);
-            const high = Math.max(open, close) + Math.random() * 0.01 * basePrice;
-            const low = Math.min(open, close) - Math.random() * 0.01 * basePrice;
+            const high = Math.max(open, close) + Math.random() * volatility * basePrice;
+            const low = Math.min(open, close) - Math.random() * volatility * basePrice;
             data.push({ open, high, low, close });
         }
         return data;
     }
 
-    function updateCurrentPriceFromAPI(price, change24h) {
-        const last = marketChartData.length ? marketChartData[marketChartData.length-1] : { close: price };
-        if (marketChartData.length) {
-            last.close = price;
+    function updateMarketSimulation() {
+        if (!marketChartData.length) return;
+        const last = marketChartData[marketChartData.length - 1];
+        const volatility = currentSymbol.volatility * currentSymbol.basePrice;
+        const change = (Math.random() - 0.5) * volatility;
+        const newClose = Math.max(last.close + change, currentSymbol.basePrice * 0.5);
+        const newHigh = Math.max(last.high, newClose + Math.random() * volatility * 0.3);
+        const newLow = Math.min(last.low, newClose - Math.random() * volatility * 0.3);
+        last.close = newClose;
+        last.high = newHigh;
+        last.low = newLow;
+        
+        if (Math.random() < 0.2) {
+            const newCandle = {
+                open: last.close,
+                high: last.close + Math.random() * volatility * 0.5,
+                low: last.close - Math.random() * volatility * 0.5,
+                close: last.close + (Math.random() - 0.5) * volatility
+            };
+            marketChartData.push(newCandle);
+            if (marketChartData.length > 60) marketChartData.shift();
         }
-        document.getElementById('current-price').textContent = price.toFixed(2);
-        const changeSpan = document.getElementById('price-change');
-        changeSpan.textContent = (change24h > 0 ? '+' : '') + change24h.toFixed(2) + '%';
-        changeSpan.className = `text-sm font-medium px-2 py-1 rounded-lg ${change24h >= 0 ? 'text-crypto-green bg-green-50' : 'text-crypto-red bg-red-50'}`;
+        
         drawChart();
-    }
-
-    async function loadChartForSymbol(symbol, tf) {
-        const daysMap = { '1D': 1, '1W': 7, '1M': 30, '3M': 90, '1Y': 365 };
-        const days = daysMap[tf] || 1;
-        const prices = await fetchChartData(symbol.coingeckoId, days);
-        if (prices) {
-            marketChartData = processChartPrices(prices);
-        } else {
-            const basePrice = window.currentMarketPrices[symbol.coingeckoId]?.usd || (symbol.id === 'BTC' ? 68245 : 3421);
-            marketChartData = generateFallbackCandles(Math.min(days * 24, 60), basePrice);
-        }
-        drawChart();
-        await fetchMarketData(true); // تحديث السعر الحالي
+        updatePriceDisplay();
+        updateTopMarkets();
     }
 
     function drawChart() {
@@ -1183,48 +1187,27 @@
             ctx.stroke();
         });
         
-        const startDate = new Date();
-        startDate.setDate(startDate.getDate() - (currentTf === '1D' ? 1 : currentTf === '1W' ? 7 : currentTf === '1M' ? 30 : currentTf === '3M' ? 90 : 365));
-        document.getElementById('chart-start-label').textContent = startDate.toLocaleDateString('ar-EG', {month:'short', day:'numeric'});
-        document.getElementById('chart-end-label').textContent = new Date().toLocaleDateString('ar-EG', {month:'short', day:'numeric'});
+        document.getElementById('chart-start-label').textContent = new Date(Date.now() - marketChartData.length * 3600000).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+        document.getElementById('chart-end-label').textContent = new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
     }
 
-    function updateTopMarketsWithRealData(marketData) {
-        const container = document.getElementById('top-markets-list');
-        if (!marketData) return;
-        const top = marketData.slice(0, 5);
-        container.innerHTML = top.map(coin => {
-            const symbolInfo = symbols.find(s => s.coingeckoId === coin.id) || { id: coin.symbol.toUpperCase(), icon: 'fas fa-coins' };
-            const change = coin.price_change_percentage_24h || 0;
-            const changeClass = change >= 0 ? 'text-crypto-green' : 'text-crypto-red';
-            return `<div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
-                <div class="flex items-center gap-2"><i class="${symbolInfo.icon} text-lg"></i><div><div class="font-semibold text-primary">${symbolInfo.id}/USDT</div></div></div>
-                <div class="text-center font-semibold">$${coin.current_price.toFixed(2)}</div>
-                <div class="text-right ${changeClass}">${change > 0 ? '+' : ''}${change.toFixed(2)}%</div>
-            </div>`;
-        }).join('');
+    function updatePriceDisplay() {
+        const last = marketChartData[marketChartData.length - 1];
+        const prev = marketChartData[marketChartData.length - 2] || last;
+        const change = ((last.close - prev.close) / prev.close * 100);
+        document.getElementById('current-price').textContent = last.close.toFixed(2);
+        const changeSpan = document.getElementById('price-change');
+        changeSpan.textContent = (change > 0 ? '+' : '') + change.toFixed(2) + '%';
+        changeSpan.className = `text-sm font-medium px-2 py-1 rounded-lg ${change >= 0 ? 'text-crypto-green bg-green-50' : 'text-crypto-red bg-red-50'}`;
     }
 
-    function initFallbackMarketData() {
-        // محاكاة بسيطة للبيانات
-        const fakeData = symbols.map(s => ({
-            id: s.coingeckoId,
-            symbol: s.id,
-            current_price: s.id === 'BTC' ? 68245.50 : (s.id === 'ETH' ? 3421.80 : 600 + Math.random() * 100),
-            price_change_percentage_24h: (Math.random() * 6 - 2)
-        }));
-        fakeData.forEach(coin => {
-            window.currentMarketPrices[coin.id] = { usd: coin.current_price, change24h: coin.price_change_percentage_24h };
-        });
-        updateTopMarketsWithRealData(fakeData);
-        const currentFake = fakeData.find(c => c.id === currentSymbol.coingeckoId);
-        if (currentFake) updateCurrentPriceFromAPI(currentFake.current_price, currentFake.price_change_percentage_24h);
-    }
-
-    async function switchSymbol(symbol) {
+    function switchSymbol(symbol) {
         currentSymbol = symbol;
         document.getElementById('market-title').innerHTML = `<i class="${symbol.icon}"></i> ${symbol.id}/USDT`;
-        await loadChartForSymbol(symbol, currentTf);
+        const count = currentTf === '1D' ? 24 : (currentTf === '1W' ? 7*24 : (currentTf === '1M' ? 30 : (currentTf === '3M' ? 90 : 365)));
+        marketChartData = generateInitialCandles(Math.min(count, 60), symbol.basePrice, symbol.volatility);
+        drawChart();
+        updatePriceDisplay();
         
         document.querySelectorAll('.symbol-chip').forEach(chip => {
             chip.classList.remove('active', 'bg-crypto-blue', 'text-white');
@@ -1252,23 +1235,26 @@
     }
 
     function updateTopMarkets() {
-        // تستخدم الآن updateTopMarketsWithRealData
-        if (Object.keys(window.currentMarketPrices).length === 0) {
-            initFallbackMarketData();
-        } else {
-            const fakeData = symbols.map(s => ({
-                id: s.coingeckoId,
-                symbol: s.id,
-                current_price: window.currentMarketPrices[s.coingeckoId]?.usd || 0,
-                price_change_percentage_24h: window.currentMarketPrices[s.coingeckoId]?.change24h || 0
-            }));
-            updateTopMarketsWithRealData(fakeData);
-        }
+        const container = document.getElementById('top-markets-list');
+        const top = symbols.slice(0, 5);
+        container.innerHTML = top.map(s => {
+            const price = s.id === currentSymbol.id ? marketChartData[marketChartData.length-1].close : s.basePrice * (1 + (Math.random() - 0.5) * 0.02);
+            const change = (Math.random() * 6 - 2).toFixed(2);
+            const changeClass = change >= 0 ? 'text-crypto-green' : 'text-crypto-red';
+            return `<div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                <div class="flex items-center gap-2"><i class="${s.icon} text-lg"></i><div><div class="font-semibold text-primary">${s.id}/USDT</div></div></div>
+                <div class="text-center font-semibold">$${price.toFixed(2)}</div>
+                <div class="text-right ${changeClass}">${change > 0 ? '+' : ''}${change}%</div>
+            </div>`;
+        }).join('');
     }
 
-    async function changeTimeframe(tf) {
+    function changeTimeframe(tf) {
         currentTf = tf;
-        await loadChartForSymbol(currentSymbol, tf);
+        const count = tf === '1D' ? 24 : (tf === '1W' ? 7*24 : (tf === '1M' ? 30 : (tf === '3M' ? 90 : 365)));
+        marketChartData = generateInitialCandles(Math.min(count, 60), currentSymbol.basePrice, currentSymbol.volatility);
+        drawChart();
+        updatePriceDisplay();
         document.querySelectorAll('.timeframe-btn').forEach(btn => {
             btn.classList.remove('active');
             if (btn.dataset.tf === tf) btn.classList.add('active');
@@ -1279,13 +1265,11 @@
         if (marketChartData.length) drawChart();
     }
 
-    async function initMarketData() {
+    function initMarketData() {
         renderSymbolChips();
-        await fetchMarketData(true);
-        await loadChartForSymbol(currentSymbol, currentTf);
-        // بدء تحديث دوري للأسعار
+        switchSymbol(symbols[0]);
         if (simulationInterval) clearInterval(simulationInterval);
-        simulationInterval = setInterval(() => fetchMarketData(), 30000); // كل 30 ثانية
+        simulationInterval = setInterval(() => updateMarketSimulation(), 3000);
     }
 
     // ---------- مزامنة الصفقة ----------
@@ -1357,11 +1341,11 @@
             });
         });
 
-        window.calculateReceiveAmount = function() {
+        function calculateReceiveAmount() {
             const amount = parseFloat(amountInput.value) || 0;
             const receive = Math.max(0, amount - currentFee);
             receiveSpan.textContent = `${receive.toFixed(coinSelect.value === 'USDT' ? 2 : 6)} ${coinSelect.value}`;
-        };
+        }
 
         coinSelect.addEventListener('change', () => {
             updateTransferAvailable();
@@ -1385,8 +1369,8 @@
             if (!user) return;
             let max = 0;
             if (coin === 'USDT') max = user.balance || 0;
-            else if (coin === 'BTC') max = (user.balance * 0.4 / (window.currentMarketPrices?.bitcoin?.usd || 68245.50)) || 0;
-            else if (coin === 'ETH') max = (user.balance * 0.3 / (window.currentMarketPrices?.ethereum?.usd || 3421.80)) || 0;
+            else if (coin === 'BTC') max = (user.balance * 0.4 / 68245.50) || 0;
+            else if (coin === 'ETH') max = (user.balance * 0.3 / 3421.80) || 0;
             amountInput.value = max.toFixed(coin === 'USDT' ? 2 : 6);
             calculateReceiveAmount();
         });
@@ -1640,4 +1624,4 @@
     });
 </script>
 </body>
-                                                                                                                                                                                                     </html>
+    </html>
