@@ -4,7 +4,7 @@ here<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     
-    <!-- PWA Meta Tags - مُحسَّنة لضمان ظهور التطبيق في درج التطبيقات -->
+    <!-- PWA Meta Tags -->
     <meta name="application-name" content="ForX">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -13,7 +13,7 @@ here<!DOCTYPE html>
     <meta name="theme-color" content="#3772ff">
     <meta name="description" content="منصة تداول العملات الرقمية ForX - تداول آمن وسريع">
     
-    <!-- أيقونات متعددة الأحجام لضمان التوافق مع WebAPK وظهور الأيقونة في الدرج -->
+    <!-- أيقونات -->
     <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="manifest" id="pwa-manifest">
@@ -89,11 +89,97 @@ here<!DOCTYPE html>
         .symbol-chip { padding: 8px 16px; border-radius: 30px; background: #f1f5f9; color: #1e293b; font-weight: 500; white-space: nowrap; transition: all 0.2s; cursor: pointer; border: 1px solid transparent; }
         .symbol-chip.active { background: #3772ff; color: white; border-color: #3772ff; box-shadow: 0 4px 8px rgba(55,114,255,0.2); }
         .symbol-chip i { margin-left: 6px; }
-        canvas { touch-action: none; }
+        canvas { touch-action: none; user-select: none; }
         .news-item { transition: background 0.2s; }
         .news-item:hover { background: #f8fafc; }
         .wallet-asset-row { border-bottom: 1px solid #f1f5f9; }
         .wallet-asset-row:last-child { border-bottom: none; }
+        /* تحسينات خاصة للرسم البياني */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            padding: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .chart-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+            padding: 0 4px;
+        }
+        .chart-tooltip {
+            position: absolute;
+            background: rgba(30, 41, 59, 0.9);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            transition: opacity 0.15s;
+            opacity: 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .chart-tooltip.visible { opacity: 1; }
+        .crosshair-line {
+            position: absolute;
+            background: rgba(55, 114, 255, 0.4);
+            pointer-events: none;
+            z-index: 40;
+        }
+        .price-axis-label {
+            position: absolute;
+            left: 2px;
+            background: rgba(255,255,255,0.8);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            color: #64748b;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            z-index: 30;
+            border: 1px solid #e2e8f0;
+        }
+        .zoom-indicator {
+            font-size: 11px;
+            color: #64748b;
+            margin-left: 8px;
+        }
+        /* تنسيقات صفحة المحفظة الجديدة */
+        .transfer-card {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 16px;
+            border: 1px solid #e2e8f0;
+        }
+        .asset-selector {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+        .asset-option {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 30px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .asset-option.active {
+            background: #3772ff;
+            color: white;
+            border-color: #3772ff;
+        }
     </style>
 </head>
 <body class="bg-light-bg text-primary antialiased">
@@ -221,7 +307,7 @@ here<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- ========== الصفحات (الرئيسية، الأسواق، التزامن، الحساب) ========== -->
+        <!-- ========== الصفحات (الرئيسية، الأسواق، التزامن، المحفظة، الحساب) ========== -->
         <div id="page-home" class="page active-page px-4 py-3 space-y-4 fade-in">
             <!-- بطاقة الإيداع - الرصيد حي -->
             <div class="glass-card rounded-2xl p-5 bg-white border border-light-border shadow-md">
@@ -287,12 +373,31 @@ here<!DOCTYPE html>
                 <button class="timeframe-btn" data-tf="1Y">1 سنة</button>
             </div>
 
-            <!-- رسم الشموع Canvas -->
-            <div class="glass-card rounded-2xl p-3 bg-white border border-light-border">
-                <canvas id="candlestick-chart" width="400" height="220" class="w-full h-auto"></canvas>
-                <div class="flex justify-between text-xs text-secondary mt-2 px-1">
-                    <span id="chart-start-label">00:00</span>
-                    <span id="chart-end-label">23:59</span>
+            <!-- رسم الشموع Canvas - محسن مع دعم التكبير والسحب والتلميحات -->
+            <div class="chart-container glass-card">
+                <canvas id="candlestick-chart" width="400" height="240" class="w-full h-auto" style="touch-action: none;"></canvas>
+                
+                <!-- تلميح السعر -->
+                <div id="chart-tooltip" class="chart-tooltip">Open: -- High: -- Low: -- Close: --</div>
+                
+                <!-- خطوط التقاطع (تظهر عند اللمس/الماوس) -->
+                <div id="crosshair-v" class="crosshair-line" style="width:1px; height:100%; top:0; display:none;"></div>
+                <div id="crosshair-h" class="crosshair-line" style="height:1px; width:100%; left:0; display:none;"></div>
+                
+                <!-- ملصقات المحور Y -->
+                <div id="price-axis-labels" style="position:absolute; left:0; top:0; bottom:0; width:50px; pointer-events:none;"></div>
+                
+                <div class="chart-controls">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-secondary" id="chart-start-label">00:00</span>
+                        <span class="text-xs text-secondary" id="chart-end-label">23:59</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button id="chart-zoom-in" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition" title="تكبير"><i class="fas fa-search-plus text-gray-600 text-xs"></i></button>
+                        <button id="chart-zoom-out" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition" title="تصغير"><i class="fas fa-search-minus text-gray-600 text-xs"></i></button>
+                        <button id="chart-reset" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition" title="إعادة تعيين"><i class="fas fa-sync-alt text-gray-600 text-xs"></i></button>
+                        <span class="zoom-indicator" id="zoom-level">100%</span>
+                    </div>
                 </div>
             </div>
 
@@ -321,6 +426,106 @@ here<!DOCTYPE html>
                     <i class="fas fa-sync-alt"></i> مزامنة الآن
                 </button>
                 <div id="sync-message" class="text-sm mt-2 hidden"></div>
+            </div>
+        </div>
+
+        <!-- صفحة المحفظة الجديدة (مع قسم التحويل) -->
+        <div id="page-wallet" class="page px-4 py-3 space-y-4 fade-in">
+            <!-- بطاقة الرصيد الإجمالي -->
+            <div class="glass-card rounded-2xl p-5 bg-gradient-to-r from-crypto-blue to-purple-500 text-white">
+                <p class="text-sm opacity-80 mb-1">الرصيد الإجمالي (تقديري)</p>
+                <div class="text-3xl font-bold" id="wallet-page-total-balance">0.00 USDT</div>
+                <div class="flex gap-2 mt-4">
+                    <button id="wallet-page-deposit-btn" class="bg-white/20 hover:bg-white/30 flex-1 py-2.5 rounded-xl text-white font-semibold text-sm backdrop-blur-sm"><i class="fas fa-arrow-down"></i> إيداع</button>
+                    <button id="wallet-page-withdraw-btn" class="bg-white/20 hover:bg-white/30 flex-1 py-2.5 rounded-xl text-white font-semibold text-sm backdrop-blur-sm"><i class="fas fa-arrow-up"></i> سحب</button>
+                </div>
+            </div>
+
+            <!-- قائمة العملات -->
+            <div class="glass-card rounded-xl p-4 bg-white border border-light-border">
+                <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-coins text-yellow-500"></i> عملاتي</h3>
+                <div id="wallet-page-assets" class="divide-y divide-gray-100">
+                    <!-- يتم ملؤها ديناميكيًا -->
+                </div>
+            </div>
+
+            <!-- قسم التحويل (Transfer) -->
+            <div class="transfer-card">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fas fa-exchange-alt text-crypto-blue text-xl"></i>
+                    <h3 class="text-lg font-bold">تحويل</h3>
+                </div>
+                
+                <!-- اختيار العملة -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-secondary mb-2">العملة</label>
+                    <div class="asset-selector" id="transfer-asset-selector">
+                        <div class="asset-option active" data-asset="USDT">
+                            <i class="fas fa-dollar-sign text-green-600"></i> USDT
+                        </div>
+                        <div class="asset-option" data-asset="BTC">
+                            <i class="fab fa-bitcoin text-yellow-600"></i> BTC
+                        </div>
+                        <div class="asset-option" data-asset="ETH">
+                            <i class="fab fa-ethereum text-purple-600"></i> ETH
+                        </div>
+                    </div>
+                </div>
+
+                <!-- الشبكة -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-secondary mb-2">الشبكة</label>
+                    <div class="flex gap-2">
+                        <button id="transfer-network-trc20" class="network-btn active-network flex-1 py-2 rounded-lg border text-sm font-medium transition">TRC20</button>
+                        <button id="transfer-network-bep20" class="network-btn flex-1 py-2 rounded-lg border border-light-border text-sm font-medium transition">BEP20 (BSC)</button>
+                        <button id="transfer-network-erc20" class="network-btn flex-1 py-2 rounded-lg border border-light-border text-sm font-medium transition">ERC20</button>
+                    </div>
+                    <p class="warning-text flex items-center gap-1 mt-1"><i class="fas fa-exclamation-triangle"></i> تأكد من اختيار الشبكة المطابقة لعنوان المستلم.</p>
+                </div>
+
+                <!-- عنوان المستلم -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-secondary mb-2">عنوان المستلم</label>
+                    <input type="text" id="transfer-recipient" class="profile-input" placeholder="أدخل عنوان المحفظة">
+                </div>
+
+                <!-- المبلغ -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-secondary mb-2">المبلغ</label>
+                    <div class="relative">
+                        <input type="number" id="transfer-amount" min="0.000001" step="0.000001" class="profile-input" placeholder="0.00">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-secondary" id="transfer-asset-symbol">USDT</span>
+                    </div>
+                    <div class="flex justify-between mt-1">
+                        <span class="text-xs text-secondary">المتاح: <span id="transfer-available">0.00</span> <span id="transfer-available-symbol">USDT</span></span>
+                        <button id="transfer-max-btn" class="text-xs text-crypto-blue font-medium">الحد الأقصى</button>
+                    </div>
+                </div>
+
+                <!-- تفاصيل الرسوم -->
+                <div class="bg-gray-100 p-3 rounded-xl mb-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-secondary">رسوم الشبكة</span>
+                        <span class="font-medium" id="transfer-fee-amount">1.00 USDT</span>
+                    </div>
+                    <div class="flex justify-between text-sm mt-1">
+                        <span class="text-secondary">المبلغ المستلم</span>
+                        <span class="font-medium" id="transfer-receive-amount">0.00 USDT</span>
+                    </div>
+                </div>
+
+                <button id="transfer-submit-btn" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2">
+                    <i class="fas fa-paper-plane"></i> تأكيد التحويل
+                </button>
+                <div id="transfer-error" class="error-message hidden mt-2"></div>
+            </div>
+
+            <!-- آخر عمليات التحويل -->
+            <div class="glass-card rounded-xl p-4 bg-white border border-light-border">
+                <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-history text-gray-500"></i> آخر التحويلات</h3>
+                <div id="transfer-history-list" class="space-y-2 text-sm max-h-60 overflow-y-auto">
+                    <p class="text-secondary text-center py-2">لا توجد تحويلات حديثة</p>
+                </div>
             </div>
         </div>
 
@@ -421,7 +626,7 @@ here<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- ========== الموديلات ========== -->
+    <!-- ========== الموديلات (الإيداع، السحب، تغيير كلمة المرور، مزودي الإشارات، ترخيص المنصة، أخبار New، المحفظة V-Wallet) ========== -->
     <!-- مودال الإيداع -->
     <div id="deposit-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
         <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
@@ -687,168 +892,23 @@ here<!DOCTYPE html>
             </div>
         </div>
     </div>
-
-    <!-- مودال التحويل (خانة التحويل بتفاصيل حقيقية) -->
-    <div id="transfer-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
-        <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
-            <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
-                <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-paper-plane text-crypto-blue"></i> تحويل عملات</h3>
-                <button id="close-transfer-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
-            </div>
-            
-            <div class="space-y-4">
-                <!-- اختيار العملة -->
-                <div>
-                    <label class="block text-sm font-medium text-secondary mb-1">العملة</label>
-                    <select id="transfer-coin" class="profile-input">
-                        <option value="USDT" selected>USDT - Tether (TRC20/BEP20)</option>
-                        <option value="BTC">BTC - Bitcoin</option>
-                        <option value="ETH">ETH - Ethereum</option>
-                    </select>
-                    <div class="flex justify-between text-xs text-secondary mt-1">
-                        <span>الرصيد المتاح: <span id="transfer-available">0.00</span> <span id="transfer-coin-label">USDT</span></span>
-                        <span class="text-crypto-blue cursor-pointer" id="max-transfer">الحد الأقصى</span>
-                    </div>
-                </div>
-
-                <!-- اختيار الشبكة (شبكات حقيقية مع رسوم) -->
-                <div>
-                    <label class="block text-sm font-medium text-secondary mb-1">شبكة التحويل</label>
-                    <div class="grid grid-cols-3 gap-2">
-                        <button id="transfer-net-trc20" class="network-btn active-network py-2 rounded-lg border text-sm font-medium transition" data-fee="1.0">TRC20</button>
-                        <button id="transfer-net-bep20" class="network-btn py-2 rounded-lg border border-light-border text-sm font-medium transition" data-fee="0.5">BEP20 (BSC)</button>
-                        <button id="transfer-net-erc20" class="network-btn py-2 rounded-lg border border-light-border text-sm font-medium transition" data-fee="5.0">ERC20</button>
-                    </div>
-                    <p class="warning-text flex items-center gap-1 mt-1"><i class="fas fa-exclamation-triangle text-[10px]"></i> تأكد من أن الشبكة تدعمها المحفظة المستقبلة.</p>
-                </div>
-
-                <!-- عنوان المستلم -->
-                <div>
-                    <label class="block text-sm font-medium text-secondary mb-1">عنوان المستلم</label>
-                    <div class="relative">
-                        <input type="text" id="transfer-address" class="profile-input pr-10" placeholder="أدخل عنوان المحفظة">
-                        <button id="paste-address-btn" class="absolute left-2 top-1/2 -translate-y-1/2 p-1.5 text-crypto-blue hover:bg-gray-100 rounded-lg"><i class="fas fa-paste"></i></button>
-                    </div>
-                    <p class="text-xs text-secondary mt-1">مثال: TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN (TRC20)</p>
-                </div>
-
-                <!-- المبلغ -->
-                <div>
-                    <label class="block text-sm font-medium text-secondary mb-1">المبلغ</label>
-                    <input type="number" id="transfer-amount" min="0.0001" step="0.0001" class="profile-input" placeholder="0.00">
-                </div>
-
-                <!-- ملخص الرسوم والصافي -->
-                <div class="bg-gray-50 p-3 rounded-xl border border-light-border text-sm space-y-2">
-                    <div class="flex justify-between">
-                        <span class="text-secondary">رسوم الشبكة</span>
-                        <span id="transfer-fee-amount">1.00 USDT</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="text-secondary">المبلغ المستلم</span>
-                        <span class="font-bold text-primary" id="transfer-receive-amount">0.00 USDT</span>
-                    </div>
-                    <div class="border-t border-gray-200 pt-2 text-xs text-secondary">
-                        <i class="fas fa-clock ml-1"></i> وقت الوصول: 5-30 دقيقة (حسب الشبكة)
-                    </div>
-                </div>
-
-                <div id="transfer-error" class="error-message hidden"></div>
-
-                <!-- زر التأكيد -->
-                <button id="confirm-transfer-btn" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2">
-                    <i class="fas fa-check-circle"></i> تأكيد التحويل
-                </button>
-                <p class="text-xs text-secondary text-center">بالضغط على تأكيد، أنت توافق على شروط التحويل.</p>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
-    // ---------- PWA والإعدادات الأساسية (محسّنة لضمان ظهور التطبيق في درج التطبيقات) ----------
+    // ---------- PWA والإعدادات الأساسية ----------
     (function setupPWA() {
-        // إنشاء Manifest متوافق مع WebAPK (يظهر في درج التطبيقات على أندرويد)
-        const manifest = {
-            name: "ForX - تداول العملات الرقمية",
-            short_name: "ForX",
-            description: "منصة تداول آمنة وسريعة للعملات الرقمية",
-            theme_color: "#3772ff",
-            background_color: "#f8fafc",
-            display: "standalone",
-            display_override: ["standalone", "minimal-ui"],
-            orientation: "portrait",
-            scope: "/",
-            start_url: window.location.origin + window.location.pathname,
-            lang: "ar",
-            dir: "rtl",
-            categories: ["finance", "cryptocurrency"],
-            icons: [
-                {
-                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E",
-                    sizes: "512x512",
-                    type: "image/svg+xml",
-                    purpose: "any maskable"
-                },
-                {
-                    src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='36' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M96 48l24 48h-18l-6 48 18-36 18 36-6-48h-18l-12-48z'/%3E%3C/svg%3E",
-                    sizes: "192x192",
-                    type: "image/svg+xml",
-                    purpose: "any maskable"
-                }
-            ],
-            shortcuts: [
-                {
-                    name: "الأسواق",
-                    url: "/?page=markets",
-                    icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='16' fill='%233772ff'/%3E%3Cpath fill='%23fff' d='M48 24L60 48h-24L48 24z'/%3E%3C/svg%3E", sizes: "96x96" }]
-                }
-            ]
-        };
+        const manifest = { name: "ForX - تداول العملات الرقمية", short_name: "ForX", theme_color: "#3772ff", background_color: "#f8fafc", display: "standalone", orientation: "portrait", scope: "/", start_url: window.location.origin + window.location.pathname, lang: "ar", dir: "rtl", icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml" }] };
         const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
         document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
-        
-        // تسجيل Service Worker لدعم التثبيت والتخزين المؤقت
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
-                self.addEventListener('install', (event) => {
-                    self.skipWaiting();
-                });
-                self.addEventListener('activate', (event) => {
-                    event.waitUntil(clients.claim());
-                });
-                self.addEventListener('fetch', (event) => {
-                    event.respondWith(
-                        fetch(event.request).catch(() => caches.match(event.request))
-                    );
-                });
-            `], {type: 'application/javascript'})));
+            navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install',()=>self.skipWaiting()); self.addEventListener('activate',()=>clients.claim()); self.addEventListener('fetch',(e)=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))));`], {type: 'application/javascript'})));
         }
-        
         let deferredPrompt;
         const installIcons = [document.getElementById('install-icon-auth'), document.getElementById('install-icon-main')];
-        
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installIcons.forEach(icon => icon.classList.remove('hidden'));
-        });
-        
-        async function installHandler() {
-            if(!deferredPrompt) return;
-            deferredPrompt.prompt();
-            const {outcome} = await deferredPrompt.userChoice;
-            if(outcome === 'accepted') {
-                showToast('🎉 تم تثبيت ForX! ستجده في درج التطبيقات.');
-                installIcons.forEach(icon => icon.classList.add('hidden'));
-            }
-            deferredPrompt = null;
-        }
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installIcons.forEach(icon => icon.classList.remove('hidden')); });
+        async function installHandler() { if(!deferredPrompt) return; deferredPrompt.prompt(); const {outcome} = await deferredPrompt.userChoice; if(outcome === 'accepted') { showToast('🎉 تم تثبيت ForX!'); installIcons.forEach(icon => icon.classList.add('hidden')); } deferredPrompt = null; }
         installIcons.forEach(icon => icon.addEventListener('click', installHandler));
-        window.addEventListener('appinstalled', () => {
-            installIcons.forEach(icon => icon.classList.add('hidden'));
-            showToast('تم التثبيت بنجاح!');
-        });
+        window.addEventListener('appinstalled', () => installIcons.forEach(icon => icon.classList.add('hidden')));
     })();
 
     function showToast(msg, isError = false) {
@@ -858,7 +918,7 @@ here<!DOCTYPE html>
 
     // ---------- إدارة المستخدمين والجلسة ----------
     const STORAGE_KEY = 'forx_users_db', SESSION_KEY = 'forx_current_user';
-    function initDB() { if(!localStorage.getItem(STORAGE_KEY)) { localStorage.setItem(STORAGE_KEY, JSON.stringify([{ fullName:'متداول تجريبي', email:'demo@forx.com', password:btoa('demo1234'), balance: 1000.00, transactions: [], joinDate: new Date().toISOString().split('T')[0] }])); } }
+    function initDB() { if(!localStorage.getItem(STORAGE_KEY)) { localStorage.setItem(STORAGE_KEY, JSON.stringify([{ fullName:'متداول تجريبي', email:'demo@forx.com', password:btoa('demo1234'), balance: 10000, btcBalance: 0.15, ethBalance: 1.2, transactions: [], joinDate: new Date().toISOString().split('T')[0] }])); } }
     initDB();
     function getUsers() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
     function saveUsers(users) { localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); }
@@ -875,19 +935,26 @@ here<!DOCTYPE html>
         home: document.getElementById('page-home'), 
         markets: document.getElementById('page-markets'), 
         sync: document.getElementById('page-sync'),
+        wallet: document.getElementById('page-wallet'),
         account: document.getElementById('page-account') 
     };
     const navItems = document.querySelectorAll('.bottom-nav-item');
 
-    // تحديث واجهة الرصيد والمعاملات
+    // تحديث واجهة الرصيد والمعاملات (بما في ذلك صفحة المحفظة)
     function refreshBalanceAndTransactions() {
         const user = getCurrentUser(); if(!user) return;
         const balance = user.balance || 0;
+        const btcBalance = user.btcBalance || 0;
+        const ethBalance = user.ethBalance || 0;
         const totalDeposited = (user.transactions || []).filter(t=>t.type==='deposit').reduce((s,t)=>s+t.amount,0);
-        const totalWithdrawn = (user.transactions || []).filter(t=>t.type==='withdraw' || t.type==='transfer').reduce((s,t)=>s+t.amount,0);
+        const totalWithdrawn = (user.transactions || []).filter(t=>t.type==='withdraw').reduce((s,t)=>s+t.amount,0);
+        
+        // تحديث الرئيسية
         document.getElementById('home-balance').textContent = balance.toFixed(2) + ' USDT';
         document.getElementById('home-deposited').textContent = totalDeposited.toFixed(2);
         document.getElementById('home-withdrawn').textContent = totalWithdrawn.toFixed(2);
+        
+        // تحديث الحساب
         document.getElementById('account-balance').textContent = balance.toFixed(2) + ' USDT';
         document.getElementById('account-fullname').textContent = user.fullName || 'مستخدم';
         document.getElementById('account-email').innerHTML = `<i class="fas fa-envelope text-xs"></i> ${user.email}`;
@@ -895,77 +962,147 @@ here<!DOCTYPE html>
         document.getElementById('account-join-date').textContent = user.joinDate || '2024';
         document.getElementById('summary-deposits').textContent = totalDeposited.toFixed(2) + ' USDT';
         document.getElementById('summary-withdrawals').textContent = totalWithdrawn.toFixed(2) + ' USDT';
-        document.getElementById('summary-trades').textContent = '0';
-        const lastTx = (user.transactions || []).slice(-1)[0];
-        document.getElementById('summary-last-active').textContent = lastTx ? lastTx.date.split('،')[0] : 'اليوم';
+        
+        // تحديث صفحة المحفظة
+        const totalUsdValue = balance + (btcBalance * 68245.50) + (ethBalance * 3421.80);
+        document.getElementById('wallet-page-total-balance').textContent = totalUsdValue.toFixed(2) + ' USDT';
+        
+        const assetsContainer = document.getElementById('wallet-page-assets');
+        assetsContainer.innerHTML = `
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"><i class="fas fa-dollar-sign text-green-600"></i></div>
+                    <div><p class="font-semibold">USDT</p><p class="text-xs text-secondary">Tether</p></div>
+                </div>
+                <div class="text-right"><p class="font-bold">${balance.toFixed(2)}</p><p class="text-xs text-secondary">≈ ${balance.toFixed(2)} $</p></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center"><i class="fab fa-bitcoin text-yellow-600"></i></div>
+                    <div><p class="font-semibold">BTC</p><p class="text-xs text-secondary">Bitcoin</p></div>
+                </div>
+                <div class="text-right"><p class="font-bold">${btcBalance.toFixed(6)}</p><p class="text-xs text-secondary">≈ ${(btcBalance * 68245.50).toFixed(2)} $</p></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center"><i class="fab fa-ethereum text-purple-600"></i></div>
+                    <div><p class="font-semibold">ETH</p><p class="text-xs text-secondary">Ethereum</p></div>
+                </div>
+                <div class="text-right"><p class="font-bold">${ethBalance.toFixed(6)}</p><p class="text-xs text-secondary">≈ ${(ethBalance * 3421.80).toFixed(2)} $</p></div>
+            </div>
+        `;
+        
+        // تحديث قائمة العمليات
         const txList = document.getElementById('transactions-list');
         const txs = (user.transactions || []).slice().reverse().slice(0,5);
         if(txs.length===0) txList.innerHTML = '<p class="text-secondary text-center py-2">لا توجد عمليات حديثة</p>';
         else {
             txList.innerHTML = txs.map(tx => {
-                let typeLabel = tx.type === 'deposit' ? 'إيداع' : (tx.type === 'withdraw' ? 'سحب' : 'تحويل');
-                let icon = tx.type === 'deposit' ? 'fa-arrow-down text-crypto-green' : (tx.type === 'withdraw' ? 'fa-arrow-up text-crypto-red' : 'fa-exchange-alt text-blue-500');
-                let amountSign = tx.type === 'deposit' ? '+' : '-';
-                return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas ${icon}"></i><span>${typeLabel}</span></div><div class="font-medium ${tx.type === 'deposit' ? 'text-crypto-green' : 'text-crypto-red'}">${amountSign}${tx.amount.toFixed(2)} ${tx.coin || 'USDT'}</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
+                if (tx.type === 'deposit') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-down text-crypto-green"></i><span>إيداع</span></div><div class="font-medium text-crypto-green">+${tx.amount.toFixed(2)} USDT</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
+                if (tx.type === 'withdraw') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-up text-crypto-red"></i><span>سحب</span></div><div class="font-medium text-crypto-red">-${tx.amount.toFixed(2)} USDT</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
+                if (tx.type === 'transfer') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-exchange-alt text-crypto-blue"></i><span>تحويل ${tx.asset}</span></div><div class="font-medium text-crypto-red">-${tx.amount.toFixed(6)} ${tx.asset}</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
             }).join('');
         }
         
-        // تحديث المحفظة أيضًا
+        updateTransferHistory();
         updateWalletModalData();
         updateTransferAvailable();
     }
 
-    // تحديث بيانات مودال المحفظة
+    function updateTransferHistory() {
+        const user = getCurrentUser(); if(!user) return;
+        const transfers = (user.transactions || []).filter(t => t.type === 'transfer').slice(-5).reverse();
+        const container = document.getElementById('transfer-history-list');
+        if (transfers.length === 0) {
+            container.innerHTML = '<p class="text-secondary text-center py-2">لا توجد تحويلات حديثة</p>';
+            return;
+        }
+        container.innerHTML = transfers.map(t => `
+            <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                <div><i class="fas fa-exchange-alt text-crypto-blue ml-2"></i>${t.asset} - ${t.network}</div>
+                <div class="text-left"><span class="font-medium">${t.amount.toFixed(6)}</span> <span class="text-xs text-secondary">إلى ${t.recipient.substring(0,8)}...</span></div>
+            </div>
+        `).join('');
+    }
+
     function updateWalletModalData() {
-        const user = getCurrentUser();
-        if (!user) return;
-        
+        const user = getCurrentUser(); if (!user) return;
         const usdtBalance = user.balance || 0;
-        // محاكاة أرصدة BTC و ETH بناءً على USDT (للتوضيح)
-        const btcPrice = 68245.50;
-        const ethPrice = 3421.80;
-        const btcBalance = (usdtBalance * 0.4 / btcPrice) || 0;
-        const ethBalance = (usdtBalance * 0.3 / ethPrice) || 0;
-        
-        document.getElementById('wallet-total-balance').textContent = usdtBalance.toFixed(2) + ' USDT';
+        const btcBalance = user.btcBalance || 0;
+        const ethBalance = user.ethBalance || 0;
+        const btcPrice = 68245.50, ethPrice = 3421.80;
+        const total = usdtBalance + btcBalance * btcPrice + ethBalance * ethPrice;
+        document.getElementById('wallet-total-balance').textContent = total.toFixed(2) + ' USDT';
         document.getElementById('wallet-usdt-balance').textContent = usdtBalance.toFixed(2);
         document.getElementById('wallet-btc-balance').textContent = btcBalance.toFixed(6);
         document.getElementById('wallet-eth-balance').textContent = ethBalance.toFixed(6);
+        document.querySelector('#wallet-usdt-balance').closest('.wallet-asset-row').querySelector('p:last-child').textContent = `≈ ${usdtBalance.toFixed(2)} $`;
+        document.querySelector('#wallet-btc-balance').closest('.wallet-asset-row').querySelector('p:last-child').textContent = `≈ ${(btcBalance * btcPrice).toFixed(2)} $`;
+        document.querySelector('#wallet-eth-balance').closest('.wallet-asset-row').querySelector('p:last-child').textContent = `≈ ${(ethBalance * ethPrice).toFixed(2)} $`;
         
-        // تحديث القيم بالدولار
-        const usdtRow = document.querySelector('#wallet-usdt-balance').closest('.wallet-asset-row');
-        const btcRow = document.querySelector('#wallet-btc-balance').closest('.wallet-asset-row');
-        const ethRow = document.querySelector('#wallet-eth-balance').closest('.wallet-asset-row');
-        if (usdtRow) usdtRow.querySelector('p:last-child').textContent = `≈ ${usdtBalance.toFixed(2)} $`;
-        if (btcRow) btcRow.querySelector('p:last-child').textContent = `≈ ${(btcBalance * btcPrice).toFixed(2)} $`;
-        if (ethRow) ethRow.querySelector('p:last-child').textContent = `≈ ${(ethBalance * ethPrice).toFixed(2)} $`;
-        
-        // تحديث قائمة المعاملات في المحفظة
         const walletTxList = document.getElementById('wallet-transactions-list');
         const txs = (user.transactions || []).slice().reverse().slice(0,3);
         if(txs.length===0) walletTxList.innerHTML = '<p class="text-secondary text-center py-2 text-sm">لا توجد عمليات حديثة</p>';
         else {
             walletTxList.innerHTML = txs.map(tx => {
-                let typeLabel = tx.type === 'deposit' ? 'إيداع' : (tx.type === 'withdraw' ? 'سحب' : 'تحويل');
-                let icon = tx.type === 'deposit' ? 'fa-arrow-down text-crypto-green' : (tx.type === 'withdraw' ? 'fa-arrow-up text-crypto-red' : 'fa-exchange-alt text-blue-500');
-                let amountSign = tx.type === 'deposit' ? '+' : '-';
-                return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas ${icon} text-xs"></i><span class="text-xs">${typeLabel} ${tx.coin || 'USDT'}</span></div><div class="font-medium ${tx.type === 'deposit' ? 'text-crypto-green' : 'text-crypto-red'} text-sm">${amountSign}${tx.amount.toFixed(2)}</div></div>`;
+                if (tx.type === 'deposit') return `<div class="flex justify-between"><span>إيداع USDT</span><span class="text-crypto-green">+${tx.amount.toFixed(2)}</span></div>`;
+                if (tx.type === 'withdraw') return `<div class="flex justify-between"><span>سحب USDT</span><span class="text-crypto-red">-${tx.amount.toFixed(2)}</span></div>`;
+                if (tx.type === 'transfer') return `<div class="flex justify-between"><span>تحويل ${tx.asset}</span><span class="text-crypto-red">-${tx.amount.toFixed(6)}</span></div>`;
             }).join('');
         }
     }
 
-    // تحديث الرصيد المتاح في مودال التحويل
+    // تحديث الرصيد المتاح في قسم التحويل
+    let currentTransferAsset = 'USDT';
     function updateTransferAvailable() {
-        const user = getCurrentUser();
-        if (!user) return;
-        const coin = document.getElementById('transfer-coin').value;
+        const user = getCurrentUser(); if(!user) return;
         let available = 0;
-        if (coin === 'USDT') available = user.balance || 0;
-        else if (coin === 'BTC') available = (user.balance * 0.4 / 68245.50) || 0;
-        else if (coin === 'ETH') available = (user.balance * 0.3 / 3421.80) || 0;
-        document.getElementById('transfer-available').textContent = available.toFixed(coin === 'USDT' ? 2 : 6);
-        document.getElementById('transfer-coin-label').textContent = coin;
+        if (currentTransferAsset === 'USDT') available = user.balance || 0;
+        else if (currentTransferAsset === 'BTC') available = user.btcBalance || 0;
+        else if (currentTransferAsset === 'ETH') available = user.ethBalance || 0;
+        document.getElementById('transfer-available').textContent = available.toFixed(currentTransferAsset==='USDT'?2:6);
+        document.getElementById('transfer-available-symbol').textContent = currentTransferAsset;
+        document.getElementById('transfer-asset-symbol').textContent = currentTransferAsset;
         calculateReceiveAmount();
+    }
+
+    function calculateReceiveAmount() {
+        const amount = parseFloat(document.getElementById('transfer-amount').value) || 0;
+        let fee = 0;
+        if (currentTransferAsset === 'USDT') fee = 1.0;
+        else if (currentTransferAsset === 'BTC') fee = 0.0001;
+        else if (currentTransferAsset === 'ETH') fee = 0.002;
+        document.getElementById('transfer-fee-amount').textContent = `${fee.toFixed(currentTransferAsset==='USDT'?2:6)} ${currentTransferAsset}`;
+        const receive = Math.max(0, amount - fee);
+        document.getElementById('transfer-receive-amount').textContent = `${receive.toFixed(currentTransferAsset==='USDT'?2:6)} ${currentTransferAsset}`;
+    }
+
+    function processTransfer(asset, network, recipent, amount) {
+        const user = getCurrentUser(); if(!user) return {success: false, message: 'جلسة غير صالحة'};
+        if (!recipent || recipent.trim().length < 5) return {success: false, message: 'عنوان المستلم غير صالح'};
+        if (isNaN(amount) || amount <= 0) return {success: false, message: 'المبلغ غير صالح'};
+        
+        let fee = 0, balanceField = '', minAmount = 0;
+        if (asset === 'USDT') { fee = 1.0; balanceField = 'balance'; minAmount = 10; }
+        else if (asset === 'BTC') { fee = 0.0001; balanceField = 'btcBalance'; minAmount = 0.001; }
+        else if (asset === 'ETH') { fee = 0.002; balanceField = 'ethBalance'; minAmount = 0.01; }
+        else return {success: false, message: 'عملة غير مدعومة'};
+        
+        if (amount < minAmount) return {success: false, message: `الحد الأدنى للتحويل ${minAmount} ${asset}`};
+        const currentBalance = user[balanceField] || 0;
+        if (amount + fee > currentBalance) return {success: false, message: 'رصيد غير كافٍ (يشمل الرسوم)'};
+        
+        const newBalance = currentBalance - amount - fee;
+        const transaction = {
+            type: 'transfer',
+            asset, network, recipent: recipent.trim(),
+            amount, fee,
+            date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'})
+        };
+        const updates = { [balanceField]: newBalance, transactions: [...(user.transactions || []), transaction] };
+        updateUser(user.email, updates);
+        refreshBalanceAndTransactions();
+        return {success: true};
     }
 
     function processWithdraw(address, amount) {
@@ -974,45 +1111,11 @@ here<!DOCTYPE html>
         if(isNaN(amount) || amount <= 0) { showToast('المبلغ غير صالح', true); return false; }
         if(amount > (user.balance||0)) { showToast('رصيدك غير كافٍ', true); return false; }
         const newBalance = (user.balance||0) - amount;
-        const transaction = { type: 'withdraw', amount, coin: 'USDT', date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'}), address: address.trim() };
+        const transaction = { type: 'withdraw', amount, date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'}), address: address.trim() };
         const transactions = [...(user.transactions || []), transaction];
         updateUser(user.email, { balance: newBalance, transactions });
         refreshBalanceAndTransactions();
         showToast(`تم سحب ${amount.toFixed(2)} USDT بنجاح`);
-        return true;
-    }
-
-    function processTransfer(coin, network, address, amount, fee) {
-        const user = getCurrentUser(); if(!user) return false;
-        if(!address || address.trim().length < 5) { showToast('عنوان المستلم غير صالح', true); return false; }
-        if(isNaN(amount) || amount <= 0) { showToast('المبلغ غير صالح', true); return false; }
-        
-        let available = 0;
-        if (coin === 'USDT') available = user.balance || 0;
-        else if (coin === 'BTC') available = (user.balance * 0.4 / 68245.50) || 0;
-        else if (coin === 'ETH') available = (user.balance * 0.3 / 3421.80) || 0;
-        
-        if (amount > available) { showToast('الرصيد غير كافٍ', true); return false; }
-        
-        // تحويل المبلغ إلى USDT للخصم من الرصيد الرئيسي (للبساطة نخصم فقط USDT)
-        let amountInUSDT = amount;
-        if (coin === 'BTC') amountInUSDT = amount * 68245.50;
-        else if (coin === 'ETH') amountInUSDT = amount * 3421.80;
-        
-        const newBalance = user.balance - amountInUSDT;
-        const transaction = { 
-            type: 'transfer', 
-            amount: amountInUSDT, 
-            coin: coin, 
-            network, 
-            fee: fee,
-            date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'}), 
-            address: address.trim() 
-        };
-        const transactions = [...(user.transactions || []), transaction];
-        updateUser(user.email, { balance: newBalance, transactions });
-        refreshBalanceAndTransactions();
-        showToast(`تم تحويل ${amount} ${coin} بنجاح عبر ${network}`);
         return true;
     }
 
@@ -1039,14 +1142,10 @@ here<!DOCTYPE html>
         navItems.forEach(item => { item.classList.remove('active'); item.style.color = '#94a3b8'; });
         const activeNav = Array.from(navItems).find(el => el.dataset.page === pageId);
         if(activeNav) { activeNav.classList.add('active'); activeNav.style.color = '#3772ff'; }
+        if (pageId === 'markets') drawChartForCurrentSymbol();
         if (pageId === 'wallet') {
-            // فتح مودال المحفظة عند النقر على أيقونة المحفظة في شريط التنقل
-            document.getElementById('wallet-modal').classList.remove('hidden');
-            updateWalletModalData();
-            switchPage('home'); // العودة للرئيسية
-        }
-        if (pageId === 'markets') {
-            drawChartForCurrentSymbol();
+            refreshBalanceAndTransactions();
+            updateTransferAvailable();
         }
     }
 
@@ -1093,7 +1192,7 @@ here<!DOCTYPE html>
         container.innerHTML = html;
     }
 
-    // ---------- بيانات السوق (جميع العملات) ----------
+    // ---------- بيانات السوق (جميع العملات) مع دعم متقدم للرسم البياني ----------
     const symbols = [
         { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', basePrice: 68245.50, volatility: 0.005 },
         { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', basePrice: 3421.80, volatility: 0.008 },
@@ -1108,7 +1207,30 @@ here<!DOCTYPE html>
     let marketChartData = [];
     let currentTf = '1D';
     let simulationInterval = null;
-
+    
+    // خصائص التحكم بالرسم البياني (تكبير/تصغير/سحب)
+    let chartScale = 1.0;
+    let chartOffsetX = 0;
+    let chartMinScale = 0.5, chartMaxScale = 3.0;
+    let isDragging = false;
+    let dragStartX = 0, dragStartOffset = 0;
+    let canvasRect = null;
+    
+    // إشارة لتحديث الرسم
+    let needsRedraw = true;
+    
+    const canvas = document.getElementById('candlestick-chart');
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('chart-tooltip');
+    const crosshairV = document.getElementById('crosshair-v');
+    const crosshairH = document.getElementById('crosshair-h');
+    const zoomLevelSpan = document.getElementById('zoom-level');
+    
+    // تحديث مستوى التكبير الظاهر
+    function updateZoomIndicator() {
+        zoomLevelSpan.textContent = Math.round(chartScale * 100) + '%';
+    }
+    
     function generateInitialCandles(count, basePrice, volatility) {
         const data = [];
         let close = basePrice;
@@ -1151,44 +1273,260 @@ here<!DOCTYPE html>
         updateTopMarkets();
     }
 
+    // رسم الشموع مع دعم التحريك والتكبير والشبكة
     function drawChart() {
-        const canvas = document.getElementById('candlestick-chart');
-        const ctx = canvas.getContext('2d');
-        const w = 400, h = 220;
-        canvas.width = w; canvas.height = h;
         if (!marketChartData.length) return;
         
-        const padding = { top: 20, bottom: 20, left: 35, right: 15 };
-        const graphWidth = w - padding.left - padding.right;
-        const candleWidth = Math.max(4, graphWidth / marketChartData.length * 0.7);
-        const spacing = (graphWidth - candleWidth * marketChartData.length) / (marketChartData.length + 1);
+        const w = canvas.clientWidth || 400;
+        const h = 240;
+        canvas.width = w; canvas.height = h;
         
-        const prices = marketChartData.flatMap(d => [d.high, d.low]);
+        const padding = { top: 20, bottom: 25, left: 55, right: 15 };
+        const graphWidth = w - padding.left - padding.right;
+        const graphHeight = h - padding.top - padding.bottom;
+        
+        // تطبيق التكبير والإزاحة
+        const visibleCandlesCount = Math.floor(marketChartData.length / chartScale);
+        const startIndex = Math.max(0, Math.min(marketChartData.length - visibleCandlesCount, Math.floor(chartOffsetX / 100 * marketChartData.length)));
+        const endIndex = Math.min(marketChartData.length, startIndex + visibleCandlesCount);
+        const visibleData = marketChartData.slice(startIndex, endIndex);
+        
+        if (visibleData.length === 0) return;
+        
+        // حساب الحدود السعرية للجزء المرئي
+        const prices = visibleData.flatMap(d => [d.high, d.low]);
         const maxPrice = Math.max(...prices) * 1.02;
         const minPrice = Math.min(...prices) * 0.98;
         const priceRange = maxPrice - minPrice;
         
+        // مسح الرسم
         ctx.clearRect(0, 0, w, h);
         
-        marketChartData.forEach((d, i) => {
+        // رسم الشبكة الخلفية
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 0.5;
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = '10px Cairo';
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#64748b';
+        
+        // خطوط أفقية (مستويات سعرية)
+        const gridLines = 5;
+        for (let i = 0; i <= gridLines; i++) {
+            const price = maxPrice - (i / gridLines) * priceRange;
+            const y = padding.top + (i / gridLines) * graphHeight;
+            
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(w - padding.right, y);
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.stroke();
+            
+            // تسمية السعر
+            ctx.fillText(price.toFixed(2), padding.left - 5, y + 3);
+        }
+        
+        // رسم الشموع
+        const candleWidth = Math.max(3, (graphWidth / visibleData.length) * 0.7);
+        const spacing = (graphWidth - candleWidth * visibleData.length) / (visibleData.length + 1);
+        
+        visibleData.forEach((d, i) => {
             const x = padding.left + spacing + i * (candleWidth + spacing);
-            const yHigh = padding.top + ((maxPrice - d.high) / priceRange) * (h - padding.top - padding.bottom);
-            const yLow = padding.top + ((maxPrice - d.low) / priceRange) * (h - padding.top - padding.bottom);
-            const yOpen = padding.top + ((maxPrice - d.open) / priceRange) * (h - padding.top - padding.bottom);
-            const yClose = padding.top + ((maxPrice - d.close) / priceRange) * (h - padding.top - padding.bottom);
+            
+            const yHigh = padding.top + ((maxPrice - d.high) / priceRange) * graphHeight;
+            const yLow = padding.top + ((maxPrice - d.low) / priceRange) * graphHeight;
+            const yOpen = padding.top + ((maxPrice - d.open) / priceRange) * graphHeight;
+            const yClose = padding.top + ((maxPrice - d.close) / priceRange) * graphHeight;
             
             const color = d.close >= d.open ? '#02c076' : '#f84960';
+            
+            // جسم الشمعة
             ctx.fillStyle = color;
-            ctx.strokeStyle = color;
-            ctx.fillRect(x, Math.min(yOpen, yClose), candleWidth, Math.abs(yClose - yOpen));
+            ctx.fillRect(x, Math.min(yOpen, yClose), candleWidth, Math.max(1, Math.abs(yClose - yOpen)));
+            
+            // الظلال (الفتائل)
             ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1;
             ctx.moveTo(x + candleWidth/2, yHigh);
             ctx.lineTo(x + candleWidth/2, yLow);
             ctx.stroke();
         });
         
-        document.getElementById('chart-start-label').textContent = new Date(Date.now() - marketChartData.length * 3600000).toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById('chart-end-label').textContent = new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+        // رسم حدود الرسم البياني
+        ctx.strokeStyle = '#cbd5e1';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(padding.left, padding.top, graphWidth, graphHeight);
+        
+        // تحديث تسميات الوقت
+        const startTime = new Date(Date.now() - marketChartData.length * 3600000);
+        const endTime = new Date();
+        document.getElementById('chart-start-label').textContent = startTime.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+        document.getElementById('chart-end-label').textContent = endTime.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
+        
+        // تحديث مؤشر التكبير
+        updateZoomIndicator();
+        
+        // إخفاء خطوط التقاطع عند عدم الاستخدام
+        if (!isDragging) {
+            crosshairV.style.display = 'none';
+            crosshairH.style.display = 'none';
+            tooltip.classList.remove('visible');
+        }
+    }
+
+    // إظهار تفاصيل الشمعة عند التمرير
+    function showCandleInfo(clientX, clientY) {
+        if (!canvasRect) canvasRect = canvas.getBoundingClientRect();
+        
+        const x = clientX - canvasRect.left;
+        const y = clientY - canvasRect.top;
+        
+        const w = canvas.width;
+        const h = canvas.height;
+        const padding = { top: 20, bottom: 25, left: 55, right: 15 };
+        
+        if (x < padding.left || x > w - padding.right || y < padding.top || y > h - padding.bottom) {
+            tooltip.classList.remove('visible');
+            crosshairV.style.display = 'none';
+            crosshairH.style.display = 'none';
+            return;
+        }
+        
+        // تحديد الشمعة الأقرب
+        const visibleCandlesCount = Math.floor(marketChartData.length / chartScale);
+        const startIndex = Math.max(0, Math.min(marketChartData.length - visibleCandlesCount, Math.floor(chartOffsetX / 100 * marketChartData.length)));
+        const endIndex = Math.min(marketChartData.length, startIndex + visibleCandlesCount);
+        const visibleData = marketChartData.slice(startIndex, endIndex);
+        
+        if (visibleData.length === 0) return;
+        
+        const graphWidth = w - padding.left - padding.right;
+        const candleWidth = Math.max(3, (graphWidth / visibleData.length) * 0.7);
+        const spacing = (graphWidth - candleWidth * visibleData.length) / (visibleData.length + 1);
+        
+        const index = Math.floor((x - padding.left - spacing/2) / (candleWidth + spacing));
+        if (index >= 0 && index < visibleData.length) {
+            const candle = visibleData[index];
+            
+            // تحديث التلميح
+            tooltip.innerHTML = `
+                <div class="flex flex-col gap-1">
+                    <div class="flex justify-between"><span>الافتتاح:</span> <span class="font-mono">${candle.open.toFixed(2)}</span></div>
+                    <div class="flex justify-between"><span>الأعلى:</span> <span class="font-mono">${candle.high.toFixed(2)}</span></div>
+                    <div class="flex justify-between"><span>الأدنى:</span> <span class="font-mono">${candle.low.toFixed(2)}</span></div>
+                    <div class="flex justify-between"><span>الإغلاق:</span> <span class="font-mono">${candle.close.toFixed(2)}</span></div>
+                </div>
+            `;
+            
+            // وضع التلميح
+            const tooltipX = clientX + 10;
+            const tooltipY = clientY - 50;
+            tooltip.style.left = tooltipX + 'px';
+            tooltip.style.top = tooltipY + 'px';
+            tooltip.classList.add('visible');
+            
+            // خطوط التقاطع
+            crosshairV.style.display = 'block';
+            crosshairV.style.left = (canvasRect.left + x) + 'px';
+            crosshairV.style.height = canvasRect.height + 'px';
+            
+            crosshairH.style.display = 'block';
+            crosshairH.style.top = (canvasRect.top + y) + 'px';
+            crosshairH.style.width = canvasRect.width + 'px';
+        }
+    }
+
+    // معالجات الأحداث للتفاعل مع الرسم البياني
+    function initChartInteractions() {
+        // تحديث أبعاد الـ canvas عند تغيير الحجم
+        const resizeObserver = new ResizeObserver(() => {
+            canvasRect = canvas.getBoundingClientRect();
+            drawChart();
+        });
+        resizeObserver.observe(canvas);
+        
+        // السحب (Pan)
+        canvas.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            dragStartX = e.clientX;
+            dragStartOffset = chartOffsetX;
+            canvas.style.cursor = 'grabbing';
+            e.preventDefault();
+        });
+        
+        window.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const deltaX = e.clientX - dragStartX;
+                chartOffsetX = Math.max(0, Math.min(100, dragStartOffset - (deltaX / canvas.clientWidth) * 100 * chartScale));
+                drawChart();
+            } else {
+                // تحديث التلميح وخطوط التقاطع
+                canvasRect = canvas.getBoundingClientRect();
+                if (e.target === canvas) {
+                    showCandleInfo(e.clientX, e.clientY);
+                }
+            }
+        });
+        
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            canvas.style.cursor = 'default';
+        });
+        
+        // دعم اللمس
+        canvas.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            dragStartX = e.touches[0].clientX;
+            dragStartOffset = chartOffsetX;
+            e.preventDefault();
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                const deltaX = e.touches[0].clientX - dragStartX;
+                chartOffsetX = Math.max(0, Math.min(100, dragStartOffset - (deltaX / canvas.clientWidth) * 100 * chartScale));
+                drawChart();
+                e.preventDefault();
+            } else {
+                canvasRect = canvas.getBoundingClientRect();
+                showCandleInfo(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+        
+        canvas.addEventListener('touchend', () => {
+            isDragging = false;
+            crosshairV.style.display = 'none';
+            crosshairH.style.display = 'none';
+            tooltip.classList.remove('visible');
+        });
+        
+        canvas.addEventListener('mouseleave', () => {
+            crosshairV.style.display = 'none';
+            crosshairH.style.display = 'none';
+            tooltip.classList.remove('visible');
+        });
+        
+        // أزرار التكبير
+        document.getElementById('chart-zoom-in').addEventListener('click', () => {
+            chartScale = Math.min(chartMaxScale, chartScale * 1.2);
+            drawChart();
+        });
+        
+        document.getElementById('chart-zoom-out').addEventListener('click', () => {
+            chartScale = Math.max(chartMinScale, chartScale / 1.2);
+            chartOffsetX = Math.max(0, Math.min(100, chartOffsetX));
+            drawChart();
+        });
+        
+        document.getElementById('chart-reset').addEventListener('click', () => {
+            chartScale = 1.0;
+            chartOffsetX = 0;
+            drawChart();
+        });
+        
+        // منع قائمة السياق الافتراضية
+        canvas.addEventListener('contextmenu', (e) => e.preventDefault());
     }
 
     function updatePriceDisplay() {
@@ -1206,6 +1544,8 @@ here<!DOCTYPE html>
         document.getElementById('market-title').innerHTML = `<i class="${symbol.icon}"></i> ${symbol.id}/USDT`;
         const count = currentTf === '1D' ? 24 : (currentTf === '1W' ? 7*24 : (currentTf === '1M' ? 30 : (currentTf === '3M' ? 90 : 365)));
         marketChartData = generateInitialCandles(Math.min(count, 60), symbol.basePrice, symbol.volatility);
+        chartScale = 1.0;
+        chartOffsetX = 0;
         drawChart();
         updatePriceDisplay();
         
@@ -1253,6 +1593,8 @@ here<!DOCTYPE html>
         currentTf = tf;
         const count = tf === '1D' ? 24 : (tf === '1W' ? 7*24 : (tf === '1M' ? 30 : (tf === '3M' ? 90 : 365)));
         marketChartData = generateInitialCandles(Math.min(count, 60), currentSymbol.basePrice, currentSymbol.volatility);
+        chartScale = 1.0;
+        chartOffsetX = 0;
         drawChart();
         updatePriceDisplay();
         document.querySelectorAll('.timeframe-btn').forEach(btn => {
@@ -1268,6 +1610,7 @@ here<!DOCTYPE html>
     function initMarketData() {
         renderSymbolChips();
         switchSymbol(symbols[0]);
+        initChartInteractions();
         if (simulationInterval) clearInterval(simulationInterval);
         simulationInterval = setInterval(() => updateMarketSimulation(), 3000);
     }
@@ -1300,128 +1643,12 @@ here<!DOCTYPE html>
         });
     }
 
-    // ---------- مودال التحويل (خانة التحويل) ----------
-    function initTransferModal() {
-        const modal = document.getElementById('transfer-modal');
-        const coinSelect = document.getElementById('transfer-coin');
-        const netButtons = document.querySelectorAll('#transfer-net-trc20, #transfer-net-bep20, #transfer-net-erc20');
-        const feeSpan = document.getElementById('transfer-fee-amount');
-        const receiveSpan = document.getElementById('transfer-receive-amount');
-        const amountInput = document.getElementById('transfer-amount');
-        const addressInput = document.getElementById('transfer-address');
-        const pasteBtn = document.getElementById('paste-address-btn');
-        const maxBtn = document.getElementById('max-transfer');
-        const confirmBtn = document.getElementById('confirm-transfer-btn');
-        const errorDiv = document.getElementById('transfer-error');
-        const closeBtn = document.getElementById('close-transfer-modal');
-        const walletTransferBtn = document.getElementById('wallet-transfer-btn');
-
-        let currentFee = 1.0;
-        let currentNetwork = 'TRC20';
-
-        function setActiveTransferNetwork(network, fee) {
-            netButtons.forEach(btn => {
-                btn.classList.remove('active-network', 'bg-crypto-blue', 'text-white');
-                btn.classList.add('border-light-border');
-            });
-            const activeBtn = document.getElementById(`transfer-net-${network.toLowerCase()}`);
-            activeBtn.classList.add('active-network', 'bg-crypto-blue', 'text-white');
-            activeBtn.classList.remove('border-light-border');
-            currentFee = fee;
-            currentNetwork = network;
-            feeSpan.textContent = `${fee.toFixed(2)} USDT`;
-            calculateReceiveAmount();
-        }
-
-        netButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const network = btn.id.includes('trc20') ? 'TRC20' : (btn.id.includes('bep20') ? 'BEP20' : 'ERC20');
-                const fee = parseFloat(btn.dataset.fee);
-                setActiveTransferNetwork(network, fee);
-            });
-        });
-
-        function calculateReceiveAmount() {
-            const amount = parseFloat(amountInput.value) || 0;
-            const receive = Math.max(0, amount - currentFee);
-            receiveSpan.textContent = `${receive.toFixed(coinSelect.value === 'USDT' ? 2 : 6)} ${coinSelect.value}`;
-        }
-
-        coinSelect.addEventListener('change', () => {
-            updateTransferAvailable();
-            calculateReceiveAmount();
-        });
-
-        amountInput.addEventListener('input', calculateReceiveAmount);
-        
-        pasteBtn.addEventListener('click', async () => {
-            try {
-                const text = await navigator.clipboard.readText();
-                addressInput.value = text;
-            } catch (e) {
-                showToast('تعذر اللصق، ألصق يدوياً', true);
-            }
-        });
-
-        maxBtn.addEventListener('click', () => {
-            const coin = coinSelect.value;
-            const user = getCurrentUser();
-            if (!user) return;
-            let max = 0;
-            if (coin === 'USDT') max = user.balance || 0;
-            else if (coin === 'BTC') max = (user.balance * 0.4 / 68245.50) || 0;
-            else if (coin === 'ETH') max = (user.balance * 0.3 / 3421.80) || 0;
-            amountInput.value = max.toFixed(coin === 'USDT' ? 2 : 6);
-            calculateReceiveAmount();
-        });
-
-        confirmBtn.addEventListener('click', () => {
-            const coin = coinSelect.value;
-            const address = addressInput.value.trim();
-            const amount = parseFloat(amountInput.value);
-            errorDiv.classList.add('hidden');
-            
-            if (!address) {
-                errorDiv.textContent = 'الرجاء إدخال عنوان المستلم';
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-            if (isNaN(amount) || amount <= 0) {
-                errorDiv.textContent = 'المبلغ غير صحيح';
-                errorDiv.classList.remove('hidden');
-                return;
-            }
-            
-            const success = processTransfer(coin, currentNetwork, address, amount, currentFee);
-            if (success) {
-                modal.classList.add('hidden');
-                updateWalletModalData();
-            } else {
-                errorDiv.textContent = 'فشل التحويل، تأكد من الرصيد والعنوان';
-                errorDiv.classList.remove('hidden');
-            }
-        });
-
-        walletTransferBtn.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-            updateTransferAvailable();
-            setActiveTransferNetwork('TRC20', 1.0);
-            amountInput.value = '';
-            addressInput.value = '';
-            errorDiv.classList.add('hidden');
-        });
-
-        closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
-        modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
-    }
-
     // ---------- ربط الأحداث ----------
     document.addEventListener('DOMContentLoaded', () => {
         const TRC20_ADDRESS = 'TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN';
         const BEP20_ADDRESS = '0xe0e64955c9d15c093858902B9cb5A18507870BA5';
         
         initSyncPage();
-        initTransferModal();
         
         const tabLogin=document.getElementById('tab-login'), tabSignup=document.getElementById('tab-signup');
         const loginForm=document.getElementById('login-form'), signupForm=document.getElementById('signup-form');
@@ -1455,7 +1682,7 @@ here<!DOCTYPE html>
             if(pass!==confirm) { signupError.textContent='كلمتا المرور غير متطابقتين'; signupError.classList.remove('hidden'); return; }
             if(!agreeTerms.checked) { signupError.textContent='يجب الموافقة على الشروط'; signupError.classList.remove('hidden'); return; }
             if(findUserByEmail(email)) { signupError.textContent='البريد مسجل مسبقاً'; signupError.classList.remove('hidden'); return; }
-            const newUser = { fullName:name, email:email.toLowerCase(), password:btoa(pass), balance:0, transactions:[], joinDate: new Date().toISOString().split('T')[0] };
+            const newUser = { fullName:name, email:email.toLowerCase(), password:btoa(pass), balance:10000, btcBalance:0.15, ethBalance:1.2, transactions:[], joinDate: new Date().toISOString().split('T')[0] };
             const users = getUsers(); users.push(newUser); saveUsers(users);
             setSession(newUser, true);
             signupSuccess.textContent='✅ تم إنشاء الحساب!'; signupSuccess.classList.remove('hidden');
@@ -1526,6 +1753,8 @@ here<!DOCTYPE html>
         document.getElementById('home-withdraw-btn').addEventListener('click', openWithdrawModal);
         document.getElementById('account-deposit-btn').addEventListener('click', openDepositModal);
         document.getElementById('account-withdraw-btn').addEventListener('click', openWithdrawModal);
+        document.getElementById('wallet-page-deposit-btn').addEventListener('click', openDepositModal);
+        document.getElementById('wallet-page-withdraw-btn').addEventListener('click', openWithdrawModal);
         document.getElementById('cancel-deposit').addEventListener('click', closeModals);
         document.getElementById('cancel-withdraw').addEventListener('click', closeModals);
         copyBtn.addEventListener('click', () => navigator.clipboard?.writeText(depositAddressSpan.textContent).then(() => showToast('تم نسخ العنوان')).catch(() => showToast('انسخ يدوياً', true)));
@@ -1538,6 +1767,73 @@ here<!DOCTYPE html>
             const success = processWithdraw(address, amount);
             if (success) { closeModals(); }
             else { withdrawError.textContent = 'رصيد غير كافٍ أو خطأ'; withdrawError.classList.remove('hidden'); }
+        });
+
+        // قسم التحويل
+        const transferAssetOptions = document.querySelectorAll('.asset-option');
+        const transferNetworkTRC20 = document.getElementById('transfer-network-trc20');
+        const transferNetworkBEP20 = document.getElementById('transfer-network-bep20');
+        const transferNetworkERC20 = document.getElementById('transfer-network-erc20');
+        const transferAmount = document.getElementById('transfer-amount');
+        const transferMaxBtn = document.getElementById('transfer-max-btn');
+        const transferSubmit = document.getElementById('transfer-submit-btn');
+        const transferError = document.getElementById('transfer-error');
+        const transferRecipient = document.getElementById('transfer-recipient');
+        
+        let currentTransferNetwork = 'TRC20';
+        
+        transferAssetOptions.forEach(opt => {
+            opt.addEventListener('click', () => {
+                transferAssetOptions.forEach(o => o.classList.remove('active'));
+                opt.classList.add('active');
+                currentTransferAsset = opt.dataset.asset;
+                updateTransferAvailable();
+            });
+        });
+        
+        function setTransferActiveNetwork(network) {
+            currentTransferNetwork = network;
+            [transferNetworkTRC20, transferNetworkBEP20, transferNetworkERC20].forEach(btn => {
+                btn.classList.remove('active-network', 'bg-crypto-blue', 'text-white');
+                btn.classList.add('border-light-border');
+            });
+            if (network === 'TRC20') transferNetworkTRC20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
+            else if (network === 'BEP20') transferNetworkBEP20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
+            else if (network === 'ERC20') transferNetworkERC20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
+            calculateReceiveAmount();
+        }
+        
+        transferNetworkTRC20.addEventListener('click', () => setTransferActiveNetwork('TRC20'));
+        transferNetworkBEP20.addEventListener('click', () => setTransferActiveNetwork('BEP20'));
+        transferNetworkERC20.addEventListener('click', () => setTransferActiveNetwork('ERC20'));
+        
+        transferAmount.addEventListener('input', calculateReceiveAmount);
+        transferMaxBtn.addEventListener('click', () => {
+            const user = getCurrentUser();
+            if (!user) return;
+            let max = 0;
+            if (currentTransferAsset === 'USDT') max = user.balance || 0;
+            else if (currentTransferAsset === 'BTC') max = user.btcBalance || 0;
+            else if (currentTransferAsset === 'ETH') max = user.ethBalance || 0;
+            transferAmount.value = max.toFixed(currentTransferAsset==='USDT'?2:6);
+            calculateReceiveAmount();
+        });
+        
+        transferSubmit.addEventListener('click', () => {
+            const recipent = transferRecipient.value.trim();
+            const amount = parseFloat(transferAmount.value);
+            transferError.classList.add('hidden');
+            const result = processTransfer(currentTransferAsset, currentTransferNetwork, recipent, amount);
+            if (!result.success) {
+                transferError.textContent = result.message;
+                transferError.classList.remove('hidden');
+            } else {
+                showToast(`تم تحويل ${amount.toFixed(6)} ${currentTransferAsset} بنجاح`);
+                transferRecipient.value = '';
+                transferAmount.value = '';
+                calculateReceiveAmount();
+                updateTransferAvailable();
+            }
         });
 
         // مودال المزودين
@@ -1572,26 +1868,22 @@ here<!DOCTYPE html>
         const closeWalletBtn = document.getElementById('close-wallet-modal');
         const walletDepositBtn = document.getElementById('wallet-deposit-btn');
         const walletWithdrawBtn = document.getElementById('wallet-withdraw-btn');
+        const walletTransferBtn = document.getElementById('wallet-transfer-btn');
         
-        vWalletBtn.addEventListener('click', () => { 
-            updateWalletModalData(); 
-            walletModal.classList.remove('hidden'); 
-        });
+        vWalletBtn.addEventListener('click', () => { updateWalletModalData(); walletModal.classList.remove('hidden'); });
         closeWalletBtn.addEventListener('click', () => walletModal.classList.add('hidden'));
         walletModal.addEventListener('click', (e) => { if (e.target === walletModal) walletModal.classList.add('hidden'); });
         walletDepositBtn.addEventListener('click', () => { walletModal.classList.add('hidden'); openDepositModal(); });
         walletWithdrawBtn.addEventListener('click', () => { walletModal.classList.add('hidden'); openWithdrawModal(); });
+        walletTransferBtn.addEventListener('click', () => { walletModal.classList.add('hidden'); switchPage('wallet'); });
 
         // أزرار الإطار الزمني
         document.querySelectorAll('.timeframe-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const tf = btn.dataset.tf;
-                changeTimeframe(tf);
-            });
+            btn.addEventListener('click', () => changeTimeframe(btn.dataset.tf));
         });
 
         // التنقل السفلي
-        navItems.forEach(item => { item.addEventListener('click', () => { const page = item.dataset.page; switchPage(page); }); });
+        navItems.forEach(item => { item.addEventListener('click', () => switchPage(item.dataset.page)); });
 
         // تسجيل الخروج
         function logout() { 
@@ -1624,4 +1916,4 @@ here<!DOCTYPE html>
     });
 </script>
 </body>
-    </html>
+                </html>
