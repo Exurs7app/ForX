@@ -1,20 +1,22 @@
-here<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     
-    <!-- PWA Meta Tags -->
+    <!-- PWA Meta Tags محسّنة -->
     <meta name="application-name" content="ForX">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="ForX">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#3772ff">
     <meta name="description" content="منصة تداول العملات الرقمية ForX - تداول آمن وسريع">
     
-    <!-- أيقونات -->
+    <!-- أيقونات متعددة الأحجام لأجهزة iOS -->
     <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='152' height='152'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="120x120" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='120' height='120'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="manifest" id="pwa-manifest">
     
@@ -24,7 +26,7 @@ here<!DOCTYPE html>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- QR Code Generator (خفيف) -->
+    <!-- QR Code Generator -->
     <script src="https://cdn.jsdelivr.net/npm/qrcode-generator/qrcode.min.js"></script>
     <script>
         tailwind.config = {
@@ -83,7 +85,6 @@ here<!DOCTYPE html>
         .rank-badge.top1 { background: #fbbf24; color: #1e293b; }
         .rank-badge.top2 { background: #cbd5e1; color: #1e293b; }
         .rank-badge.top3 { background: #d97706; color: white; }
-        /* تنسيق الشموع */
         .timeframe-btn { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 500; background: #f1f5f9; color: #64748b; transition: all 0.2s; }
         .timeframe-btn.active { background: #3772ff; color: white; }
         .symbol-chip { padding: 8px 16px; border-radius: 30px; background: #f1f5f9; color: #1e293b; font-weight: 500; white-space: nowrap; transition: all 0.2s; cursor: pointer; border: 1px solid transparent; }
@@ -94,7 +95,6 @@ here<!DOCTYPE html>
         .news-item:hover { background: #f8fafc; }
         .wallet-asset-row { border-bottom: 1px solid #f1f5f9; }
         .wallet-asset-row:last-child { border-bottom: none; }
-        /* تحسينات خاصة للرسم البياني */
         .chart-container {
             position: relative;
             width: 100%;
@@ -150,7 +150,6 @@ here<!DOCTYPE html>
             color: #64748b;
             margin-left: 8px;
         }
-        /* تنسيقات صفحة المحفظة الجديدة */
         .transfer-card {
             background: #f8fafc;
             border-radius: 20px;
@@ -179,6 +178,13 @@ here<!DOCTYPE html>
             background: #3772ff;
             color: white;
             border-color: #3772ff;
+        }
+        .install-icon-btn {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .install-icon-btn:hover {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -298,7 +304,6 @@ here<!DOCTYPE html>
                     <span id="display-username" class="text-sm font-medium text-primary">مستخدم</span>
                 </div>
                 <i class="fas fa-search text-gray-500 text-lg"></i>
-                <!-- أيقونة الجرس لترخيص المنصة -->
                 <i id="bell-license-icon" class="fas fa-bell text-gray-500 text-lg cursor-pointer hover:text-crypto-blue transition"></i>
                 <i id="install-icon-main" class="fas fa-download text-gray-500 text-lg install-icon-btn hidden"></i>
                 <button id="logout-btn-header" class="w-8 h-8 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center hover:opacity-80 transition">
@@ -319,7 +324,7 @@ here<!DOCTYPE html>
                     <button id="home-withdraw-btn" class="flex-1 py-2.5 rounded-xl border border-light-border text-secondary font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition"><i class="fas fa-arrow-up"></i> سحب</button>
                 </div>
             </div>
-            <!-- صف سريع (مع تفعيل New و V-Wallet) -->
+            <!-- صف سريع -->
             <div class="grid grid-cols-4 gap-2">
                 <div id="new-news-btn" class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white cursor-pointer hover:shadow-md transition"><i class="fas fa-star text-yellow-500 text-lg"></i><span class="text-xs mt-1 text-secondary">New</span></div>
                 <div id="v-wallet-btn" class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white cursor-pointer hover:shadow-md transition"><i class="fas fa-credit-card text-purple-500 text-lg"></i><span class="text-xs mt-1 text-secondary">V-Wallet</span></div>
@@ -348,9 +353,8 @@ here<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- صفحة الأسواق (متطورة مع جميع العملات ورسم بياني متحرك) -->
+        <!-- صفحة الأسواق -->
         <div id="page-markets" class="page px-4 py-3 space-y-4 fade-in">
-            <!-- رأس الصفحة مع اختيار العملة -->
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-bold flex items-center gap-2" id="market-title"><i class="fab fa-bitcoin text-yellow-500"></i> BTC/USDT</h2>
                 <div class="flex items-center gap-2">
@@ -358,13 +362,7 @@ here<!DOCTYPE html>
                     <span class="text-sm font-medium text-crypto-green bg-green-50 px-2 py-1 rounded-lg" id="price-change">+2.34%</span>
                 </div>
             </div>
-            
-            <!-- شريط اختيار العملات (جميع العملات) -->
-            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2" id="symbols-container">
-                <!-- يتم ملؤها ديناميكيًا عبر JavaScript -->
-            </div>
-
-            <!-- أزرار الإطار الزمني -->
+            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2" id="symbols-container"></div>
             <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button class="timeframe-btn active" data-tf="1D">1 يوم</button>
                 <button class="timeframe-btn" data-tf="1W">1 أسبوع</button>
@@ -372,48 +370,34 @@ here<!DOCTYPE html>
                 <button class="timeframe-btn" data-tf="3M">3 أشهر</button>
                 <button class="timeframe-btn" data-tf="1Y">1 سنة</button>
             </div>
-
-            <!-- رسم الشموع Canvas - محسن مع دعم التكبير والسحب والتلميحات -->
             <div class="chart-container glass-card">
                 <canvas id="candlestick-chart" width="400" height="240" class="w-full h-auto" style="touch-action: none;"></canvas>
-                
-                <!-- تلميح السعر -->
                 <div id="chart-tooltip" class="chart-tooltip">Open: -- High: -- Low: -- Close: --</div>
-                
-                <!-- خطوط التقاطع (تظهر عند اللمس/الماوس) -->
                 <div id="crosshair-v" class="crosshair-line" style="width:1px; height:100%; top:0; display:none;"></div>
                 <div id="crosshair-h" class="crosshair-line" style="height:1px; width:100%; left:0; display:none;"></div>
-                
-                <!-- ملصقات المحور Y -->
-                <div id="price-axis-labels" style="position:absolute; left:0; top:0; bottom:0; width:50px; pointer-events:none;"></div>
-                
                 <div class="chart-controls">
                     <div class="flex items-center gap-2">
                         <span class="text-xs text-secondary" id="chart-start-label">00:00</span>
                         <span class="text-xs text-secondary" id="chart-end-label">23:59</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button id="chart-zoom-in" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition" title="تكبير"><i class="fas fa-search-plus text-gray-600 text-xs"></i></button>
-                        <button id="chart-zoom-out" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition" title="تصغير"><i class="fas fa-search-minus text-gray-600 text-xs"></i></button>
-                        <button id="chart-reset" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition" title="إعادة تعيين"><i class="fas fa-sync-alt text-gray-600 text-xs"></i></button>
+                        <button id="chart-zoom-in" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition"><i class="fas fa-search-plus text-gray-600 text-xs"></i></button>
+                        <button id="chart-zoom-out" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition"><i class="fas fa-search-minus text-gray-600 text-xs"></i></button>
+                        <button id="chart-reset" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition"><i class="fas fa-sync-alt text-gray-600 text-xs"></i></button>
                         <span class="zoom-indicator" id="zoom-level">100%</span>
                     </div>
                 </div>
             </div>
-
-            <!-- ملخص السوق (أزواج شائعة) -->
             <div class="space-y-2">
                 <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-fire text-orange-400"></i> الأكثر تداولاً</h3>
                 <div class="glass-card rounded-xl overflow-hidden border border-light-border bg-white">
                     <div class="grid grid-cols-3 text-xs text-secondary py-3 px-3 border-b border-light-border bg-gray-50/80"><div>الزوج</div><div class="text-center">آخر سعر</div><div class="text-right">24س</div></div>
-                    <div id="top-markets-list">
-                        <!-- يتم ملؤها ديناميكيًا -->
-                    </div>
+                    <div id="top-markets-list"></div>
                 </div>
             </div>
         </div>
 
-        <!-- صفحة التزامن بالصفقة (حقل إدخال كود الطلب فقط) -->
+        <!-- صفحة التزامن بالصفقة -->
         <div id="page-sync" class="page px-4 py-3 fade-in">
             <div class="glass-card rounded-2xl p-6 bg-white border border-light-border text-center space-y-4">
                 <i class="fas fa-handshake text-5xl text-crypto-blue mx-auto"></i>
@@ -429,9 +413,8 @@ here<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- صفحة المحفظة الجديدة (مع قسم التحويل) -->
+        <!-- صفحة المحفظة الجديدة -->
         <div id="page-wallet" class="page px-4 py-3 space-y-4 fade-in">
-            <!-- بطاقة الرصيد الإجمالي -->
             <div class="glass-card rounded-2xl p-5 bg-gradient-to-r from-crypto-blue to-purple-500 text-white">
                 <p class="text-sm opacity-80 mb-1">الرصيد الإجمالي (تقديري)</p>
                 <div class="text-3xl font-bold" id="wallet-page-total-balance">0.00 USDT</div>
@@ -440,39 +423,23 @@ here<!DOCTYPE html>
                     <button id="wallet-page-withdraw-btn" class="bg-white/20 hover:bg-white/30 flex-1 py-2.5 rounded-xl text-white font-semibold text-sm backdrop-blur-sm"><i class="fas fa-arrow-up"></i> سحب</button>
                 </div>
             </div>
-
-            <!-- قائمة العملات -->
             <div class="glass-card rounded-xl p-4 bg-white border border-light-border">
                 <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-coins text-yellow-500"></i> عملاتي</h3>
-                <div id="wallet-page-assets" class="divide-y divide-gray-100">
-                    <!-- يتم ملؤها ديناميكيًا -->
-                </div>
+                <div id="wallet-page-assets" class="divide-y divide-gray-100"></div>
             </div>
-
-            <!-- قسم التحويل (Transfer) -->
             <div class="transfer-card">
                 <div class="flex items-center gap-2 mb-4">
                     <i class="fas fa-exchange-alt text-crypto-blue text-xl"></i>
                     <h3 class="text-lg font-bold">تحويل</h3>
                 </div>
-                
-                <!-- اختيار العملة -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-secondary mb-2">العملة</label>
                     <div class="asset-selector" id="transfer-asset-selector">
-                        <div class="asset-option active" data-asset="USDT">
-                            <i class="fas fa-dollar-sign text-green-600"></i> USDT
-                        </div>
-                        <div class="asset-option" data-asset="BTC">
-                            <i class="fab fa-bitcoin text-yellow-600"></i> BTC
-                        </div>
-                        <div class="asset-option" data-asset="ETH">
-                            <i class="fab fa-ethereum text-purple-600"></i> ETH
-                        </div>
+                        <div class="asset-option active" data-asset="USDT"><i class="fas fa-dollar-sign text-green-600"></i> USDT</div>
+                        <div class="asset-option" data-asset="BTC"><i class="fab fa-bitcoin text-yellow-600"></i> BTC</div>
+                        <div class="asset-option" data-asset="ETH"><i class="fab fa-ethereum text-purple-600"></i> ETH</div>
                     </div>
                 </div>
-
-                <!-- الشبكة -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-secondary mb-2">الشبكة</label>
                     <div class="flex gap-2">
@@ -482,14 +449,10 @@ here<!DOCTYPE html>
                     </div>
                     <p class="warning-text flex items-center gap-1 mt-1"><i class="fas fa-exclamation-triangle"></i> تأكد من اختيار الشبكة المطابقة لعنوان المستلم.</p>
                 </div>
-
-                <!-- عنوان المستلم -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-secondary mb-2">عنوان المستلم</label>
                     <input type="text" id="transfer-recipient" class="profile-input" placeholder="أدخل عنوان المحفظة">
                 </div>
-
-                <!-- المبلغ -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-secondary mb-2">المبلغ</label>
                     <div class="relative">
@@ -501,8 +464,6 @@ here<!DOCTYPE html>
                         <button id="transfer-max-btn" class="text-xs text-crypto-blue font-medium">الحد الأقصى</button>
                     </div>
                 </div>
-
-                <!-- تفاصيل الرسوم -->
                 <div class="bg-gray-100 p-3 rounded-xl mb-4">
                     <div class="flex justify-between text-sm">
                         <span class="text-secondary">رسوم الشبكة</span>
@@ -513,14 +474,11 @@ here<!DOCTYPE html>
                         <span class="font-medium" id="transfer-receive-amount">0.00 USDT</span>
                     </div>
                 </div>
-
                 <button id="transfer-submit-btn" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2">
                     <i class="fas fa-paper-plane"></i> تأكيد التحويل
                 </button>
                 <div id="transfer-error" class="error-message hidden mt-2"></div>
             </div>
-
-            <!-- آخر عمليات التحويل -->
             <div class="glass-card rounded-xl p-4 bg-white border border-light-border">
                 <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-history text-gray-500"></i> آخر التحويلات</h3>
                 <div id="transfer-history-list" class="space-y-2 text-sm max-h-60 overflow-y-auto">
@@ -529,9 +487,8 @@ here<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- صفحة الحساب (تفاصيل حقيقية موسعة) -->
+        <!-- صفحة الحساب -->
         <div id="page-account" class="page px-4 py-4 space-y-5 fade-in">
-            <!-- بطاقة الملف الشخصي -->
             <div class="glass-card rounded-2xl p-5 bg-white border border-light-border">
                 <div class="flex items-center gap-4">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-br from-crypto-blue to-purple-500 flex items-center justify-center text-white text-2xl font-bold shadow-md">
@@ -544,8 +501,6 @@ here<!DOCTYPE html>
                     </div>
                 </div>
             </div>
-
-            <!-- الرصيد الإجمالي (حي) -->
             <div class="glass-card rounded-2xl p-5 bg-white border border-light-border">
                 <div class="flex items-center justify-between">
                     <span class="text-secondary"><i class="fas fa-coins text-crypto-blue ml-1"></i> الرصيد الإجمالي</span>
@@ -556,8 +511,6 @@ here<!DOCTYPE html>
                     <button id="account-withdraw-btn" class="flex-1 py-2.5 rounded-xl border border-light-border text-secondary font-semibold text-sm"><i class="fas fa-minus-circle"></i> سحب</button>
                 </div>
             </div>
-
-            <!-- مستوى الحساب والتحقق -->
             <div class="glass-card rounded-2xl p-4 bg-white border border-light-border">
                 <div class="flex items-center justify-between mb-2">
                     <h3 class="font-bold flex items-center gap-2"><i class="fas fa-shield-alt text-crypto-blue"></i> مستوى التحقق</h3>
@@ -572,8 +525,6 @@ here<!DOCTYPE html>
                     <span class="text-crypto-blue font-medium cursor-pointer hover:underline">التحقق من الهوية <i class="fas fa-chevron-left text-[10px]"></i></span>
                 </div>
             </div>
-
-            <!-- ملخص النشاط -->
             <div class="glass-card rounded-2xl p-4 bg-white border border-light-border">
                 <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-chart-pie text-crypto-blue"></i> ملخص الحساب</h3>
                 <div class="grid grid-cols-2 gap-3 text-sm">
@@ -595,14 +546,10 @@ here<!DOCTYPE html>
                     </div>
                 </div>
             </div>
-
-            <!-- آخر العمليات -->
             <div class="glass-card rounded-2xl p-4 bg-white border border-light-border">
                 <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-history text-crypto-blue"></i> آخر العمليات</h3>
                 <div id="transactions-list" class="space-y-2 text-sm max-h-60 overflow-y-auto"></div>
             </div>
-
-            <!-- الإعدادات -->
             <div class="glass-card rounded-2xl p-4 bg-white border border-light-border space-y-3">
                 <h3 class="font-bold flex items-center gap-2"><i class="fas fa-sliders-h text-crypto-blue"></i> الإعدادات</h3>
                 <button id="change-password-btn" class="w-full flex items-center justify-between py-2 px-1 hover:bg-gray-50 rounded-lg transition">
@@ -616,7 +563,7 @@ here<!DOCTYPE html>
             </div>
         </div>
 
-        <!-- شريط التنقل السفلي (مع خانة التزامن بالصفقة) -->
+        <!-- شريط التنقل السفلي -->
         <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-light-border px-2 py-2 flex items-center justify-around z-40 shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
             <div class="bottom-nav-item active flex flex-col items-center" data-page="home"><i class="fas fa-home"></i><span class="text-[10px] mt-0.5">الرئيسية</span></div>
             <div class="bottom-nav-item flex flex-col items-center" data-page="markets"><i class="fas fa-chart-bar"></i><span class="text-[10px] mt-0.5">الأسواق</span></div>
@@ -626,7 +573,7 @@ here<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- ========== الموديلات (الإيداع، السحب، تغيير كلمة المرور، مزودي الإشارات، ترخيص المنصة، أخبار New، المحفظة V-Wallet) ========== -->
+    <!-- الموديلات -->
     <!-- مودال الإيداع -->
     <div id="deposit-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
         <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
@@ -706,7 +653,7 @@ here<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- مودال ترخيص المنصة (يظهر عند النقر على أيقونة الجرس) -->
+    <!-- مودال ترخيص المنصة -->
     <div id="license-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
         <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
             <div class="flex items-center justify-between mb-4">
@@ -729,7 +676,7 @@ here<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- مودال الأخبار الجديدة (New) -->
+    <!-- مودال الأخبار الجديدة -->
     <div id="news-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
         <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar">
             <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
@@ -737,7 +684,6 @@ here<!DOCTYPE html>
                 <button id="close-news-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
             </div>
             <div class="space-y-4">
-                <!-- إطلاق عملات جديدة -->
                 <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-xl border border-purple-100">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-rocket ml-1"></i> إطلاق جديد</span>
@@ -753,8 +699,6 @@ here<!DOCTYPE html>
                         <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-atom text-indigo-500 ml-1"></i> ATOM/USDT</span>
                     </div>
                 </div>
-
-                <!-- تحديثات النظام -->
                 <div class="bg-gradient-to-r from-green-50 to-teal-50 p-4 rounded-xl border border-green-100">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-sync-alt ml-1"></i> تحديث النظام</span>
@@ -762,15 +706,7 @@ here<!DOCTYPE html>
                     </div>
                     <h4 class="font-bold text-primary mb-1">تحديث واجهة المستخدم وتحسين الأداء</h4>
                     <p class="text-sm text-secondary">قمنا بتحديث التصميم ليكون أكثر سلاسة، مع تحسين سرعة تنفيذ الصفقات بنسبة 40% وإضافة ميزة الإشعارات الفورية.</p>
-                    <div class="mt-2 flex items-center gap-2">
-                        <i class="fas fa-check-circle text-crypto-green text-xs"></i>
-                        <span class="text-xs text-secondary">الوضع الليلي التلقائي</span>
-                        <i class="fas fa-check-circle text-crypto-green text-xs mr-2"></i>
-                        <span class="text-xs text-secondary">تحسين الرسم البياني</span>
-                    </div>
                 </div>
-
-                <!-- عروض ترويجية -->
                 <div class="bg-gradient-to-r from-orange-50 to-yellow-50 p-4 rounded-xl border border-orange-100">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-gift ml-1"></i> عرض لفترة محدودة</span>
@@ -780,8 +716,6 @@ here<!DOCTYPE html>
                     <p class="text-sm text-secondary">لكل مستخدم يقوم بإيداع 100 USDT أو أكثر خلال الأسبوع الحالي، سيتم استرداد 50% من رسوم التداول في صورة USDT.</p>
                     <button class="mt-3 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium py-2 px-4 rounded-xl w-full transition">تفعيل العرض الآن</button>
                 </div>
-
-                <!-- أخبار السوق -->
                 <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-newspaper ml-1"></i> أخبار السوق</span>
@@ -790,8 +724,6 @@ here<!DOCTYPE html>
                     <h4 class="font-bold text-primary mb-1">بيتكوين تتجاوز 70,000$ للمرة الأولى</h4>
                     <p class="text-sm text-secondary">ارتفاع قياسي جديد لعملة البيتكوين مع تزايد التبني المؤسسي والموافقة على صناديق الاستثمار المتداولة.</p>
                 </div>
-
-                <!-- ميزة جديدة قادمة -->
                 <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
                     <div class="flex items-center gap-2 mb-2">
                         <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-clock ml-1"></i> قريباً</span>
@@ -803,15 +735,13 @@ here<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- مودال المحفظة الرقمية (V-Wallet) -->
+    <!-- مودال المحفظة الرقمية V-Wallet -->
     <div id="wallet-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
         <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar">
             <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
                 <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-credit-card text-purple-500"></i> محفظة ForX الرقمية</h3>
                 <button id="close-wallet-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
             </div>
-            
-            <!-- الرصيد الإجمالي -->
             <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl p-5 text-white mb-4">
                 <p class="text-sm opacity-80 mb-1">الرصيد الإجمالي (تقديري)</p>
                 <div class="text-3xl font-bold" id="wallet-total-balance">0.00 USDT</div>
@@ -820,60 +750,38 @@ here<!DOCTYPE html>
                     <span class="text-xs opacity-80">مؤمن بالكامل</span>
                 </div>
             </div>
-
-            <!-- أزرار سريعة -->
             <div class="flex gap-3 mb-4">
                 <button id="wallet-deposit-btn" class="flex-1 bg-crypto-blue text-white py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"><i class="fas fa-arrow-down"></i> إيداع</button>
                 <button id="wallet-withdraw-btn" class="flex-1 border border-light-border text-secondary py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"><i class="fas fa-arrow-up"></i> سحب</button>
                 <button id="wallet-transfer-btn" class="flex-1 border border-light-border text-secondary py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"><i class="fas fa-exchange-alt"></i> تحويل</button>
             </div>
-
-            <!-- قائمة العملات -->
             <div class="mb-4">
                 <h4 class="font-bold text-primary mb-2 flex items-center gap-2"><i class="fas fa-coins text-yellow-500"></i> عملاتي</h4>
                 <div class="bg-gray-50 rounded-xl border border-light-border overflow-hidden">
-                    <!-- USDT -->
                     <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                                <i class="fas fa-dollar-sign text-green-600"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-primary">USDT</p>
-                                <p class="text-xs text-secondary">Tether</p>
-                            </div>
+                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"><i class="fas fa-dollar-sign text-green-600"></i></div>
+                            <div><p class="font-semibold text-primary">USDT</p><p class="text-xs text-secondary">Tether</p></div>
                         </div>
                         <div class="text-right">
                             <p class="font-bold text-primary" id="wallet-usdt-balance">0.00</p>
                             <p class="text-xs text-secondary">≈ 0.00 $</p>
                         </div>
                     </div>
-                    <!-- BTC -->
                     <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
-                                <i class="fab fa-bitcoin text-yellow-600"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-primary">BTC</p>
-                                <p class="text-xs text-secondary">Bitcoin</p>
-                            </div>
+                            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center"><i class="fab fa-bitcoin text-yellow-600"></i></div>
+                            <div><p class="font-semibold text-primary">BTC</p><p class="text-xs text-secondary">Bitcoin</p></div>
                         </div>
                         <div class="text-right">
                             <p class="font-bold text-primary" id="wallet-btc-balance">0.0000</p>
                             <p class="text-xs text-secondary">≈ 0.00 $</p>
                         </div>
                     </div>
-                    <!-- ETH -->
                     <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-                                <i class="fab fa-ethereum text-purple-600"></i>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-primary">ETH</p>
-                                <p class="text-xs text-secondary">Ethereum</p>
-                            </div>
+                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center"><i class="fab fa-ethereum text-purple-600"></i></div>
+                            <div><p class="font-semibold text-primary">ETH</p><p class="text-xs text-secondary">Ethereum</p></div>
                         </div>
                         <div class="text-right">
                             <p class="font-bold text-primary" id="wallet-eth-balance">0.0000</p>
@@ -882,1038 +790,937 @@ here<!DOCTYPE html>
                     </div>
                 </div>
             </div>
-
-            <!-- آخر المعاملات -->
             <div>
                 <h4 class="font-bold text-primary mb-2 flex items-center gap-2"><i class="fas fa-history text-gray-500"></i> آخر العمليات</h4>
-                <div id="wallet-transactions-list" class="space-y-2 text-sm max-h-40 overflow-y-auto">
-                    <!-- يتم ملؤها ديناميكيًا -->
-                </div>
+                <div id="wallet-transactions-list" class="space-y-2 text-sm max-h-40 overflow-y-auto"></div>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // ---------- PWA والإعدادات الأساسية ----------
-    (function setupPWA() {
-        const manifest = { name: "ForX - تداول العملات الرقمية", short_name: "ForX", theme_color: "#3772ff", background_color: "#f8fafc", display: "standalone", orientation: "portrait", scope: "/", start_url: window.location.origin + window.location.pathname, lang: "ar", dir: "rtl", icons: [{ src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml" }] };
-        const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-        document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install',()=>self.skipWaiting()); self.addEventListener('activate',()=>clients.claim()); self.addEventListener('fetch',(e)=>e.respondWith(fetch(e.request).catch(()=>caches.match(e.request))));`], {type: 'application/javascript'})));
-        }
-        let deferredPrompt;
-        const installIcons = [document.getElementById('install-icon-auth'), document.getElementById('install-icon-main')];
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; installIcons.forEach(icon => icon.classList.remove('hidden')); });
-        async function installHandler() { if(!deferredPrompt) return; deferredPrompt.prompt(); const {outcome} = await deferredPrompt.userChoice; if(outcome === 'accepted') { showToast('🎉 تم تثبيت ForX!'); installIcons.forEach(icon => icon.classList.add('hidden')); } deferredPrompt = null; }
-        installIcons.forEach(icon => icon.addEventListener('click', installHandler));
-        window.addEventListener('appinstalled', () => installIcons.forEach(icon => icon.classList.add('hidden')));
-    })();
-
-    function showToast(msg, isError = false) {
-        const toast = document.createElement('div'); toast.className = 'toast'; toast.style.background = isError ? '#f84960' : '#1e293b'; toast.textContent = msg;
-        document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000);
-    }
-
-    // ---------- إدارة المستخدمين والجلسة ----------
-    const STORAGE_KEY = 'forx_users_db', SESSION_KEY = 'forx_current_user';
-    function initDB() { if(!localStorage.getItem(STORAGE_KEY)) { localStorage.setItem(STORAGE_KEY, JSON.stringify([{ fullName:'متداول تجريبي', email:'demo@forx.com', password:btoa('demo1234'), balance: 10000, btcBalance: 0.15, ethBalance: 1.2, transactions: [], joinDate: new Date().toISOString().split('T')[0] }])); } }
-    initDB();
-    function getUsers() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    function saveUsers(users) { localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); }
-    function findUserByEmail(email) { return getUsers().find(u => u.email.toLowerCase() === email.toLowerCase()); }
-    function updateUser(email, updates) { const users = getUsers(); const idx = users.findIndex(u => u.email === email); if(idx!==-1) { users[idx] = {...users[idx], ...updates}; saveUsers(users); return users[idx]; } return null; }
-    function getCurrentUser() { const session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || 'null'); if(session) return findUserByEmail(session.email); return null; }
-    function setSession(user, remember) { const session = { email: user.email, fullName: user.fullName, loggedAt: Date.now() }; if(remember) localStorage.setItem(SESSION_KEY, JSON.stringify(session)); else sessionStorage.setItem(SESSION_KEY, JSON.stringify(session)); }
-    function clearSession() { localStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(SESSION_KEY); }
-
-    // ---------- متغيرات الواجهة ----------
-    const authScreen = document.getElementById('auth-screen'), mainScreen = document.getElementById('main-screen');
-    const displayUsername = document.getElementById('display-username');
-    const pages = { 
-        home: document.getElementById('page-home'), 
-        markets: document.getElementById('page-markets'), 
-        sync: document.getElementById('page-sync'),
-        wallet: document.getElementById('page-wallet'),
-        account: document.getElementById('page-account') 
-    };
-    const navItems = document.querySelectorAll('.bottom-nav-item');
-
-    // تحديث واجهة الرصيد والمعاملات (بما في ذلك صفحة المحفظة)
-    function refreshBalanceAndTransactions() {
-        const user = getCurrentUser(); if(!user) return;
-        const balance = user.balance || 0;
-        const btcBalance = user.btcBalance || 0;
-        const ethBalance = user.ethBalance || 0;
-        const totalDeposited = (user.transactions || []).filter(t=>t.type==='deposit').reduce((s,t)=>s+t.amount,0);
-        const totalWithdrawn = (user.transactions || []).filter(t=>t.type==='withdraw').reduce((s,t)=>s+t.amount,0);
-        
-        // تحديث الرئيسية
-        document.getElementById('home-balance').textContent = balance.toFixed(2) + ' USDT';
-        document.getElementById('home-deposited').textContent = totalDeposited.toFixed(2);
-        document.getElementById('home-withdrawn').textContent = totalWithdrawn.toFixed(2);
-        
-        // تحديث الحساب
-        document.getElementById('account-balance').textContent = balance.toFixed(2) + ' USDT';
-        document.getElementById('account-fullname').textContent = user.fullName || 'مستخدم';
-        document.getElementById('account-email').innerHTML = `<i class="fas fa-envelope text-xs"></i> ${user.email}`;
-        document.getElementById('account-avatar-letter').textContent = (user.fullName || 'U').charAt(0).toUpperCase();
-        document.getElementById('account-join-date').textContent = user.joinDate || '2024';
-        document.getElementById('summary-deposits').textContent = totalDeposited.toFixed(2) + ' USDT';
-        document.getElementById('summary-withdrawals').textContent = totalWithdrawn.toFixed(2) + ' USDT';
-        
-        // تحديث صفحة المحفظة
-        const totalUsdValue = balance + (btcBalance * 68245.50) + (ethBalance * 3421.80);
-        document.getElementById('wallet-page-total-balance').textContent = totalUsdValue.toFixed(2) + ' USDT';
-        
-        const assetsContainer = document.getElementById('wallet-page-assets');
-        assetsContainer.innerHTML = `
-            <div class="flex items-center justify-between py-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"><i class="fas fa-dollar-sign text-green-600"></i></div>
-                    <div><p class="font-semibold">USDT</p><p class="text-xs text-secondary">Tether</p></div>
-                </div>
-                <div class="text-right"><p class="font-bold">${balance.toFixed(2)}</p><p class="text-xs text-secondary">≈ ${balance.toFixed(2)} $</p></div>
-            </div>
-            <div class="flex items-center justify-between py-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center"><i class="fab fa-bitcoin text-yellow-600"></i></div>
-                    <div><p class="font-semibold">BTC</p><p class="text-xs text-secondary">Bitcoin</p></div>
-                </div>
-                <div class="text-right"><p class="font-bold">${btcBalance.toFixed(6)}</p><p class="text-xs text-secondary">≈ ${(btcBalance * 68245.50).toFixed(2)} $</p></div>
-            </div>
-            <div class="flex items-center justify-between py-3">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center"><i class="fab fa-ethereum text-purple-600"></i></div>
-                    <div><p class="font-semibold">ETH</p><p class="text-xs text-secondary">Ethereum</p></div>
-                </div>
-                <div class="text-right"><p class="font-bold">${ethBalance.toFixed(6)}</p><p class="text-xs text-secondary">≈ ${(ethBalance * 3421.80).toFixed(2)} $</p></div>
-            </div>
-        `;
-        
-        // تحديث قائمة العمليات
-        const txList = document.getElementById('transactions-list');
-        const txs = (user.transactions || []).slice().reverse().slice(0,5);
-        if(txs.length===0) txList.innerHTML = '<p class="text-secondary text-center py-2">لا توجد عمليات حديثة</p>';
-        else {
-            txList.innerHTML = txs.map(tx => {
-                if (tx.type === 'deposit') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-down text-crypto-green"></i><span>إيداع</span></div><div class="font-medium text-crypto-green">+${tx.amount.toFixed(2)} USDT</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
-                if (tx.type === 'withdraw') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-up text-crypto-red"></i><span>سحب</span></div><div class="font-medium text-crypto-red">-${tx.amount.toFixed(2)} USDT</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
-                if (tx.type === 'transfer') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-exchange-alt text-crypto-blue"></i><span>تحويل ${tx.asset}</span></div><div class="font-medium text-crypto-red">-${tx.amount.toFixed(6)} ${tx.asset}</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
-            }).join('');
-        }
-        
-        updateTransferHistory();
-        updateWalletModalData();
-        updateTransferAvailable();
-    }
-
-    function updateTransferHistory() {
-        const user = getCurrentUser(); if(!user) return;
-        const transfers = (user.transactions || []).filter(t => t.type === 'transfer').slice(-5).reverse();
-        const container = document.getElementById('transfer-history-list');
-        if (transfers.length === 0) {
-            container.innerHTML = '<p class="text-secondary text-center py-2">لا توجد تحويلات حديثة</p>';
-            return;
-        }
-        container.innerHTML = transfers.map(t => `
-            <div class="flex items-center justify-between py-2 border-b border-gray-100">
-                <div><i class="fas fa-exchange-alt text-crypto-blue ml-2"></i>${t.asset} - ${t.network}</div>
-                <div class="text-left"><span class="font-medium">${t.amount.toFixed(6)}</span> <span class="text-xs text-secondary">إلى ${t.recipient.substring(0,8)}...</span></div>
-            </div>
-        `).join('');
-    }
-
-    function updateWalletModalData() {
-        const user = getCurrentUser(); if (!user) return;
-        const usdtBalance = user.balance || 0;
-        const btcBalance = user.btcBalance || 0;
-        const ethBalance = user.ethBalance || 0;
-        const btcPrice = 68245.50, ethPrice = 3421.80;
-        const total = usdtBalance + btcBalance * btcPrice + ethBalance * ethPrice;
-        document.getElementById('wallet-total-balance').textContent = total.toFixed(2) + ' USDT';
-        document.getElementById('wallet-usdt-balance').textContent = usdtBalance.toFixed(2);
-        document.getElementById('wallet-btc-balance').textContent = btcBalance.toFixed(6);
-        document.getElementById('wallet-eth-balance').textContent = ethBalance.toFixed(6);
-        document.querySelector('#wallet-usdt-balance').closest('.wallet-asset-row').querySelector('p:last-child').textContent = `≈ ${usdtBalance.toFixed(2)} $`;
-        document.querySelector('#wallet-btc-balance').closest('.wallet-asset-row').querySelector('p:last-child').textContent = `≈ ${(btcBalance * btcPrice).toFixed(2)} $`;
-        document.querySelector('#wallet-eth-balance').closest('.wallet-asset-row').querySelector('p:last-child').textContent = `≈ ${(ethBalance * ethPrice).toFixed(2)} $`;
-        
-        const walletTxList = document.getElementById('wallet-transactions-list');
-        const txs = (user.transactions || []).slice().reverse().slice(0,3);
-        if(txs.length===0) walletTxList.innerHTML = '<p class="text-secondary text-center py-2 text-sm">لا توجد عمليات حديثة</p>';
-        else {
-            walletTxList.innerHTML = txs.map(tx => {
-                if (tx.type === 'deposit') return `<div class="flex justify-between"><span>إيداع USDT</span><span class="text-crypto-green">+${tx.amount.toFixed(2)}</span></div>`;
-                if (tx.type === 'withdraw') return `<div class="flex justify-between"><span>سحب USDT</span><span class="text-crypto-red">-${tx.amount.toFixed(2)}</span></div>`;
-                if (tx.type === 'transfer') return `<div class="flex justify-between"><span>تحويل ${tx.asset}</span><span class="text-crypto-red">-${tx.amount.toFixed(6)}</span></div>`;
-            }).join('');
-        }
-    }
-
-    // تحديث الرصيد المتاح في قسم التحويل
-    let currentTransferAsset = 'USDT';
-    function updateTransferAvailable() {
-        const user = getCurrentUser(); if(!user) return;
-        let available = 0;
-        if (currentTransferAsset === 'USDT') available = user.balance || 0;
-        else if (currentTransferAsset === 'BTC') available = user.btcBalance || 0;
-        else if (currentTransferAsset === 'ETH') available = user.ethBalance || 0;
-        document.getElementById('transfer-available').textContent = available.toFixed(currentTransferAsset==='USDT'?2:6);
-        document.getElementById('transfer-available-symbol').textContent = currentTransferAsset;
-        document.getElementById('transfer-asset-symbol').textContent = currentTransferAsset;
-        calculateReceiveAmount();
-    }
-
-    function calculateReceiveAmount() {
-        const amount = parseFloat(document.getElementById('transfer-amount').value) || 0;
-        let fee = 0;
-        if (currentTransferAsset === 'USDT') fee = 1.0;
-        else if (currentTransferAsset === 'BTC') fee = 0.0001;
-        else if (currentTransferAsset === 'ETH') fee = 0.002;
-        document.getElementById('transfer-fee-amount').textContent = `${fee.toFixed(currentTransferAsset==='USDT'?2:6)} ${currentTransferAsset}`;
-        const receive = Math.max(0, amount - fee);
-        document.getElementById('transfer-receive-amount').textContent = `${receive.toFixed(currentTransferAsset==='USDT'?2:6)} ${currentTransferAsset}`;
-    }
-
-    function processTransfer(asset, network, recipent, amount) {
-        const user = getCurrentUser(); if(!user) return {success: false, message: 'جلسة غير صالحة'};
-        if (!recipent || recipent.trim().length < 5) return {success: false, message: 'عنوان المستلم غير صالح'};
-        if (isNaN(amount) || amount <= 0) return {success: false, message: 'المبلغ غير صالح'};
-        
-        let fee = 0, balanceField = '', minAmount = 0;
-        if (asset === 'USDT') { fee = 1.0; balanceField = 'balance'; minAmount = 10; }
-        else if (asset === 'BTC') { fee = 0.0001; balanceField = 'btcBalance'; minAmount = 0.001; }
-        else if (asset === 'ETH') { fee = 0.002; balanceField = 'ethBalance'; minAmount = 0.01; }
-        else return {success: false, message: 'عملة غير مدعومة'};
-        
-        if (amount < minAmount) return {success: false, message: `الحد الأدنى للتحويل ${minAmount} ${asset}`};
-        const currentBalance = user[balanceField] || 0;
-        if (amount + fee > currentBalance) return {success: false, message: 'رصيد غير كافٍ (يشمل الرسوم)'};
-        
-        const newBalance = currentBalance - amount - fee;
-        const transaction = {
-            type: 'transfer',
-            asset, network, recipent: recipent.trim(),
-            amount, fee,
-            date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'})
-        };
-        const updates = { [balanceField]: newBalance, transactions: [...(user.transactions || []), transaction] };
-        updateUser(user.email, updates);
-        refreshBalanceAndTransactions();
-        return {success: true};
-    }
-
-    function processWithdraw(address, amount) {
-        const user = getCurrentUser(); if(!user) return false;
-        if(!address || address.trim().length < 5) { showToast('عنوان المحفظة غير صالح', true); return false; }
-        if(isNaN(amount) || amount <= 0) { showToast('المبلغ غير صالح', true); return false; }
-        if(amount > (user.balance||0)) { showToast('رصيدك غير كافٍ', true); return false; }
-        const newBalance = (user.balance||0) - amount;
-        const transaction = { type: 'withdraw', amount, date: new Date().toLocaleString('ar-EG', {hour:'2-digit', minute:'2-digit', day:'numeric', month:'numeric'}), address: address.trim() };
-        const transactions = [...(user.transactions || []), transaction];
-        updateUser(user.email, { balance: newBalance, transactions });
-        refreshBalanceAndTransactions();
-        showToast(`تم سحب ${amount.toFixed(2)} USDT بنجاح`);
-        return true;
-    }
-
-    function changePassword(currentPass, newPass, confirmPass) {
-        const user = getCurrentUser(); if(!user) return {success:false, message:'جلسة غير صالحة'};
-        if(user.password !== btoa(currentPass)) return {success:false, message:'كلمة المرور الحالية غير صحيحة'};
-        if(newPass.length < 6) return {success:false, message:'كلمة المرور الجديدة قصيرة (6 أحرف على الأقل)'};
-        if(newPass !== confirmPass) return {success:false, message:'كلمة المرور الجديدة غير متطابقة'};
-        updateUser(user.email, { password: btoa(newPass) });
-        return {success:true};
-    }
-
-    function enterPlatform(user) {
-        displayUsername.textContent = user.fullName;
-        authScreen.classList.add('hidden'); mainScreen.classList.remove('hidden');
-        refreshBalanceAndTransactions();
-        switchPage('home');
-        initMarketData(); // بدء بيانات السوق
-    }
-
-    function switchPage(pageId) {
-        Object.values(pages).forEach(p => p.classList.remove('active-page'));
-        if(pages[pageId]) pages[pageId].classList.add('active-page');
-        navItems.forEach(item => { item.classList.remove('active'); item.style.color = '#94a3b8'; });
-        const activeNav = Array.from(navItems).find(el => el.dataset.page === pageId);
-        if(activeNav) { activeNav.classList.add('active'); activeNav.style.color = '#3772ff'; }
-        if (pageId === 'markets') drawChartForCurrentSymbol();
-        if (pageId === 'wallet') {
-            refreshBalanceAndTransactions();
-            updateTransferAvailable();
-        }
-    }
-
-    function restoreSession() {
-        const session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || 'null');
-        if(session) { const user = findUserByEmail(session.email); if(user) { enterPlatform(user); return true; } }
-        return false;
-    }
-
-    // ---------- بيانات مزودي الإشارات ----------
-    const providersData = [
-        { rank:1, name:"Alpha Crypto", category:"Crypto", return30d:187.23, followers:"12.4K", rating:4.9, icon:"fab fa-bitcoin text-yellow-500" },
-        { rank:2, name:"FX Leaders", category:"Forex", return30d:152.67, followers:"9.8K", rating:4.8, icon:"fas fa-chart-line text-blue-500" },
-        { rank:3, name:"Gold Signals", category:"Commodities", return30d:134.50, followers:"7.2K", rating:4.7, icon:"fas fa-coins text-yellow-600" },
-        { rank:4, name:"ETH Whales", category:"Crypto", return30d:121.34, followers:"15.1K", rating:4.9, icon:"fab fa-ethereum text-purple-500" },
-        { rank:5, name:"Stock Master", category:"Stocks", return30d:98.76, followers:"5.4K", rating:4.6, icon:"fas fa-chart-bar text-green-600" },
-        { rank:6, name:"Crypto Bull", category:"Crypto", return30d:87.12, followers:"8.7K", rating:4.7, icon:"fab fa-bitcoin text-yellow-500" },
-        { rank:7, name:"Pips Hunter", category:"Forex", return30d:76.45, followers:"4.2K", rating:4.5, icon:"fas fa-dollar-sign text-green-500" },
-        { rank:8, name:"Oil Trader", category:"Commodities", return30d:68.33, followers:"3.9K", rating:4.4, icon:"fas fa-oil-can text-orange-400" },
-        { rank:9, name:"BNB Signals", category:"Crypto", return30d:59.21, followers:"11.2K", rating:4.8, icon:"fas fa-coins text-yellow-500" },
-        { rank:10, name:"Swing Trade Pro", category:"Stocks", return30d:52.10, followers:"6.5K", rating:4.5, icon:"fas fa-chart-pie text-blue-500" },
-        { rank:11, name:"Solana Surf", category:"Crypto", return30d:48.67, followers:"13.4K", rating:4.7, icon:"fas fa-sun text-orange-400" },
-        { rank:12, name:"Forex Elite", category:"Forex", return30d:44.23, followers:"3.1K", rating:4.3, icon:"fas fa-globe text-blue-400" },
-        { rank:13, name:"Silver Signals", category:"Commodities", return30d:39.87, followers:"2.8K", rating:4.2, icon:"fas fa-circle text-gray-400" },
-        { rank:14, name:"DeFi Alerts", category:"Crypto", return30d:35.45, followers:"9.1K", rating:4.6, icon:"fas fa-link text-blue-600" },
-        { rank:15, name:"Index Trader", category:"Indices", return30d:31.22, followers:"5.7K", rating:4.4, icon:"fas fa-chart-line text-indigo-500" },
-        { rank:16, name:"NFT Whisper", category:"NFT", return30d:27.89, followers:"7.8K", rating:4.5, icon:"fas fa-paint-brush text-pink-500" },
-        { rank:17, name:"Metaverse Pro", category:"Metaverse", return30d:23.56, followers:"6.2K", rating:4.3, icon:"fas fa-vr-cardboard text-purple-400" },
-        { rank:18, name:"Crypto Arbitrage", category:"Crypto", return30d:19.34, followers:"4.5K", rating:4.1, icon:"fas fa-arrows-alt-h text-teal-500" },
-        { rank:19, name:"SPX Signals", category:"Indices", return30d:15.78, followers:"3.3K", rating:4.0, icon:"fas fa-chart-bar text-gray-600" },
-        { rank:20, name:"Penny Stock Gems", category:"Stocks", return30d:12.45, followers:"2.1K", rating:3.9, icon:"fas fa-gem text-blue-300" }
-    ];
-
-    function renderProvidersList() {
-        const container = document.getElementById('providers-list-container');
-        let html = '';
-        providersData.forEach(p => {
-            let rankClass = 'rank-badge';
-            if (p.rank === 1) rankClass += ' top1';
-            else if (p.rank === 2) rankClass += ' top2';
-            else if (p.rank === 3) rankClass += ' top3';
-            html += `<div class="provider-row flex items-center gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg transition"><div class="${rankClass}">${p.rank}</div><div class="flex-1"><div class="flex items-center gap-2"><i class="${p.icon} text-lg"></i><div><h4 class="font-bold text-sm">${p.name}</h4><span class="text-xs text-secondary">${p.category}</span></div></div></div><div class="text-left"><div class="font-bold text-crypto-green text-base">+${p.return30d}%</div><div class="flex items-center gap-1 text-xs text-secondary justify-end"><i class="fas fa-users text-[10px]"></i> ${p.followers}<span class="mx-1">•</span><i class="fas fa-star text-yellow-500 text-[10px]"></i> ${p.rating}</div></div></div>`;
-        });
-        container.innerHTML = html;
-    }
-
-    // ---------- بيانات السوق (جميع العملات) مع دعم متقدم للرسم البياني ----------
-    const symbols = [
-        { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', basePrice: 68245.50, volatility: 0.005 },
-        { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', basePrice: 3421.80, volatility: 0.008 },
-        { id: 'BNB', name: 'Binance Coin', icon: 'fas fa-coins text-yellow-500', basePrice: 602.10, volatility: 0.006 },
-        { id: 'SOL', name: 'Solana', icon: 'fas fa-sun text-orange-400', basePrice: 172.35, volatility: 0.012 },
-        { id: 'XRP', name: 'Ripple', icon: 'fas fa-water text-blue-400', basePrice: 0.62, volatility: 0.007 },
-        { id: 'ADA', name: 'Cardano', icon: 'fas fa-circle text-blue-500', basePrice: 0.45, volatility: 0.009 },
-        { id: 'DOGE', name: 'Dogecoin', icon: 'fas fa-dog text-yellow-600', basePrice: 0.12, volatility: 0.015 }
-    ];
-
-    let currentSymbol = symbols[0];
-    let marketChartData = [];
-    let currentTf = '1D';
-    let simulationInterval = null;
-    
-    // خصائص التحكم بالرسم البياني (تكبير/تصغير/سحب)
-    let chartScale = 1.0;
-    let chartOffsetX = 0;
-    let chartMinScale = 0.5, chartMaxScale = 3.0;
-    let isDragging = false;
-    let dragStartX = 0, dragStartOffset = 0;
-    let canvasRect = null;
-    
-    // إشارة لتحديث الرسم
-    let needsRedraw = true;
-    
-    const canvas = document.getElementById('candlestick-chart');
-    const ctx = canvas.getContext('2d');
-    const tooltip = document.getElementById('chart-tooltip');
-    const crosshairV = document.getElementById('crosshair-v');
-    const crosshairH = document.getElementById('crosshair-h');
-    const zoomLevelSpan = document.getElementById('zoom-level');
-    
-    // تحديث مستوى التكبير الظاهر
-    function updateZoomIndicator() {
-        zoomLevelSpan.textContent = Math.round(chartScale * 100) + '%';
-    }
-    
-    function generateInitialCandles(count, basePrice, volatility) {
-        const data = [];
-        let close = basePrice;
-        for (let i = 0; i < count; i++) {
-            const open = close;
-            const change = (Math.random() - 0.5) * volatility * basePrice;
-            close = Math.max(open + change, basePrice * 0.7);
-            const high = Math.max(open, close) + Math.random() * volatility * basePrice;
-            const low = Math.min(open, close) - Math.random() * volatility * basePrice;
-            data.push({ open, high, low, close });
-        }
-        return data;
-    }
-
-    function updateMarketSimulation() {
-        if (!marketChartData.length) return;
-        const last = marketChartData[marketChartData.length - 1];
-        const volatility = currentSymbol.volatility * currentSymbol.basePrice;
-        const change = (Math.random() - 0.5) * volatility;
-        const newClose = Math.max(last.close + change, currentSymbol.basePrice * 0.5);
-        const newHigh = Math.max(last.high, newClose + Math.random() * volatility * 0.3);
-        const newLow = Math.min(last.low, newClose - Math.random() * volatility * 0.3);
-        last.close = newClose;
-        last.high = newHigh;
-        last.low = newLow;
-        
-        if (Math.random() < 0.2) {
-            const newCandle = {
-                open: last.close,
-                high: last.close + Math.random() * volatility * 0.5,
-                low: last.close - Math.random() * volatility * 0.5,
-                close: last.close + (Math.random() - 0.5) * volatility
+    (function() {
+        // ---------- تحسين PWA مع أيقونات متعددة الأحجام ----------
+        function setupPWA() {
+            // إنشاء بيان متوافق مع جميع المنصات
+            const manifest = {
+                name: "ForX - تداول العملات الرقمية",
+                short_name: "ForX",
+                description: "منصة تداول العملات الرقمية ForX - تداول آمن وسريع",
+                theme_color: "#3772ff",
+                background_color: "#f8fafc",
+                display: "standalone",
+                orientation: "portrait",
+                scope: "/",
+                start_url: window.location.origin + window.location.pathname,
+                lang: "ar",
+                dir: "rtl",
+                categories: ["finance", "business"],
+                icons: [
+                    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" },
+                    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='192' height='192'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
+                    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='384' height='384'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E", sizes: "384x384", type: "image/svg+xml", purpose: "any maskable" },
+                    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+                ],
+                screenshots: [
+                    { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1080' height='1920' viewBox='0 0 1080 1920'%3E%3Crect width='1080' height='1920' fill='%233772ff'/%3E%3Ctext x='540' y='960' font-size='80' fill='white' text-anchor='middle'%3EForX%3C/text%3E%3C/svg%3E", sizes: "1080x1920", type: "image/svg+xml", form_factor: "narrow", label: "الشاشة الرئيسية" }
+                ]
             };
-            marketChartData.push(newCandle);
-            if (marketChartData.length > 60) marketChartData.shift();
+            
+            const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
+            document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
+            
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register(URL.createObjectURL(new Blob([`
+                    const CACHE_NAME = 'forx-v1';
+                    const urlsToCache = ['.', 'index.html', 'manifest.json'];
+                    self.addEventListener('install', event => {
+                        event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache)));
+                        self.skipWaiting();
+                    });
+                    self.addEventListener('activate', event => {
+                        event.waitUntil(caches.keys().then(keys => Promise.all(keys.map(key => { if (key !== CACHE_NAME) return caches.delete(key); }))));
+                        clients.claim();
+                    });
+                    self.addEventListener('fetch', event => {
+                        event.respondWith(
+                            caches.match(event.request).then(resp => resp || fetch(event.request).then(response => {
+                                if (!response || response.status !== 200 || response.type !== 'basic') return response;
+                                const responseToCache = response.clone();
+                                caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
+                                return response;
+                            })).catch(() => caches.match('/index.html'))
+                        );
+                    });
+                `], { type: 'application/javascript' })));
+            }
+            
+            let deferredPrompt;
+            const installIcons = [document.getElementById('install-icon-auth'), document.getElementById('install-icon-main')];
+            
+            // إخفاء الأيقونات إذا كان التطبيق مثبتاً مسبقاً
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+                installIcons.forEach(icon => icon.classList.add('hidden'));
+            }
+            
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installIcons.forEach(icon => icon.classList.remove('hidden'));
+            });
+            
+            async function installHandler() {
+                if (!deferredPrompt) return;
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    showToast('🎉 تم تثبيت ForX في درج التطبيقات!');
+                    installIcons.forEach(icon => icon.classList.add('hidden'));
+                }
+                deferredPrompt = null;
+            }
+            
+            installIcons.forEach(icon => icon.addEventListener('click', installHandler));
+            window.addEventListener('appinstalled', () => {
+                installIcons.forEach(icon => icon.classList.add('hidden'));
+                showToast('تم تثبيت التطبيق بنجاح');
+            });
         }
         
-        drawChart();
-        updatePriceDisplay();
-        updateTopMarkets();
-    }
-
-    // رسم الشموع مع دعم التحريك والتكبير والشبكة
-    function drawChart() {
-        if (!marketChartData.length) return;
+        setupPWA();
         
-        const w = canvas.clientWidth || 400;
-        const h = 240;
-        canvas.width = w; canvas.height = h;
-        
-        const padding = { top: 20, bottom: 25, left: 55, right: 15 };
-        const graphWidth = w - padding.left - padding.right;
-        const graphHeight = h - padding.top - padding.bottom;
-        
-        // تطبيق التكبير والإزاحة
-        const visibleCandlesCount = Math.floor(marketChartData.length / chartScale);
-        const startIndex = Math.max(0, Math.min(marketChartData.length - visibleCandlesCount, Math.floor(chartOffsetX / 100 * marketChartData.length)));
-        const endIndex = Math.min(marketChartData.length, startIndex + visibleCandlesCount);
-        const visibleData = marketChartData.slice(startIndex, endIndex);
-        
-        if (visibleData.length === 0) return;
-        
-        // حساب الحدود السعرية للجزء المرئي
-        const prices = visibleData.flatMap(d => [d.high, d.low]);
-        const maxPrice = Math.max(...prices) * 1.02;
-        const minPrice = Math.min(...prices) * 0.98;
-        const priceRange = maxPrice - minPrice;
-        
-        // مسح الرسم
-        ctx.clearRect(0, 0, w, h);
-        
-        // رسم الشبكة الخلفية
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 0.5;
-        ctx.fillStyle = '#f8fafc';
-        ctx.font = '10px Cairo';
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#64748b';
-        
-        // خطوط أفقية (مستويات سعرية)
-        const gridLines = 5;
-        for (let i = 0; i <= gridLines; i++) {
-            const price = maxPrice - (i / gridLines) * priceRange;
-            const y = padding.top + (i / gridLines) * graphHeight;
-            
-            ctx.beginPath();
-            ctx.moveTo(padding.left, y);
-            ctx.lineTo(w - padding.right, y);
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.stroke();
-            
-            // تسمية السعر
-            ctx.fillText(price.toFixed(2), padding.left - 5, y + 3);
+        // باقي الدوال المساعدة
+        function showToast(msg, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.background = isError ? '#f84960' : '#1e293b';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
         
-        // رسم الشموع
-        const candleWidth = Math.max(3, (graphWidth / visibleData.length) * 0.7);
-        const spacing = (graphWidth - candleWidth * visibleData.length) / (visibleData.length + 1);
-        
-        visibleData.forEach((d, i) => {
-            const x = padding.left + spacing + i * (candleWidth + spacing);
-            
-            const yHigh = padding.top + ((maxPrice - d.high) / priceRange) * graphHeight;
-            const yLow = padding.top + ((maxPrice - d.low) / priceRange) * graphHeight;
-            const yOpen = padding.top + ((maxPrice - d.open) / priceRange) * graphHeight;
-            const yClose = padding.top + ((maxPrice - d.close) / priceRange) * graphHeight;
-            
-            const color = d.close >= d.open ? '#02c076' : '#f84960';
-            
-            // جسم الشمعة
-            ctx.fillStyle = color;
-            ctx.fillRect(x, Math.min(yOpen, yClose), candleWidth, Math.max(1, Math.abs(yClose - yOpen)));
-            
-            // الظلال (الفتائل)
-            ctx.beginPath();
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 1;
-            ctx.moveTo(x + candleWidth/2, yHigh);
-            ctx.lineTo(x + candleWidth/2, yLow);
-            ctx.stroke();
-        });
-        
-        // رسم حدود الرسم البياني
-        ctx.strokeStyle = '#cbd5e1';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(padding.left, padding.top, graphWidth, graphHeight);
-        
-        // تحديث تسميات الوقت
-        const startTime = new Date(Date.now() - marketChartData.length * 3600000);
-        const endTime = new Date();
-        document.getElementById('chart-start-label').textContent = startTime.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-        document.getElementById('chart-end-label').textContent = endTime.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-        
-        // تحديث مؤشر التكبير
-        updateZoomIndicator();
-        
-        // إخفاء خطوط التقاطع عند عدم الاستخدام
-        if (!isDragging) {
-            crosshairV.style.display = 'none';
-            crosshairH.style.display = 'none';
-            tooltip.classList.remove('visible');
+        // ---------- إدارة المستخدمين والجلسة ----------
+        const STORAGE_KEY = 'forx_users_db', SESSION_KEY = 'forx_current_user';
+        function initDB() {
+            if (!localStorage.getItem(STORAGE_KEY)) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify([{
+                    fullName: 'متداول تجريبي',
+                    email: 'demo@forx.com',
+                    password: btoa('demo1234'),
+                    balance: 10000,
+                    btcBalance: 0.15,
+                    ethBalance: 1.2,
+                    transactions: [],
+                    joinDate: new Date().toISOString().split('T')[0]
+                }]));
+            }
         }
-    }
-
-    // إظهار تفاصيل الشمعة عند التمرير
-    function showCandleInfo(clientX, clientY) {
-        if (!canvasRect) canvasRect = canvas.getBoundingClientRect();
-        
-        const x = clientX - canvasRect.left;
-        const y = clientY - canvasRect.top;
-        
-        const w = canvas.width;
-        const h = canvas.height;
-        const padding = { top: 20, bottom: 25, left: 55, right: 15 };
-        
-        if (x < padding.left || x > w - padding.right || y < padding.top || y > h - padding.bottom) {
-            tooltip.classList.remove('visible');
-            crosshairV.style.display = 'none';
-            crosshairH.style.display = 'none';
-            return;
+        initDB();
+        function getUsers() { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+        function saveUsers(users) { localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); }
+        function findUserByEmail(email) { return getUsers().find(u => u.email.toLowerCase() === email.toLowerCase()); }
+        function updateUser(email, updates) {
+            const users = getUsers();
+            const idx = users.findIndex(u => u.email === email);
+            if (idx !== -1) { users[idx] = { ...users[idx], ...updates }; saveUsers(users); return users[idx]; }
+            return null;
+        }
+        function getCurrentUser() {
+            const session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || 'null');
+            if (session) return findUserByEmail(session.email);
+            return null;
+        }
+        function setSession(user, remember) {
+            const session = { email: user.email, fullName: user.fullName, loggedAt: Date.now() };
+            if (remember) localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+            else sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        }
+        function clearSession() {
+            localStorage.removeItem(SESSION_KEY);
+            sessionStorage.removeItem(SESSION_KEY);
         }
         
-        // تحديد الشمعة الأقرب
-        const visibleCandlesCount = Math.floor(marketChartData.length / chartScale);
-        const startIndex = Math.max(0, Math.min(marketChartData.length - visibleCandlesCount, Math.floor(chartOffsetX / 100 * marketChartData.length)));
-        const endIndex = Math.min(marketChartData.length, startIndex + visibleCandlesCount);
-        const visibleData = marketChartData.slice(startIndex, endIndex);
+        // ---------- متغيرات الواجهة ----------
+        const authScreen = document.getElementById('auth-screen');
+        const mainScreen = document.getElementById('main-screen');
+        const displayUsername = document.getElementById('display-username');
+        const pages = {
+            home: document.getElementById('page-home'),
+            markets: document.getElementById('page-markets'),
+            sync: document.getElementById('page-sync'),
+            wallet: document.getElementById('page-wallet'),
+            account: document.getElementById('page-account')
+        };
+        const navItems = document.querySelectorAll('.bottom-nav-item');
         
-        if (visibleData.length === 0) return;
-        
-        const graphWidth = w - padding.left - padding.right;
-        const candleWidth = Math.max(3, (graphWidth / visibleData.length) * 0.7);
-        const spacing = (graphWidth - candleWidth * visibleData.length) / (visibleData.length + 1);
-        
-        const index = Math.floor((x - padding.left - spacing/2) / (candleWidth + spacing));
-        if (index >= 0 && index < visibleData.length) {
-            const candle = visibleData[index];
+        function refreshBalanceAndTransactions() {
+            const user = getCurrentUser();
+            if (!user) return;
+            const balance = user.balance || 0;
+            const btcBalance = user.btcBalance || 0;
+            const ethBalance = user.ethBalance || 0;
+            const totalDeposited = (user.transactions || []).filter(t => t.type === 'deposit').reduce((s, t) => s + t.amount, 0);
+            const totalWithdrawn = (user.transactions || []).filter(t => t.type === 'withdraw').reduce((s, t) => s + t.amount, 0);
             
-            // تحديث التلميح
-            tooltip.innerHTML = `
-                <div class="flex flex-col gap-1">
-                    <div class="flex justify-between"><span>الافتتاح:</span> <span class="font-mono">${candle.open.toFixed(2)}</span></div>
-                    <div class="flex justify-between"><span>الأعلى:</span> <span class="font-mono">${candle.high.toFixed(2)}</span></div>
-                    <div class="flex justify-between"><span>الأدنى:</span> <span class="font-mono">${candle.low.toFixed(2)}</span></div>
-                    <div class="flex justify-between"><span>الإغلاق:</span> <span class="font-mono">${candle.close.toFixed(2)}</span></div>
+            document.getElementById('home-balance').textContent = balance.toFixed(2) + ' USDT';
+            document.getElementById('home-deposited').textContent = totalDeposited.toFixed(2);
+            document.getElementById('home-withdrawn').textContent = totalWithdrawn.toFixed(2);
+            
+            document.getElementById('account-balance').textContent = balance.toFixed(2) + ' USDT';
+            document.getElementById('account-fullname').textContent = user.fullName || 'مستخدم';
+            document.getElementById('account-email').innerHTML = `<i class="fas fa-envelope text-xs"></i> ${user.email}`;
+            document.getElementById('account-avatar-letter').textContent = (user.fullName || 'U').charAt(0).toUpperCase();
+            document.getElementById('account-join-date').textContent = user.joinDate || '2024';
+            document.getElementById('summary-deposits').textContent = totalDeposited.toFixed(2) + ' USDT';
+            document.getElementById('summary-withdrawals').textContent = totalWithdrawn.toFixed(2) + ' USDT';
+            
+            const totalUsdValue = balance + (btcBalance * 68245.50) + (ethBalance * 3421.80);
+            document.getElementById('wallet-page-total-balance').textContent = totalUsdValue.toFixed(2) + ' USDT';
+            
+            const assetsContainer = document.getElementById('wallet-page-assets');
+            assetsContainer.innerHTML = `
+                <div class="flex items-center justify-between py-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"><i class="fas fa-dollar-sign text-green-600"></i></div>
+                        <div><p class="font-semibold">USDT</p><p class="text-xs text-secondary">Tether</p></div>
+                    </div>
+                    <div class="text-right"><p class="font-bold">${balance.toFixed(2)}</p><p class="text-xs text-secondary">≈ ${balance.toFixed(2)} $</p></div>
+                </div>
+                <div class="flex items-center justify-between py-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center"><i class="fab fa-bitcoin text-yellow-600"></i></div>
+                        <div><p class="font-semibold">BTC</p><p class="text-xs text-secondary">Bitcoin</p></div>
+                    </div>
+                    <div class="text-right"><p class="font-bold">${btcBalance.toFixed(6)}</p><p class="text-xs text-secondary">≈ ${(btcBalance * 68245.50).toFixed(2)} $</p></div>
+                </div>
+                <div class="flex items-center justify-between py-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center"><i class="fab fa-ethereum text-purple-600"></i></div>
+                        <div><p class="font-semibold">ETH</p><p class="text-xs text-secondary">Ethereum</p></div>
+                    </div>
+                    <div class="text-right"><p class="font-bold">${ethBalance.toFixed(6)}</p><p class="text-xs text-secondary">≈ ${(ethBalance * 3421.80).toFixed(2)} $</p></div>
                 </div>
             `;
             
-            // وضع التلميح
-            const tooltipX = clientX + 10;
-            const tooltipY = clientY - 50;
-            tooltip.style.left = tooltipX + 'px';
-            tooltip.style.top = tooltipY + 'px';
-            tooltip.classList.add('visible');
+            const txList = document.getElementById('transactions-list');
+            const txs = (user.transactions || []).slice().reverse().slice(0, 5);
+            if (txs.length === 0) txList.innerHTML = '<p class="text-secondary text-center py-2">لا توجد عمليات حديثة</p>';
+            else {
+                txList.innerHTML = txs.map(tx => {
+                    if (tx.type === 'deposit') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-down text-crypto-green"></i><span>إيداع</span></div><div class="font-medium text-crypto-green">+${tx.amount.toFixed(2)} USDT</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
+                    if (tx.type === 'withdraw') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-up text-crypto-red"></i><span>سحب</span></div><div class="font-medium text-crypto-red">-${tx.amount.toFixed(2)} USDT</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
+                    if (tx.type === 'transfer') return `<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-exchange-alt text-crypto-blue"></i><span>تحويل ${tx.asset}</span></div><div class="font-medium text-crypto-red">-${tx.amount.toFixed(6)} ${tx.asset}</div><div class="text-xs text-secondary">${tx.date}</div></div>`;
+                    return '';
+                }).join('');
+            }
             
-            // خطوط التقاطع
-            crosshairV.style.display = 'block';
-            crosshairV.style.left = (canvasRect.left + x) + 'px';
-            crosshairV.style.height = canvasRect.height + 'px';
-            
-            crosshairH.style.display = 'block';
-            crosshairH.style.top = (canvasRect.top + y) + 'px';
-            crosshairH.style.width = canvasRect.width + 'px';
+            updateTransferHistory();
+            updateWalletModalData();
+            updateTransferAvailable();
         }
-    }
-
-    // معالجات الأحداث للتفاعل مع الرسم البياني
-    function initChartInteractions() {
-        // تحديث أبعاد الـ canvas عند تغيير الحجم
-        const resizeObserver = new ResizeObserver(() => {
-            canvasRect = canvas.getBoundingClientRect();
-            drawChart();
-        });
-        resizeObserver.observe(canvas);
         
-        // السحب (Pan)
-        canvas.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            dragStartX = e.clientX;
-            dragStartOffset = chartOffsetX;
-            canvas.style.cursor = 'grabbing';
-            e.preventDefault();
-        });
-        
-        window.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                const deltaX = e.clientX - dragStartX;
-                chartOffsetX = Math.max(0, Math.min(100, dragStartOffset - (deltaX / canvas.clientWidth) * 100 * chartScale));
-                drawChart();
-            } else {
-                // تحديث التلميح وخطوط التقاطع
-                canvasRect = canvas.getBoundingClientRect();
-                if (e.target === canvas) {
-                    showCandleInfo(e.clientX, e.clientY);
-                }
+        function updateTransferHistory() {
+            const user = getCurrentUser();
+            if (!user) return;
+            const transfers = (user.transactions || []).filter(t => t.type === 'transfer').slice(-5).reverse();
+            const container = document.getElementById('transfer-history-list');
+            if (transfers.length === 0) {
+                container.innerHTML = '<p class="text-secondary text-center py-2">لا توجد تحويلات حديثة</p>';
+                return;
             }
-        });
+            container.innerHTML = transfers.map(t => `
+                <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                    <div><i class="fas fa-exchange-alt text-crypto-blue ml-2"></i>${t.asset} - ${t.network}</div>
+                    <div class="text-left"><span class="font-medium">${t.amount.toFixed(6)}</span> <span class="text-xs text-secondary">إلى ${t.recipient.substring(0,8)}...</span></div>
+                </div>
+            `).join('');
+        }
         
-        window.addEventListener('mouseup', () => {
-            isDragging = false;
-            canvas.style.cursor = 'default';
-        });
-        
-        // دعم اللمس
-        canvas.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            dragStartX = e.touches[0].clientX;
-            dragStartOffset = chartOffsetX;
-            e.preventDefault();
-        });
-        
-        canvas.addEventListener('touchmove', (e) => {
-            if (isDragging) {
-                const deltaX = e.touches[0].clientX - dragStartX;
-                chartOffsetX = Math.max(0, Math.min(100, dragStartOffset - (deltaX / canvas.clientWidth) * 100 * chartScale));
-                drawChart();
-                e.preventDefault();
-            } else {
-                canvasRect = canvas.getBoundingClientRect();
-                showCandleInfo(e.touches[0].clientX, e.touches[0].clientY);
+        function updateWalletModalData() {
+            const user = getCurrentUser();
+            if (!user) return;
+            const usdtBalance = user.balance || 0;
+            const btcBalance = user.btcBalance || 0;
+            const ethBalance = user.ethBalance || 0;
+            const btcPrice = 68245.50, ethPrice = 3421.80;
+            const total = usdtBalance + btcBalance * btcPrice + ethBalance * ethPrice;
+            document.getElementById('wallet-total-balance').textContent = total.toFixed(2) + ' USDT';
+            document.getElementById('wallet-usdt-balance').textContent = usdtBalance.toFixed(2);
+            document.getElementById('wallet-btc-balance').textContent = btcBalance.toFixed(6);
+            document.getElementById('wallet-eth-balance').textContent = ethBalance.toFixed(6);
+            
+            const walletTxList = document.getElementById('wallet-transactions-list');
+            const txs = (user.transactions || []).slice().reverse().slice(0, 3);
+            if (txs.length === 0) walletTxList.innerHTML = '<p class="text-secondary text-center py-2 text-sm">لا توجد عمليات حديثة</p>';
+            else {
+                walletTxList.innerHTML = txs.map(tx => {
+                    if (tx.type === 'deposit') return `<div class="flex justify-between"><span>إيداع USDT</span><span class="text-crypto-green">+${tx.amount.toFixed(2)}</span></div>`;
+                    if (tx.type === 'withdraw') return `<div class="flex justify-between"><span>سحب USDT</span><span class="text-crypto-red">-${tx.amount.toFixed(2)}</span></div>`;
+                    if (tx.type === 'transfer') return `<div class="flex justify-between"><span>تحويل ${tx.asset}</span><span class="text-crypto-red">-${tx.amount.toFixed(6)}</span></div>`;
+                    return '';
+                }).join('');
             }
-        });
+        }
         
-        canvas.addEventListener('touchend', () => {
-            isDragging = false;
-            crosshairV.style.display = 'none';
-            crosshairH.style.display = 'none';
-            tooltip.classList.remove('visible');
-        });
+        let currentTransferAsset = 'USDT';
+        function updateTransferAvailable() {
+            const user = getCurrentUser();
+            if (!user) return;
+            let available = 0;
+            if (currentTransferAsset === 'USDT') available = user.balance || 0;
+            else if (currentTransferAsset === 'BTC') available = user.btcBalance || 0;
+            else if (currentTransferAsset === 'ETH') available = user.ethBalance || 0;
+            document.getElementById('transfer-available').textContent = available.toFixed(currentTransferAsset === 'USDT' ? 2 : 6);
+            document.getElementById('transfer-available-symbol').textContent = currentTransferAsset;
+            document.getElementById('transfer-asset-symbol').textContent = currentTransferAsset;
+            calculateReceiveAmount();
+        }
         
-        canvas.addEventListener('mouseleave', () => {
-            crosshairV.style.display = 'none';
-            crosshairH.style.display = 'none';
-            tooltip.classList.remove('visible');
-        });
+        function calculateReceiveAmount() {
+            const amount = parseFloat(document.getElementById('transfer-amount').value) || 0;
+            let fee = 0;
+            if (currentTransferAsset === 'USDT') fee = 1.0;
+            else if (currentTransferAsset === 'BTC') fee = 0.0001;
+            else if (currentTransferAsset === 'ETH') fee = 0.002;
+            document.getElementById('transfer-fee-amount').textContent = `${fee.toFixed(currentTransferAsset === 'USDT' ? 2 : 6)} ${currentTransferAsset}`;
+            const receive = Math.max(0, amount - fee);
+            document.getElementById('transfer-receive-amount').textContent = `${receive.toFixed(currentTransferAsset === 'USDT' ? 2 : 6)} ${currentTransferAsset}`;
+        }
         
-        // أزرار التكبير
-        document.getElementById('chart-zoom-in').addEventListener('click', () => {
-            chartScale = Math.min(chartMaxScale, chartScale * 1.2);
+        function processTransfer(asset, network, recipent, amount) {
+            const user = getCurrentUser();
+            if (!user) return { success: false, message: 'جلسة غير صالحة' };
+            if (!recipent || recipent.trim().length < 5) return { success: false, message: 'عنوان المستلم غير صالح' };
+            if (isNaN(amount) || amount <= 0) return { success: false, message: 'المبلغ غير صالح' };
+            
+            let fee = 0, balanceField = '', minAmount = 0;
+            if (asset === 'USDT') { fee = 1.0; balanceField = 'balance'; minAmount = 10; }
+            else if (asset === 'BTC') { fee = 0.0001; balanceField = 'btcBalance'; minAmount = 0.001; }
+            else if (asset === 'ETH') { fee = 0.002; balanceField = 'ethBalance'; minAmount = 0.01; }
+            else return { success: false, message: 'عملة غير مدعومة' };
+            
+            if (amount < minAmount) return { success: false, message: `الحد الأدنى للتحويل ${minAmount} ${asset}` };
+            const currentBalance = user[balanceField] || 0;
+            if (amount + fee > currentBalance) return { success: false, message: 'رصيد غير كافٍ (يشمل الرسوم)' };
+            
+            const newBalance = currentBalance - amount - fee;
+            const transaction = {
+                type: 'transfer',
+                asset, network, recipent: recipent.trim(),
+                amount, fee,
+                date: new Date().toLocaleString('ar-EG', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' })
+            };
+            const updates = { [balanceField]: newBalance, transactions: [...(user.transactions || []), transaction] };
+            updateUser(user.email, updates);
+            refreshBalanceAndTransactions();
+            return { success: true };
+        }
+        
+        function processWithdraw(address, amount) {
+            const user = getCurrentUser();
+            if (!user) return false;
+            if (!address || address.trim().length < 5) { showToast('عنوان المحفظة غير صالح', true); return false; }
+            if (isNaN(amount) || amount <= 0) { showToast('المبلغ غير صالح', true); return false; }
+            if (amount > (user.balance || 0)) { showToast('رصيدك غير كافٍ', true); return false; }
+            const newBalance = (user.balance || 0) - amount;
+            const transaction = { type: 'withdraw', amount, date: new Date().toLocaleString('ar-EG', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' }), address: address.trim() };
+            const transactions = [...(user.transactions || []), transaction];
+            updateUser(user.email, { balance: newBalance, transactions });
+            refreshBalanceAndTransactions();
+            showToast(`تم سحب ${amount.toFixed(2)} USDT بنجاح`);
+            return true;
+        }
+        
+        function changePassword(currentPass, newPass, confirmPass) {
+            const user = getCurrentUser();
+            if (!user) return { success: false, message: 'جلسة غير صالحة' };
+            if (user.password !== btoa(currentPass)) return { success: false, message: 'كلمة المرور الحالية غير صحيحة' };
+            if (newPass.length < 6) return { success: false, message: 'كلمة المرور الجديدة قصيرة (6 أحرف على الأقل)' };
+            if (newPass !== confirmPass) return { success: false, message: 'كلمة المرور الجديدة غير متطابقة' };
+            updateUser(user.email, { password: btoa(newPass) });
+            return { success: true };
+        }
+        
+        function enterPlatform(user) {
+            displayUsername.textContent = user.fullName;
+            authScreen.classList.add('hidden');
+            mainScreen.classList.remove('hidden');
+            refreshBalanceAndTransactions();
+            switchPage('home');
+            initMarketData();
+        }
+        
+        function switchPage(pageId) {
+            Object.values(pages).forEach(p => p.classList.remove('active-page'));
+            if (pages[pageId]) pages[pageId].classList.add('active-page');
+            navItems.forEach(item => { item.classList.remove('active'); item.style.color = '#94a3b8'; });
+            const activeNav = Array.from(navItems).find(el => el.dataset.page === pageId);
+            if (activeNav) { activeNav.classList.add('active'); activeNav.style.color = '#3772ff'; }
+            if (pageId === 'markets') drawChartForCurrentSymbol();
+            if (pageId === 'wallet') { refreshBalanceAndTransactions(); updateTransferAvailable(); }
+        }
+        
+        function restoreSession() {
+            const session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || 'null');
+            if (session) {
+                const user = findUserByEmail(session.email);
+                if (user) { enterPlatform(user); return true; }
+            }
+            return false;
+        }
+        
+        // ---------- بيانات مزودي الإشارات ----------
+        const providersData = [
+            { rank:1, name:"Alpha Crypto", category:"Crypto", return30d:187.23, followers:"12.4K", rating:4.9, icon:"fab fa-bitcoin text-yellow-500" },
+            { rank:2, name:"FX Leaders", category:"Forex", return30d:152.67, followers:"9.8K", rating:4.8, icon:"fas fa-chart-line text-blue-500" },
+            { rank:3, name:"Gold Signals", category:"Commodities", return30d:134.50, followers:"7.2K", rating:4.7, icon:"fas fa-coins text-yellow-600" },
+            { rank:4, name:"ETH Whales", category:"Crypto", return30d:121.34, followers:"15.1K", rating:4.9, icon:"fab fa-ethereum text-purple-500" },
+            { rank:5, name:"Stock Master", category:"Stocks", return30d:98.76, followers:"5.4K", rating:4.6, icon:"fas fa-chart-bar text-green-600" },
+            { rank:6, name:"Crypto Bull", category:"Crypto", return30d:87.12, followers:"8.7K", rating:4.7, icon:"fab fa-bitcoin text-yellow-500" },
+            { rank:7, name:"Pips Hunter", category:"Forex", return30d:76.45, followers:"4.2K", rating:4.5, icon:"fas fa-dollar-sign text-green-500" },
+            { rank:8, name:"Oil Trader", category:"Commodities", return30d:68.33, followers:"3.9K", rating:4.4, icon:"fas fa-oil-can text-orange-400" },
+            { rank:9, name:"BNB Signals", category:"Crypto", return30d:59.21, followers:"11.2K", rating:4.8, icon:"fas fa-coins text-yellow-500" },
+            { rank:10, name:"Swing Trade Pro", category:"Stocks", return30d:52.10, followers:"6.5K", rating:4.5, icon:"fas fa-chart-pie text-blue-500" },
+            { rank:11, name:"Solana Surf", category:"Crypto", return30d:48.67, followers:"13.4K", rating:4.7, icon:"fas fa-sun text-orange-400" },
+            { rank:12, name:"Forex Elite", category:"Forex", return30d:44.23, followers:"3.1K", rating:4.3, icon:"fas fa-globe text-blue-400" },
+            { rank:13, name:"Silver Signals", category:"Commodities", return30d:39.87, followers:"2.8K", rating:4.2, icon:"fas fa-circle text-gray-400" },
+            { rank:14, name:"DeFi Alerts", category:"Crypto", return30d:35.45, followers:"9.1K", rating:4.6, icon:"fas fa-link text-blue-600" },
+            { rank:15, name:"Index Trader", category:"Indices", return30d:31.22, followers:"5.7K", rating:4.4, icon:"fas fa-chart-line text-indigo-500" },
+            { rank:16, name:"NFT Whisper", category:"NFT", return30d:27.89, followers:"7.8K", rating:4.5, icon:"fas fa-paint-brush text-pink-500" },
+            { rank:17, name:"Metaverse Pro", category:"Metaverse", return30d:23.56, followers:"6.2K", rating:4.3, icon:"fas fa-vr-cardboard text-purple-400" },
+            { rank:18, name:"Crypto Arbitrage", category:"Crypto", return30d:19.34, followers:"4.5K", rating:4.1, icon:"fas fa-arrows-alt-h text-teal-500" },
+            { rank:19, name:"SPX Signals", category:"Indices", return30d:15.78, followers:"3.3K", rating:4.0, icon:"fas fa-chart-bar text-gray-600" },
+            { rank:20, name:"Penny Stock Gems", category:"Stocks", return30d:12.45, followers:"2.1K", rating:3.9, icon:"fas fa-gem text-blue-300" }
+        ];
+        
+        function renderProvidersList() {
+            const container = document.getElementById('providers-list-container');
+            let html = '';
+            providersData.forEach(p => {
+                let rankClass = 'rank-badge';
+                if (p.rank === 1) rankClass += ' top1';
+                else if (p.rank === 2) rankClass += ' top2';
+                else if (p.rank === 3) rankClass += ' top3';
+                html += `<div class="provider-row flex items-center gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg transition"><div class="${rankClass}">${p.rank}</div><div class="flex-1"><div class="flex items-center gap-2"><i class="${p.icon} text-lg"></i><div><h4 class="font-bold text-sm">${p.name}</h4><span class="text-xs text-secondary">${p.category}</span></div></div></div><div class="text-left"><div class="font-bold text-crypto-green text-base">+${p.return30d}%</div><div class="flex items-center gap-1 text-xs text-secondary justify-end"><i class="fas fa-users text-[10px]"></i> ${p.followers}<span class="mx-1">•</span><i class="fas fa-star text-yellow-500 text-[10px]"></i> ${p.rating}</div></div></div>`;
+            });
+            container.innerHTML = html;
+        }
+        
+        // ---------- بيانات السوق والرسم البياني (مختصرة للإيجاز) ----------
+        const symbols = [
+            { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', basePrice: 68245.50, volatility: 0.005 },
+            { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', basePrice: 3421.80, volatility: 0.008 },
+            { id: 'BNB', name: 'Binance Coin', icon: 'fas fa-coins text-yellow-500', basePrice: 602.10, volatility: 0.006 },
+            { id: 'SOL', name: 'Solana', icon: 'fas fa-sun text-orange-400', basePrice: 172.35, volatility: 0.012 }
+        ];
+        
+        let currentSymbol = symbols[0];
+        let marketChartData = [];
+        let currentTf = '1D';
+        let simulationInterval = null;
+        let chartScale = 1.0, chartOffsetX = 0;
+        const canvas = document.getElementById('candlestick-chart');
+        const ctx = canvas.getContext('2d');
+        const tooltip = document.getElementById('chart-tooltip');
+        const crosshairV = document.getElementById('crosshair-v');
+        const crosshairH = document.getElementById('crosshair-h');
+        
+        function generateInitialCandles(count, basePrice, volatility) {
+            const data = [];
+            let close = basePrice;
+            for (let i = 0; i < count; i++) {
+                const open = close;
+                const change = (Math.random() - 0.5) * volatility * basePrice;
+                close = Math.max(open + change, basePrice * 0.7);
+                const high = Math.max(open, close) + Math.random() * volatility * basePrice;
+                const low = Math.min(open, close) - Math.random() * volatility * basePrice;
+                data.push({ open, high, low, close });
+            }
+            return data;
+        }
+        
+        function updateMarketSimulation() {
+            if (!marketChartData.length) return;
+            const last = marketChartData[marketChartData.length - 1];
+            const volatility = currentSymbol.volatility * currentSymbol.basePrice;
+            const change = (Math.random() - 0.5) * volatility;
+            const newClose = Math.max(last.close + change, currentSymbol.basePrice * 0.5);
+            last.close = newClose;
+            last.high = Math.max(last.high, newClose + Math.random() * volatility * 0.3);
+            last.low = Math.min(last.low, newClose - Math.random() * volatility * 0.3);
+            
+            if (Math.random() < 0.2) {
+                const newCandle = {
+                    open: last.close,
+                    high: last.close + Math.random() * volatility * 0.5,
+                    low: last.close - Math.random() * volatility * 0.5,
+                    close: last.close + (Math.random() - 0.5) * volatility
+                };
+                marketChartData.push(newCandle);
+                if (marketChartData.length > 60) marketChartData.shift();
+            }
             drawChart();
-        });
+            updatePriceDisplay();
+            updateTopMarkets();
+        }
         
-        document.getElementById('chart-zoom-out').addEventListener('click', () => {
-            chartScale = Math.max(chartMinScale, chartScale / 1.2);
-            chartOffsetX = Math.max(0, Math.min(100, chartOffsetX));
-            drawChart();
-        });
+        function drawChart() {
+            if (!marketChartData.length) return;
+            const w = canvas.clientWidth || 400;
+            const h = 240;
+            canvas.width = w; canvas.height = h;
+            const padding = { top: 20, bottom: 25, left: 55, right: 15 };
+            const graphWidth = w - padding.left - padding.right;
+            const graphHeight = h - padding.top - padding.bottom;
+            
+            const visibleCandlesCount = Math.floor(marketChartData.length / chartScale);
+            const startIndex = Math.max(0, Math.min(marketChartData.length - visibleCandlesCount, Math.floor(chartOffsetX / 100 * marketChartData.length)));
+            const endIndex = Math.min(marketChartData.length, startIndex + visibleCandlesCount);
+            const visibleData = marketChartData.slice(startIndex, endIndex);
+            if (visibleData.length === 0) return;
+            
+            const prices = visibleData.flatMap(d => [d.high, d.low]);
+            const maxPrice = Math.max(...prices) * 1.02;
+            const minPrice = Math.min(...prices) * 0.98;
+            const priceRange = maxPrice - minPrice;
+            
+            ctx.clearRect(0, 0, w, h);
+            
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 0.5;
+            ctx.fillStyle = '#64748b';
+            ctx.font = '10px Cairo';
+            ctx.textAlign = 'right';
+            
+            const gridLines = 5;
+            for (let i = 0; i <= gridLines; i++) {
+                const price = maxPrice - (i / gridLines) * priceRange;
+                const y = padding.top + (i / gridLines) * graphHeight;
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(w - padding.right, y);
+                ctx.stroke();
+                ctx.fillText(price.toFixed(2), padding.left - 5, y + 3);
+            }
+            
+            const candleWidth = Math.max(3, (graphWidth / visibleData.length) * 0.7);
+            const spacing = (graphWidth - candleWidth * visibleData.length) / (visibleData.length + 1);
+            
+            visibleData.forEach((d, i) => {
+                const x = padding.left + spacing + i * (candleWidth + spacing);
+                const yHigh = padding.top + ((maxPrice - d.high) / priceRange) * graphHeight;
+                const yLow = padding.top + ((maxPrice - d.low) / priceRange) * graphHeight;
+                const yOpen = padding.top + ((maxPrice - d.open) / priceRange) * graphHeight;
+                const yClose = padding.top + ((maxPrice - d.close) / priceRange) * graphHeight;
+                const color = d.close >= d.open ? '#02c076' : '#f84960';
+                ctx.fillStyle = color;
+                ctx.fillRect(x, Math.min(yOpen, yClose), candleWidth, Math.max(1, Math.abs(yClose - yOpen)));
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1;
+                ctx.moveTo(x + candleWidth/2, yHigh);
+                ctx.lineTo(x + candleWidth/2, yLow);
+                ctx.stroke();
+            });
+            
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(padding.left, padding.top, graphWidth, graphHeight);
+            
+            const startTime = new Date(Date.now() - marketChartData.length * 3600000);
+            const endTime = new Date();
+            document.getElementById('chart-start-label').textContent = startTime.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('chart-end-label').textContent = endTime.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('zoom-level').textContent = Math.round(chartScale * 100) + '%';
+        }
         
-        document.getElementById('chart-reset').addEventListener('click', () => {
+        function updatePriceDisplay() {
+            const last = marketChartData[marketChartData.length - 1];
+            const prev = marketChartData[marketChartData.length - 2] || last;
+            const change = ((last.close - prev.close) / prev.close * 100);
+            document.getElementById('current-price').textContent = last.close.toFixed(2);
+            const changeSpan = document.getElementById('price-change');
+            changeSpan.textContent = (change > 0 ? '+' : '') + change.toFixed(2) + '%';
+            changeSpan.className = `text-sm font-medium px-2 py-1 rounded-lg ${change >= 0 ? 'text-crypto-green bg-green-50' : 'text-crypto-red bg-red-50'}`;
+        }
+        
+        function switchSymbol(symbol) {
+            currentSymbol = symbol;
+            document.getElementById('market-title').innerHTML = `<i class="${symbol.icon}"></i> ${symbol.id}/USDT`;
+            const count = currentTf === '1D' ? 24 : (currentTf === '1W' ? 7*24 : (currentTf === '1M' ? 30 : (currentTf === '3M' ? 90 : 365)));
+            marketChartData = generateInitialCandles(Math.min(count, 60), symbol.basePrice, symbol.volatility);
             chartScale = 1.0;
             chartOffsetX = 0;
             drawChart();
-        });
-        
-        // منع قائمة السياق الافتراضية
-        canvas.addEventListener('contextmenu', (e) => e.preventDefault());
-    }
-
-    function updatePriceDisplay() {
-        const last = marketChartData[marketChartData.length - 1];
-        const prev = marketChartData[marketChartData.length - 2] || last;
-        const change = ((last.close - prev.close) / prev.close * 100);
-        document.getElementById('current-price').textContent = last.close.toFixed(2);
-        const changeSpan = document.getElementById('price-change');
-        changeSpan.textContent = (change > 0 ? '+' : '') + change.toFixed(2) + '%';
-        changeSpan.className = `text-sm font-medium px-2 py-1 rounded-lg ${change >= 0 ? 'text-crypto-green bg-green-50' : 'text-crypto-red bg-red-50'}`;
-    }
-
-    function switchSymbol(symbol) {
-        currentSymbol = symbol;
-        document.getElementById('market-title').innerHTML = `<i class="${symbol.icon}"></i> ${symbol.id}/USDT`;
-        const count = currentTf === '1D' ? 24 : (currentTf === '1W' ? 7*24 : (currentTf === '1M' ? 30 : (currentTf === '3M' ? 90 : 365)));
-        marketChartData = generateInitialCandles(Math.min(count, 60), symbol.basePrice, symbol.volatility);
-        chartScale = 1.0;
-        chartOffsetX = 0;
-        drawChart();
-        updatePriceDisplay();
-        
-        document.querySelectorAll('.symbol-chip').forEach(chip => {
-            chip.classList.remove('active', 'bg-crypto-blue', 'text-white');
-            chip.classList.add('bg-gray-100', 'text-primary');
-            if (chip.dataset.symbol === symbol.id) {
-                chip.classList.add('active', 'bg-crypto-blue', 'text-white');
-                chip.classList.remove('bg-gray-100', 'text-primary');
-            }
-        });
-    }
-
-    function renderSymbolChips() {
-        const container = document.getElementById('symbols-container');
-        container.innerHTML = symbols.map(s => `
-            <div class="symbol-chip ${s.id === currentSymbol.id ? 'active bg-crypto-blue text-white' : 'bg-gray-100 text-primary'}" data-symbol="${s.id}">
-                <i class="${s.icon}"></i> ${s.id}/USDT
-            </div>
-        `).join('');
-        document.querySelectorAll('.symbol-chip').forEach(chip => {
-            chip.addEventListener('click', () => {
-                const sym = symbols.find(s => s.id === chip.dataset.symbol);
-                if (sym) switchSymbol(sym);
+            updatePriceDisplay();
+            
+            document.querySelectorAll('.symbol-chip').forEach(chip => {
+                chip.classList.remove('active', 'bg-crypto-blue', 'text-white');
+                chip.classList.add('bg-gray-100', 'text-primary');
+                if (chip.dataset.symbol === symbol.id) {
+                    chip.classList.add('active', 'bg-crypto-blue', 'text-white');
+                    chip.classList.remove('bg-gray-100', 'text-primary');
+                }
             });
-        });
-    }
-
-    function updateTopMarkets() {
-        const container = document.getElementById('top-markets-list');
-        const top = symbols.slice(0, 5);
-        container.innerHTML = top.map(s => {
-            const price = s.id === currentSymbol.id ? marketChartData[marketChartData.length-1].close : s.basePrice * (1 + (Math.random() - 0.5) * 0.02);
-            const change = (Math.random() * 6 - 2).toFixed(2);
-            const changeClass = change >= 0 ? 'text-crypto-green' : 'text-crypto-red';
-            return `<div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
-                <div class="flex items-center gap-2"><i class="${s.icon} text-lg"></i><div><div class="font-semibold text-primary">${s.id}/USDT</div></div></div>
-                <div class="text-center font-semibold">$${price.toFixed(2)}</div>
-                <div class="text-right ${changeClass}">${change > 0 ? '+' : ''}${change}%</div>
-            </div>`;
-        }).join('');
-    }
-
-    function changeTimeframe(tf) {
-        currentTf = tf;
-        const count = tf === '1D' ? 24 : (tf === '1W' ? 7*24 : (tf === '1M' ? 30 : (tf === '3M' ? 90 : 365)));
-        marketChartData = generateInitialCandles(Math.min(count, 60), currentSymbol.basePrice, currentSymbol.volatility);
-        chartScale = 1.0;
-        chartOffsetX = 0;
-        drawChart();
-        updatePriceDisplay();
-        document.querySelectorAll('.timeframe-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.dataset.tf === tf) btn.classList.add('active');
-        });
-    }
-
-    function drawChartForCurrentSymbol() {
-        if (marketChartData.length) drawChart();
-    }
-
-    function initMarketData() {
-        renderSymbolChips();
-        switchSymbol(symbols[0]);
-        initChartInteractions();
-        if (simulationInterval) clearInterval(simulationInterval);
-        simulationInterval = setInterval(() => updateMarketSimulation(), 3000);
-    }
-
-    // ---------- مزامنة الصفقة ----------
-    function initSyncPage() {
-        const codeInput = document.getElementById('sync-order-code');
-        const submitBtn = document.getElementById('sync-submit-btn');
-        const msgDiv = document.getElementById('sync-message');
-        const CORRECT_CODE = 'SYNC2024';
-        
-        submitBtn.addEventListener('click', () => {
-            const enteredCode = codeInput.value.trim();
-            if (!enteredCode) {
-                msgDiv.textContent = 'الرجاء إدخال كود الطلب';
-                msgDiv.className = 'text-sm mt-2 error-message';
-                msgDiv.classList.remove('hidden');
-                return;
-            }
-            if (enteredCode.toUpperCase() === CORRECT_CODE) {
-                msgDiv.textContent = '✅ تمت المزامنة بنجاح! جاري تنفيذ الصفقة...';
-                msgDiv.className = 'text-sm mt-2 success-message';
-                msgDiv.classList.remove('hidden');
-                showToast('تمت مزامنة الصفقة بنجاح', false);
-            } else {
-                msgDiv.textContent = '❌ كود الطلب غير صحيح. تأكد من الكود وحاول مجدداً.';
-                msgDiv.className = 'text-sm mt-2 error-message';
-                msgDiv.classList.remove('hidden');
-            }
-        });
-    }
-
-    // ---------- ربط الأحداث ----------
-    document.addEventListener('DOMContentLoaded', () => {
-        const TRC20_ADDRESS = 'TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN';
-        const BEP20_ADDRESS = '0xe0e64955c9d15c093858902B9cb5A18507870BA5';
-        
-        initSyncPage();
-        
-        const tabLogin=document.getElementById('tab-login'), tabSignup=document.getElementById('tab-signup');
-        const loginForm=document.getElementById('login-form'), signupForm=document.getElementById('signup-form');
-        const loginEmail=document.getElementById('login-email'), loginPass=document.getElementById('login-password');
-        const signupName=document.getElementById('signup-name'), signupEmail=document.getElementById('signup-email'), signupPass=document.getElementById('signup-password'), signupConfirm=document.getElementById('signup-confirm'), agreeTerms=document.getElementById('agree-terms');
-        const loginError=document.getElementById('login-error'), signupError=document.getElementById('signup-error'), signupSuccess=document.getElementById('signup-success');
-        
-        function showLoginTab(){ loginForm.classList.remove('hidden'); signupForm.classList.add('hidden'); tabLogin.classList.add('tab-active'); tabSignup.classList.remove('tab-active'); }
-        function showSignupTab(){ signupForm.classList.remove('hidden'); loginForm.classList.add('hidden'); tabSignup.classList.add('tab-active'); tabLogin.classList.remove('tab-active'); }
-        tabLogin.addEventListener('click', showLoginTab); tabSignup.addEventListener('click', showSignupTab);
-        document.getElementById('switch-to-signup').addEventListener('click', showSignupTab);
-        document.getElementById('switch-to-login').addEventListener('click', showLoginTab);
-
-        document.getElementById('login-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            const email=loginEmail.value.trim(), pass=loginPass.value;
-            if(!email||!pass) { loginError.textContent='أدخل البريد وكلمة المرور'; loginError.classList.remove('hidden'); return; }
-            const user = findUserByEmail(email);
-            if(!user || user.password !== btoa(pass)) { loginError.textContent='بيانات الدخول غير صحيحة'; loginError.classList.remove('hidden'); return; }
-            setSession(user, document.getElementById('remember-me').checked);
-            enterPlatform(user); showToast(`مرحباً ${user.fullName}`);
-        });
-
-        document.getElementById('signup-btn').addEventListener('click', (e) => {
-            e.preventDefault();
-            const name=signupName.value.trim(), email=signupEmail.value.trim(), pass=signupPass.value, confirm=signupConfirm.value;
-            signupError.classList.add('hidden'); signupSuccess.classList.add('hidden');
-            if(!name||!email||!pass||!confirm) { signupError.textContent='جميع الحقول مطلوبة'; signupError.classList.remove('hidden'); return; }
-            if(!/^\S+@\S+\.\S+$/.test(email)) { signupError.textContent='بريد إلكتروني غير صالح'; signupError.classList.remove('hidden'); return; }
-            if(pass.length<6) { signupError.textContent='كلمة المرور 6 أحرف على الأقل'; signupError.classList.remove('hidden'); return; }
-            if(pass!==confirm) { signupError.textContent='كلمتا المرور غير متطابقتين'; signupError.classList.remove('hidden'); return; }
-            if(!agreeTerms.checked) { signupError.textContent='يجب الموافقة على الشروط'; signupError.classList.remove('hidden'); return; }
-            if(findUserByEmail(email)) { signupError.textContent='البريد مسجل مسبقاً'; signupError.classList.remove('hidden'); return; }
-            const newUser = { fullName:name, email:email.toLowerCase(), password:btoa(pass), balance:10000, btcBalance:0.15, ethBalance:1.2, transactions:[], joinDate: new Date().toISOString().split('T')[0] };
-            const users = getUsers(); users.push(newUser); saveUsers(users);
-            setSession(newUser, true);
-            signupSuccess.textContent='✅ تم إنشاء الحساب!'; signupSuccess.classList.remove('hidden');
-            setTimeout(() => { enterPlatform(newUser); showToast(`أهلاً ${name}`); }, 600);
-        });
-
-        // الموديلات
-        const depositModal = document.getElementById('deposit-modal');
-        const withdrawModal = document.getElementById('withdraw-modal');
-        const withdrawAddress = document.getElementById('withdraw-address');
-        const withdrawAmount = document.getElementById('withdraw-amount');
-        const withdrawError = document.getElementById('withdraw-error');
-        const depositAddressSpan = document.getElementById('deposit-address');
-        const networkLabel = document.getElementById('network-label');
-        const btnTRC20 = document.getElementById('network-trc20');
-        const btnBEP20 = document.getElementById('network-bep20');
-        const copyBtn = document.getElementById('copy-address-btn');
-        const qrCanvas = document.getElementById('deposit-qrcode');
-        const withdrawBtnTRC20 = document.getElementById('withdraw-network-trc20');
-        const withdrawBtnBEP20 = document.getElementById('withdraw-network-bep20');
-        const withdrawAddressLabel = document.getElementById('withdraw-address-label');
-
-        function generateQRCode(text) {
-            if (!text) return;
-            try {
-                const qr = qrcode(0, 'M'); qr.addData(text); qr.make();
-                const size = 200; const cells = qr.getModuleCount(); const cellSize = Math.floor(size / cells);
-                const ctx = qrCanvas.getContext('2d'); qrCanvas.width = size; qrCanvas.height = size;
-                ctx.clearRect(0, 0, size, size); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, size, size); ctx.fillStyle = '#1e293b';
-                for (let row = 0; row < cells; row++) for (let col = 0; col < cells; col++) if (qr.isDark(row, col)) ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
-            } catch (e) { qrCanvas.getContext('2d').fillText('خطأ', 100, 100); }
         }
-
-        function setActiveNetwork(network) {
-            if (network === 'trc20') {
-                btnTRC20.classList.add('active-network', 'bg-crypto-blue', 'text-white'); btnTRC20.classList.remove('border-light-border');
-                btnBEP20.classList.remove('active-network', 'bg-crypto-blue', 'text-white'); btnBEP20.classList.add('border-light-border');
-                depositAddressSpan.textContent = TRC20_ADDRESS; networkLabel.textContent = 'عنوان المحفظة (TRC20)'; generateQRCode(TRC20_ADDRESS);
-            } else {
-                btnBEP20.classList.add('active-network', 'bg-crypto-blue', 'text-white'); btnBEP20.classList.remove('border-light-border');
-                btnTRC20.classList.remove('active-network', 'bg-crypto-blue', 'text-white'); btnTRC20.classList.add('border-light-border');
-                depositAddressSpan.textContent = BEP20_ADDRESS; networkLabel.textContent = 'عنوان المحفظة (BEP20 · BSC)'; generateQRCode(BEP20_ADDRESS);
-            }
-        }
-
-        function setActiveWithdrawNetwork(network) {
-            if (network === 'trc20') {
-                withdrawBtnTRC20.classList.add('active-network', 'bg-crypto-blue', 'text-white'); withdrawBtnTRC20.classList.remove('border-light-border');
-                withdrawBtnBEP20.classList.remove('active-network', 'bg-crypto-blue', 'text-white'); withdrawBtnBEP20.classList.add('border-light-border');
-                withdrawAddressLabel.textContent = 'عنوان المحفظة (TRC20)'; withdrawAddress.placeholder = 'أدخل عنوان المحفظة على شبكة TRC20';
-            } else {
-                withdrawBtnBEP20.classList.add('active-network', 'bg-crypto-blue', 'text-white'); withdrawBtnBEP20.classList.remove('border-light-border');
-                withdrawBtnTRC20.classList.remove('active-network', 'bg-crypto-blue', 'text-white'); withdrawBtnTRC20.classList.add('border-light-border');
-                withdrawAddressLabel.textContent = 'عنوان المحفظة (BEP20 · BSC)'; withdrawAddress.placeholder = 'أدخل عنوان المحفظة على شبكة BEP20 (BSC)';
-            }
-        }
-
-        btnTRC20.addEventListener('click', () => setActiveNetwork('trc20'));
-        btnBEP20.addEventListener('click', () => setActiveNetwork('bep20'));
-        withdrawBtnTRC20.addEventListener('click', () => setActiveWithdrawNetwork('trc20'));
-        withdrawBtnBEP20.addEventListener('click', () => setActiveWithdrawNetwork('bep20'));
-
-        function openDepositModal() { depositModal.classList.remove('hidden'); setActiveNetwork('trc20'); }
-        function openWithdrawModal() { withdrawModal.classList.remove('hidden'); withdrawAddress.value = ''; withdrawAmount.value = ''; withdrawError.classList.add('hidden'); setActiveWithdrawNetwork('trc20'); }
-        function closeModals() { depositModal.classList.add('hidden'); withdrawModal.classList.add('hidden'); }
-
-        document.getElementById('home-deposit-btn').addEventListener('click', openDepositModal);
-        document.getElementById('home-withdraw-btn').addEventListener('click', openWithdrawModal);
-        document.getElementById('account-deposit-btn').addEventListener('click', openDepositModal);
-        document.getElementById('account-withdraw-btn').addEventListener('click', openWithdrawModal);
-        document.getElementById('wallet-page-deposit-btn').addEventListener('click', openDepositModal);
-        document.getElementById('wallet-page-withdraw-btn').addEventListener('click', openWithdrawModal);
-        document.getElementById('cancel-deposit').addEventListener('click', closeModals);
-        document.getElementById('cancel-withdraw').addEventListener('click', closeModals);
-        copyBtn.addEventListener('click', () => navigator.clipboard?.writeText(depositAddressSpan.textContent).then(() => showToast('تم نسخ العنوان')).catch(() => showToast('انسخ يدوياً', true)));
-
-        document.getElementById('confirm-withdraw').addEventListener('click', () => {
-            const address = withdrawAddress.value.trim();
-            const amount = parseFloat(withdrawAmount.value);
-            if (!address || address.length < 5) { withdrawError.textContent = 'عنوان المحفظة مطلوب'; withdrawError.classList.remove('hidden'); return; }
-            if (isNaN(amount) || amount <= 0) { withdrawError.textContent = 'المبلغ غير صحيح'; withdrawError.classList.remove('hidden'); return; }
-            const success = processWithdraw(address, amount);
-            if (success) { closeModals(); }
-            else { withdrawError.textContent = 'رصيد غير كافٍ أو خطأ'; withdrawError.classList.remove('hidden'); }
-        });
-
-        // قسم التحويل
-        const transferAssetOptions = document.querySelectorAll('.asset-option');
-        const transferNetworkTRC20 = document.getElementById('transfer-network-trc20');
-        const transferNetworkBEP20 = document.getElementById('transfer-network-bep20');
-        const transferNetworkERC20 = document.getElementById('transfer-network-erc20');
-        const transferAmount = document.getElementById('transfer-amount');
-        const transferMaxBtn = document.getElementById('transfer-max-btn');
-        const transferSubmit = document.getElementById('transfer-submit-btn');
-        const transferError = document.getElementById('transfer-error');
-        const transferRecipient = document.getElementById('transfer-recipient');
         
-        let currentTransferNetwork = 'TRC20';
-        
-        transferAssetOptions.forEach(opt => {
-            opt.addEventListener('click', () => {
-                transferAssetOptions.forEach(o => o.classList.remove('active'));
-                opt.classList.add('active');
-                currentTransferAsset = opt.dataset.asset;
-                updateTransferAvailable();
+        function renderSymbolChips() {
+            const container = document.getElementById('symbols-container');
+            container.innerHTML = symbols.map(s => `
+                <div class="symbol-chip ${s.id === currentSymbol.id ? 'active bg-crypto-blue text-white' : 'bg-gray-100 text-primary'}" data-symbol="${s.id}">
+                    <i class="${s.icon}"></i> ${s.id}/USDT
+                </div>
+            `).join('');
+            document.querySelectorAll('.symbol-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    const sym = symbols.find(s => s.id === chip.dataset.symbol);
+                    if (sym) switchSymbol(sym);
+                });
             });
-        });
-        
-        function setTransferActiveNetwork(network) {
-            currentTransferNetwork = network;
-            [transferNetworkTRC20, transferNetworkBEP20, transferNetworkERC20].forEach(btn => {
-                btn.classList.remove('active-network', 'bg-crypto-blue', 'text-white');
-                btn.classList.add('border-light-border');
-            });
-            if (network === 'TRC20') transferNetworkTRC20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
-            else if (network === 'BEP20') transferNetworkBEP20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
-            else if (network === 'ERC20') transferNetworkERC20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
-            calculateReceiveAmount();
         }
         
-        transferNetworkTRC20.addEventListener('click', () => setTransferActiveNetwork('TRC20'));
-        transferNetworkBEP20.addEventListener('click', () => setTransferActiveNetwork('BEP20'));
-        transferNetworkERC20.addEventListener('click', () => setTransferActiveNetwork('ERC20'));
+        function updateTopMarkets() {
+            const container = document.getElementById('top-markets-list');
+            const top = symbols.slice(0, 4);
+            container.innerHTML = top.map(s => {
+                const price = s.id === currentSymbol.id ? marketChartData[marketChartData.length-1].close : s.basePrice * (1 + (Math.random() - 0.5) * 0.02);
+                const change = (Math.random() * 6 - 2).toFixed(2);
+                const changeClass = change >= 0 ? 'text-crypto-green' : 'text-crypto-red';
+                return `<div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                    <div class="flex items-center gap-2"><i class="${s.icon} text-lg"></i><div><div class="font-semibold text-primary">${s.id}/USDT</div></div></div>
+                    <div class="text-center font-semibold">$${price.toFixed(2)}</div>
+                    <div class="text-right ${changeClass}">${change > 0 ? '+' : ''}${change}%</div>
+                </div>`;
+            }).join('');
+        }
         
-        transferAmount.addEventListener('input', calculateReceiveAmount);
-        transferMaxBtn.addEventListener('click', () => {
-            const user = getCurrentUser();
-            if (!user) return;
-            let max = 0;
-            if (currentTransferAsset === 'USDT') max = user.balance || 0;
-            else if (currentTransferAsset === 'BTC') max = user.btcBalance || 0;
-            else if (currentTransferAsset === 'ETH') max = user.ethBalance || 0;
-            transferAmount.value = max.toFixed(currentTransferAsset==='USDT'?2:6);
-            calculateReceiveAmount();
-        });
+        function changeTimeframe(tf) {
+            currentTf = tf;
+            const count = tf === '1D' ? 24 : (tf === '1W' ? 7*24 : (tf === '1M' ? 30 : (tf === '3M' ? 90 : 365)));
+            marketChartData = generateInitialCandles(Math.min(count, 60), currentSymbol.basePrice, currentSymbol.volatility);
+            chartScale = 1.0;
+            chartOffsetX = 0;
+            drawChart();
+            updatePriceDisplay();
+            document.querySelectorAll('.timeframe-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tf === tf) btn.classList.add('active');
+            });
+        }
         
-        transferSubmit.addEventListener('click', () => {
-            const recipent = transferRecipient.value.trim();
-            const amount = parseFloat(transferAmount.value);
-            transferError.classList.add('hidden');
-            const result = processTransfer(currentTransferAsset, currentTransferNetwork, recipent, amount);
-            if (!result.success) {
-                transferError.textContent = result.message;
-                transferError.classList.remove('hidden');
-            } else {
-                showToast(`تم تحويل ${amount.toFixed(6)} ${currentTransferAsset} بنجاح`);
-                transferRecipient.value = '';
-                transferAmount.value = '';
-                calculateReceiveAmount();
-                updateTransferAvailable();
-            }
-        });
-
-        // مودال المزودين
-        const providersModal = document.getElementById('providers-modal');
-        document.getElementById('show-more-providers-btn').addEventListener('click', () => { renderProvidersList(); providersModal.classList.remove('hidden'); });
-        document.getElementById('close-providers-modal').addEventListener('click', () => providersModal.classList.add('hidden'));
-        providersModal.addEventListener('click', (e) => { if (e.target === providersModal) providersModal.classList.add('hidden'); });
-
-        // مودال ترخيص المنصة
-        const licenseModal = document.getElementById('license-modal');
-        const bellIcon = document.getElementById('bell-license-icon');
-        const closeLicenseBtn = document.getElementById('close-license-modal');
-        const closeLicenseBtn2 = document.getElementById('close-license-btn');
+        function drawChartForCurrentSymbol() { if (marketChartData.length) drawChart(); }
         
-        bellIcon.addEventListener('click', () => licenseModal.classList.remove('hidden'));
-        closeLicenseBtn.addEventListener('click', () => licenseModal.classList.add('hidden'));
-        closeLicenseBtn2.addEventListener('click', () => licenseModal.classList.add('hidden'));
-        licenseModal.addEventListener('click', (e) => { if (e.target === licenseModal) licenseModal.classList.add('hidden'); });
-
-        // مودال الأخبار الجديدة
-        const newsModal = document.getElementById('news-modal');
-        const newsBtn = document.getElementById('new-news-btn');
-        const closeNewsBtn = document.getElementById('close-news-modal');
-        
-        newsBtn.addEventListener('click', () => newsModal.classList.remove('hidden'));
-        closeNewsBtn.addEventListener('click', () => newsModal.classList.add('hidden'));
-        newsModal.addEventListener('click', (e) => { if (e.target === newsModal) newsModal.classList.add('hidden'); });
-
-        // مودال المحفظة V-Wallet
-        const walletModal = document.getElementById('wallet-modal');
-        const vWalletBtn = document.getElementById('v-wallet-btn');
-        const closeWalletBtn = document.getElementById('close-wallet-modal');
-        const walletDepositBtn = document.getElementById('wallet-deposit-btn');
-        const walletWithdrawBtn = document.getElementById('wallet-withdraw-btn');
-        const walletTransferBtn = document.getElementById('wallet-transfer-btn');
-        
-        vWalletBtn.addEventListener('click', () => { updateWalletModalData(); walletModal.classList.remove('hidden'); });
-        closeWalletBtn.addEventListener('click', () => walletModal.classList.add('hidden'));
-        walletModal.addEventListener('click', (e) => { if (e.target === walletModal) walletModal.classList.add('hidden'); });
-        walletDepositBtn.addEventListener('click', () => { walletModal.classList.add('hidden'); openDepositModal(); });
-        walletWithdrawBtn.addEventListener('click', () => { walletModal.classList.add('hidden'); openWithdrawModal(); });
-        walletTransferBtn.addEventListener('click', () => { walletModal.classList.add('hidden'); switchPage('wallet'); });
-
-        // أزرار الإطار الزمني
-        document.querySelectorAll('.timeframe-btn').forEach(btn => {
-            btn.addEventListener('click', () => changeTimeframe(btn.dataset.tf));
-        });
-
-        // التنقل السفلي
-        navItems.forEach(item => { item.addEventListener('click', () => switchPage(item.dataset.page)); });
-
-        // تسجيل الخروج
-        function logout() { 
-            clearSession(); 
-            authScreen.classList.remove('hidden'); 
-            mainScreen.classList.add('hidden'); 
-            showLoginTab(); 
-            showToast('تم تسجيل الخروج');
+        function initMarketData() {
+            renderSymbolChips();
+            switchSymbol(symbols[0]);
             if (simulationInterval) clearInterval(simulationInterval);
+            simulationInterval = setInterval(() => updateMarketSimulation(), 3000);
+            
+            document.getElementById('chart-zoom-in').addEventListener('click', () => {
+                chartScale = Math.min(3.0, chartScale * 1.2);
+                drawChart();
+            });
+            document.getElementById('chart-zoom-out').addEventListener('click', () => {
+                chartScale = Math.max(0.5, chartScale / 1.2);
+                drawChart();
+            });
+            document.getElementById('chart-reset').addEventListener('click', () => {
+                chartScale = 1.0;
+                chartOffsetX = 0;
+                drawChart();
+            });
+            
+            let isDragging = false, dragStartX = 0, dragStartOffset = 0;
+            canvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                dragStartX = e.clientX;
+                dragStartOffset = chartOffsetX;
+                canvas.style.cursor = 'grabbing';
+                e.preventDefault();
+            });
+            window.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    const deltaX = e.clientX - dragStartX;
+                    chartOffsetX = Math.max(0, Math.min(100, dragStartOffset - (deltaX / canvas.clientWidth) * 100 * chartScale));
+                    drawChart();
+                }
+            });
+            window.addEventListener('mouseup', () => { isDragging = false; canvas.style.cursor = 'default'; });
         }
-        document.getElementById('logout-btn-header').addEventListener('click', logout);
-        document.getElementById('logout-btn-account').addEventListener('click', logout);
-
-        // تغيير كلمة المرور
-        const modal = document.getElementById('password-modal');
-        document.getElementById('change-password-btn').addEventListener('click', ()=> modal.classList.remove('hidden'));
-        document.getElementById('cancel-password').addEventListener('click', ()=> modal.classList.add('hidden'));
-        document.getElementById('save-password').addEventListener('click', ()=>{
-            const curr = document.getElementById('current-password').value;
-            const newP = document.getElementById('new-password').value;
-            const conf = document.getElementById('confirm-new-password').value;
-            const err = document.getElementById('password-error'), succ = document.getElementById('password-success');
-            err.classList.add('hidden'); succ.classList.add('hidden');
-            const res = changePassword(curr, newP, conf);
-            if(!res.success) { err.textContent = res.message; err.classList.remove('hidden'); }
-            else { succ.textContent = '✅ تم تغيير كلمة المرور'; succ.classList.remove('hidden'); setTimeout(()=>modal.classList.add('hidden'), 1200); }
+        
+        // ---------- ربط الأحداث ----------
+        document.addEventListener('DOMContentLoaded', () => {
+            const TRC20_ADDRESS = 'TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN';
+            const BEP20_ADDRESS = '0xe0e64955c9d15c093858902B9cb5A18507870BA5';
+            
+            // مزامنة الصفقة
+            const syncCode = document.getElementById('sync-order-code');
+            const syncSubmit = document.getElementById('sync-submit-btn');
+            const syncMsg = document.getElementById('sync-message');
+            syncSubmit.addEventListener('click', () => {
+                const code = syncCode.value.trim();
+                if (!code) { syncMsg.textContent = 'الرجاء إدخال كود الطلب'; syncMsg.className = 'text-sm mt-2 error-message'; syncMsg.classList.remove('hidden'); return; }
+                if (code.toUpperCase() === 'SYNC2024') {
+                    syncMsg.textContent = '✅ تمت المزامنة بنجاح! جاري تنفيذ الصفقة...';
+                    syncMsg.className = 'text-sm mt-2 success-message';
+                    syncMsg.classList.remove('hidden');
+                    showToast('تمت مزامنة الصفقة بنجاح');
+                } else {
+                    syncMsg.textContent = '❌ كود الطلب غير صحيح. تأكد من الكود وحاول مجدداً.';
+                    syncMsg.className = 'text-sm mt-2 error-message';
+                    syncMsg.classList.remove('hidden');
+                }
+            });
+            
+            const tabLogin = document.getElementById('tab-login'), tabSignup = document.getElementById('tab-signup');
+            const loginForm = document.getElementById('login-form'), signupForm = document.getElementById('signup-form');
+            const loginEmail = document.getElementById('login-email'), loginPass = document.getElementById('login-password');
+            const signupName = document.getElementById('signup-name'), signupEmail = document.getElementById('signup-email'), signupPass = document.getElementById('signup-password'), signupConfirm = document.getElementById('signup-confirm'), agreeTerms = document.getElementById('agree-terms');
+            const loginError = document.getElementById('login-error'), signupError = document.getElementById('signup-error'), signupSuccess = document.getElementById('signup-success');
+            
+            function showLoginTab() { loginForm.classList.remove('hidden'); signupForm.classList.add('hidden'); tabLogin.classList.add('tab-active'); tabSignup.classList.remove('tab-active'); }
+            function showSignupTab() { signupForm.classList.remove('hidden'); loginForm.classList.add('hidden'); tabSignup.classList.add('tab-active'); tabLogin.classList.remove('tab-active'); }
+            tabLogin.addEventListener('click', showLoginTab);
+            tabSignup.addEventListener('click', showSignupTab);
+            document.getElementById('switch-to-signup').addEventListener('click', showSignupTab);
+            document.getElementById('switch-to-login').addEventListener('click', showLoginTab);
+            
+            document.getElementById('login-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                const email = loginEmail.value.trim(), pass = loginPass.value;
+                if (!email || !pass) { loginError.textContent = 'أدخل البريد وكلمة المرور'; loginError.classList.remove('hidden'); return; }
+                const user = findUserByEmail(email);
+                if (!user || user.password !== btoa(pass)) { loginError.textContent = 'بيانات الدخول غير صحيحة'; loginError.classList.remove('hidden'); return; }
+                setSession(user, document.getElementById('remember-me').checked);
+                enterPlatform(user);
+                showToast(`مرحباً ${user.fullName}`);
+            });
+            
+            document.getElementById('signup-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                const name = signupName.value.trim(), email = signupEmail.value.trim(), pass = signupPass.value, confirm = signupConfirm.value;
+                signupError.classList.add('hidden'); signupSuccess.classList.add('hidden');
+                if (!name || !email || !pass || !confirm) { signupError.textContent = 'جميع الحقول مطلوبة'; signupError.classList.remove('hidden'); return; }
+                if (!/^\S+@\S+\.\S+$/.test(email)) { signupError.textContent = 'بريد إلكتروني غير صالح'; signupError.classList.remove('hidden'); return; }
+                if (pass.length < 6) { signupError.textContent = 'كلمة المرور 6 أحرف على الأقل'; signupError.classList.remove('hidden'); return; }
+                if (pass !== confirm) { signupError.textContent = 'كلمتا المرور غير متطابقتين'; signupError.classList.remove('hidden'); return; }
+                if (!agreeTerms.checked) { signupError.textContent = 'يجب الموافقة على الشروط'; signupError.classList.remove('hidden'); return; }
+                if (findUserByEmail(email)) { signupError.textContent = 'البريد مسجل مسبقاً'; signupError.classList.remove('hidden'); return; }
+                const newUser = { fullName: name, email: email.toLowerCase(), password: btoa(pass), balance: 10000, btcBalance: 0.15, ethBalance: 1.2, transactions: [], joinDate: new Date().toISOString().split('T')[0] };
+                const users = getUsers();
+                users.push(newUser);
+                saveUsers(users);
+                setSession(newUser, true);
+                signupSuccess.textContent = '✅ تم إنشاء الحساب!';
+                signupSuccess.classList.remove('hidden');
+                setTimeout(() => { enterPlatform(newUser); showToast(`أهلاً ${name}`); }, 600);
+            });
+            
+            const depositModal = document.getElementById('deposit-modal');
+            const withdrawModal = document.getElementById('withdraw-modal');
+            const withdrawAddress = document.getElementById('withdraw-address');
+            const withdrawAmount = document.getElementById('withdraw-amount');
+            const withdrawError = document.getElementById('withdraw-error');
+            const depositAddressSpan = document.getElementById('deposit-address');
+            const networkLabel = document.getElementById('network-label');
+            const btnTRC20 = document.getElementById('network-trc20');
+            const btnBEP20 = document.getElementById('network-bep20');
+            const copyBtn = document.getElementById('copy-address-btn');
+            const qrCanvas = document.getElementById('deposit-qrcode');
+            const withdrawBtnTRC20 = document.getElementById('withdraw-network-trc20');
+            const withdrawBtnBEP20 = document.getElementById('withdraw-network-bep20');
+            const withdrawAddressLabel = document.getElementById('withdraw-address-label');
+            
+            function generateQRCode(text) {
+                if (!text) return;
+                try {
+                    const qr = qrcode(0, 'M'); qr.addData(text); qr.make();
+                    const size = 200; const cells = qr.getModuleCount(); const cellSize = Math.floor(size / cells);
+                    const ctx = qrCanvas.getContext('2d'); qrCanvas.width = size; qrCanvas.height = size;
+                    ctx.clearRect(0, 0, size, size); ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, size, size); ctx.fillStyle = '#1e293b';
+                    for (let row = 0; row < cells; row++) for (let col = 0; col < cells; col++) if (qr.isDark(row, col)) ctx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                } catch (e) {}
+            }
+            
+            function setActiveNetwork(network) {
+                if (network === 'trc20') {
+                    btnTRC20.classList.add('active-network', 'bg-crypto-blue', 'text-white'); btnTRC20.classList.remove('border-light-border');
+                    btnBEP20.classList.remove('active-network', 'bg-crypto-blue', 'text-white'); btnBEP20.classList.add('border-light-border');
+                    depositAddressSpan.textContent = TRC20_ADDRESS; networkLabel.textContent = 'عنوان المحفظة (TRC20)'; generateQRCode(TRC20_ADDRESS);
+                } else {
+                    btnBEP20.classList.add('active-network', 'bg-crypto-blue', 'text-white'); btnBEP20.classList.remove('border-light-border');
+                    btnTRC20.classList.remove('active-network', 'bg-crypto-blue', 'text-white'); btnTRC20.classList.add('border-light-border');
+                    depositAddressSpan.textContent = BEP20_ADDRESS; networkLabel.textContent = 'عنوان المحفظة (BEP20 · BSC)'; generateQRCode(BEP20_ADDRESS);
+                }
+            }
+            
+            function setActiveWithdrawNetwork(network) {
+                if (network === 'trc20') {
+                    withdrawBtnTRC20.classList.add('active-network', 'bg-crypto-blue', 'text-white'); withdrawBtnTRC20.classList.remove('border-light-border');
+                    withdrawBtnBEP20.classList.remove('active-network', 'bg-crypto-blue', 'text-white'); withdrawBtnBEP20.classList.add('border-light-border');
+                    withdrawAddressLabel.textContent = 'عنوان المحفظة (TRC20)'; withdrawAddress.placeholder = 'أدخل عنوان المحفظة على شبكة TRC20';
+                } else {
+                    withdrawBtnBEP20.classList.add('active-network', 'bg-crypto-blue', 'text-white'); withdrawBtnBEP20.classList.remove('border-light-border');
+                    withdrawBtnTRC20.classList.remove('active-network', 'bg-crypto-blue', 'text-white'); withdrawBtnTRC20.classList.add('border-light-border');
+                    withdrawAddressLabel.textContent = 'عنوان المحفظة (BEP20 · BSC)'; withdrawAddress.placeholder = 'أدخل عنوان المحفظة على شبكة BEP20 (BSC)';
+                }
+            }
+            
+            btnTRC20.addEventListener('click', () => setActiveNetwork('trc20'));
+            btnBEP20.addEventListener('click', () => setActiveNetwork('bep20'));
+            withdrawBtnTRC20.addEventListener('click', () => setActiveWithdrawNetwork('trc20'));
+            withdrawBtnBEP20.addEventListener('click', () => setActiveWithdrawNetwork('bep20'));
+            
+            function openDepositModal() { depositModal.classList.remove('hidden'); setActiveNetwork('trc20'); }
+            function openWithdrawModal() { withdrawModal.classList.remove('hidden'); withdrawAddress.value = ''; withdrawAmount.value = ''; withdrawError.classList.add('hidden'); setActiveWithdrawNetwork('trc20'); }
+            function closeModals() { depositModal.classList.add('hidden'); withdrawModal.classList.add('hidden'); }
+            
+            document.getElementById('home-deposit-btn').addEventListener('click', openDepositModal);
+            document.getElementById('home-withdraw-btn').addEventListener('click', openWithdrawModal);
+            document.getElementById('account-deposit-btn').addEventListener('click', openDepositModal);
+            document.getElementById('account-withdraw-btn').addEventListener('click', openWithdrawModal);
+            document.getElementById('wallet-page-deposit-btn').addEventListener('click', openDepositModal);
+            document.getElementById('wallet-page-withdraw-btn').addEventListener('click', openWithdrawModal);
+            document.getElementById('cancel-deposit').addEventListener('click', closeModals);
+            document.getElementById('cancel-withdraw').addEventListener('click', closeModals);
+            copyBtn.addEventListener('click', () => navigator.clipboard?.writeText(depositAddressSpan.textContent).then(() => showToast('تم نسخ العنوان')).catch(() => showToast('انسخ يدوياً', true)));
+            
+            document.getElementById('confirm-withdraw').addEventListener('click', () => {
+                const address = withdrawAddress.value.trim();
+                const amount = parseFloat(withdrawAmount.value);
+                if (!address || address.length < 5) { withdrawError.textContent = 'عنوان المحفظة مطلوب'; withdrawError.classList.remove('hidden'); return; }
+                if (isNaN(amount) || amount <= 0) { withdrawError.textContent = 'المبلغ غير صحيح'; withdrawError.classList.remove('hidden'); return; }
+                const success = processWithdraw(address, amount);
+                if (success) closeModals();
+                else { withdrawError.textContent = 'رصيد غير كافٍ أو خطأ'; withdrawError.classList.remove('hidden'); }
+            });
+            
+            // التحويل
+            const transferAssetOptions = document.querySelectorAll('.asset-option');
+            const transferNetworkTRC20 = document.getElementById('transfer-network-trc20');
+            const transferNetworkBEP20 = document.getElementById('transfer-network-bep20');
+            const transferNetworkERC20 = document.getElementById('transfer-network-erc20');
+            const transferAmount = document.getElementById('transfer-amount');
+            const transferMaxBtn = document.getElementById('transfer-max-btn');
+            const transferSubmit = document.getElementById('transfer-submit-btn');
+            const transferError = document.getElementById('transfer-error');
+            const transferRecipient = document.getElementById('transfer-recipient');
+            
+            let currentTransferNetwork = 'TRC20';
+            
+            transferAssetOptions.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    transferAssetOptions.forEach(o => o.classList.remove('active'));
+                    opt.classList.add('active');
+                    currentTransferAsset = opt.dataset.asset;
+                    updateTransferAvailable();
+                });
+            });
+            
+            function setTransferActiveNetwork(network) {
+                currentTransferNetwork = network;
+                [transferNetworkTRC20, transferNetworkBEP20, transferNetworkERC20].forEach(btn => {
+                    btn.classList.remove('active-network', 'bg-crypto-blue', 'text-white');
+                    btn.classList.add('border-light-border');
+                });
+                if (network === 'TRC20') transferNetworkTRC20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
+                else if (network === 'BEP20') transferNetworkBEP20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
+                else if (network === 'ERC20') transferNetworkERC20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
+                calculateReceiveAmount();
+            }
+            
+            transferNetworkTRC20.addEventListener('click', () => setTransferActiveNetwork('TRC20'));
+            transferNetworkBEP20.addEventListener('click', () => setTransferActiveNetwork('BEP20'));
+            transferNetworkERC20.addEventListener('click', () => setTransferActiveNetwork('ERC20'));
+            transferAmount.addEventListener('input', calculateReceiveAmount);
+            transferMaxBtn.addEventListener('click', () => {
+                const user = getCurrentUser();
+                if (!user) return;
+                let max = 0;
+                if (currentTransferAsset === 'USDT') max = user.balance || 0;
+                else if (currentTransferAsset === 'BTC') max = user.btcBalance || 0;
+                else if (currentTransferAsset === 'ETH') max = user.ethBalance || 0;
+                transferAmount.value = max.toFixed(currentTransferAsset === 'USDT' ? 2 : 6);
+                calculateReceiveAmount();
+            });
+            
+            transferSubmit.addEventListener('click', () => {
+                const recipent = transferRecipient.value.trim();
+                const amount = parseFloat(transferAmount.value);
+                transferError.classList.add('hidden');
+                const result = processTransfer(currentTransferAsset, currentTransferNetwork, recipent, amount);
+                if (!result.success) {
+                    transferError.textContent = result.message;
+                    transferError.classList.remove('hidden');
+                } else {
+                    showToast(`تم تحويل ${amount.toFixed(6)} ${currentTransferAsset} بنجاح`);
+                    transferRecipient.value = '';
+                    transferAmount.value = '';
+                    calculateReceiveAmount();
+                    updateTransferAvailable();
+                }
+            });
+            
+            // مودال المزودين
+            const providersModal = document.getElementById('providers-modal');
+            document.getElementById('show-more-providers-btn').addEventListener('click', () => { renderProvidersList(); providersModal.classList.remove('hidden'); });
+            document.getElementById('close-providers-modal').addEventListener('click', () => providersModal.classList.add('hidden'));
+            
+            // مودال الترخيص
+            const licenseModal = document.getElementById('license-modal');
+            document.getElementById('bell-license-icon').addEventListener('click', () => licenseModal.classList.remove('hidden'));
+            document.getElementById('close-license-modal').addEventListener('click', () => licenseModal.classList.add('hidden'));
+            document.getElementById('close-license-btn').addEventListener('click', () => licenseModal.classList.add('hidden'));
+            
+            // مودال الأخبار
+            const newsModal = document.getElementById('news-modal');
+            document.getElementById('new-news-btn').addEventListener('click', () => newsModal.classList.remove('hidden'));
+            document.getElementById('close-news-modal').addEventListener('click', () => newsModal.classList.add('hidden'));
+            
+            // مودال V-Wallet
+            const walletModal = document.getElementById('wallet-modal');
+            document.getElementById('v-wallet-btn').addEventListener('click', () => { updateWalletModalData(); walletModal.classList.remove('hidden'); });
+            document.getElementById('close-wallet-modal').addEventListener('click', () => walletModal.classList.add('hidden'));
+            document.getElementById('wallet-deposit-btn').addEventListener('click', () => { walletModal.classList.add('hidden'); openDepositModal(); });
+            document.getElementById('wallet-withdraw-btn').addEventListener('click', () => { walletModal.classList.add('hidden'); openWithdrawModal(); });
+            document.getElementById('wallet-transfer-btn').addEventListener('click', () => { walletModal.classList.add('hidden'); switchPage('wallet'); });
+            
+            // أزرار الإطار الزمني
+            document.querySelectorAll('.timeframe-btn').forEach(btn => btn.addEventListener('click', () => changeTimeframe(btn.dataset.tf)));
+            
+            // التنقل السفلي
+            navItems.forEach(item => item.addEventListener('click', () => switchPage(item.dataset.page)));
+            
+            // تسجيل الخروج
+            function logout() {
+                clearSession();
+                authScreen.classList.remove('hidden');
+                mainScreen.classList.add('hidden');
+                showLoginTab();
+                showToast('تم تسجيل الخروج');
+                if (simulationInterval) clearInterval(simulationInterval);
+            }
+            document.getElementById('logout-btn-header').addEventListener('click', logout);
+            document.getElementById('logout-btn-account').addEventListener('click', logout);
+            
+            // تغيير كلمة المرور
+            const passModal = document.getElementById('password-modal');
+            document.getElementById('change-password-btn').addEventListener('click', () => passModal.classList.remove('hidden'));
+            document.getElementById('cancel-password').addEventListener('click', () => passModal.classList.add('hidden'));
+            document.getElementById('save-password').addEventListener('click', () => {
+                const curr = document.getElementById('current-password').value;
+                const newP = document.getElementById('new-password').value;
+                const conf = document.getElementById('confirm-new-password').value;
+                const err = document.getElementById('password-error'), succ = document.getElementById('password-success');
+                err.classList.add('hidden'); succ.classList.add('hidden');
+                const res = changePassword(curr, newP, conf);
+                if (!res.success) { err.textContent = res.message; err.classList.remove('hidden'); }
+                else { succ.textContent = '✅ تم تغيير كلمة المرور'; succ.classList.remove('hidden'); setTimeout(() => passModal.classList.add('hidden'), 1200); }
+            });
+            
+            if (!restoreSession()) showLoginTab(); else initMarketData();
         });
-
-        if(!restoreSession()) { showLoginTab(); } else { initMarketData(); }
-    });
+    })();
 </script>
 </body>
                 </html>
