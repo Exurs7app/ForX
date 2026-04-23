@@ -800,7 +800,7 @@
 
 <script>
     (function() {
-        // ---------- تحسين PWA مع أيقونات متعددة الأحجام ----------
+        // ---------- تحسين PWA مع ضمان استجابة زر التثبيت ----------
         function setupPWA() {
             // إنشاء بيان متوافق مع جميع المنصات
             const manifest = {
@@ -858,32 +858,82 @@
             let deferredPrompt;
             const installIcons = [document.getElementById('install-icon-auth'), document.getElementById('install-icon-main')];
             
-            // إخفاء الأيقونات إذا كان التطبيق مثبتاً مسبقاً
-            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            // دالة لإخفاء الأيقونات إذا كان التطبيق مثبتاً أو غير مدعوم
+            function hideInstallIcons() {
                 installIcons.forEach(icon => icon.classList.add('hidden'));
             }
             
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
-                installIcons.forEach(icon => icon.classList.remove('hidden'));
-            });
+            function showInstallIcons() {
+                if (deferredPrompt) {
+                    installIcons.forEach(icon => icon.classList.remove('hidden'));
+                } else {
+                    hideInstallIcons();
+                }
+            }
             
+            // التحقق من حالة التثبيت المسبق
+            function isAppInstalled() {
+                return window.matchMedia('(display-mode: standalone)').matches || 
+                       window.navigator.standalone === true || 
+                       document.referrer.includes('android-app://');
+            }
+            
+            if (isAppInstalled()) {
+                hideInstallIcons();
+            } else {
+                // مراقبة حدث beforeinstallprompt
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    // منع ظهور نافذة التثبيت التلقائية
+                    e.preventDefault();
+                    // حفظ الحدث لاستخدامه لاحقاً
+                    deferredPrompt = e;
+                    // إظهار أيقونات التثبيت
+                    showInstallIcons();
+                });
+            }
+            
+            // معالج النقر على أيقونات التثبيت
             async function installHandler() {
-                if (!deferredPrompt) return;
+                if (!deferredPrompt) {
+                    // في بعض المتصفحات قد لا يكون الحدث متاحاً، نوجه المستخدم للتثبيت اليدوي
+                    showToast('يمكنك تثبيت التطبيق من قائمة المتصفح (خيارات > تثبيت التطبيق)');
+                    return;
+                }
+                
+                // إظهار نافذة التثبيت
                 deferredPrompt.prompt();
+                
+                // انتظار اختيار المستخدم
                 const { outcome } = await deferredPrompt.userChoice;
+                
                 if (outcome === 'accepted') {
                     showToast('🎉 تم تثبيت ForX في درج التطبيقات!');
-                    installIcons.forEach(icon => icon.classList.add('hidden'));
+                    hideInstallIcons();
+                } else {
+                    showToast('تم إلغاء التثبيت');
                 }
+                
+                // إعادة تعيين deferredPrompt لأنه يمكن استخدامه مرة واحدة فقط
                 deferredPrompt = null;
+                // إخفاء الأيقونات بعد محاولة التثبيت
+                hideInstallIcons();
             }
             
+            // إضافة مستمعي النقر
             installIcons.forEach(icon => icon.addEventListener('click', installHandler));
+            
+            // عند تثبيت التطبيق بنجاح (بغض النظر عن الطريقة)
             window.addEventListener('appinstalled', () => {
-                installIcons.forEach(icon => icon.classList.add('hidden'));
+                hideInstallIcons();
                 showToast('تم تثبيت التطبيق بنجاح');
+                deferredPrompt = null;
+            });
+            
+            // التحقق من تغير حالة العرض (عند فتح التطبيق من الشاشة الرئيسية)
+            window.matchMedia('(display-mode: standalone)').addEventListener('change', (evt) => {
+                if (evt.matches) {
+                    hideInstallIcons();
+                }
             });
         }
         
@@ -1723,4 +1773,4 @@
     })();
 </script>
 </body>
-                </html>
+                    </html>
