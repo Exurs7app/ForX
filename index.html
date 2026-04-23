@@ -1110,29 +1110,68 @@
             </div>
         </div>
 
-        <!-- مودال الدعوة (إحالة) -->
+        <!-- مودال الدعوة (إحالة) - تم تحديثه بالرابط الجديد وتفاصيل أكثر -->
         <div id="invite-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
             <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-user-plus text-purple-500"></i> دعوة صديق</h3>
                     <button id="close-invite-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
                 </div>
-                <div class="space-y-3 text-sm">
-                    <p class="text-secondary">ادعُ أصدقائك للانضمام إلى ForX واحصل على مكافآت USDT عن كل صديق يقوم بالإيداع والتداول.</p>
-                    <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-xl border border-purple-100">
-                        <p class="font-bold text-primary mb-1">رابط الدعوة الخاص بك</p>
-                        <div class="flex items-center justify-between gap-2 bg-white p-2 rounded-lg border">
-                            <code class="text-sm font-mono break-all text-primary" id="invite-link">https://forx.com/ref/12345</code>
-                            <button id="copy-invite-link" class="copy-btn p-2 rounded-lg bg-gray-100 text-crypto-blue hover:bg-gray-200 transition"><i class="fas fa-copy"></i></button>
+                <div class="space-y-4 text-sm">
+                    <p class="text-secondary leading-relaxed">
+                        انضم إلى مجتمع ForX الأسرع نمواً في تداول العملات الرقمية. شارك رابط الدعوة الخاص بك مع أصدقائك ليكسبوا ويكسبوا معك!
+                    </p>
+                    <div class="bg-gradient-to-r from-purple-100 to-blue-100 p-4 rounded-xl border border-purple-200">
+                        <p class="font-bold text-primary mb-2 flex items-center gap-1">
+                            <i class="fas fa-link text-purple-500"></i> رابط الدعوة الجديد
+                        </p>
+                        <div class="flex items-center justify-between gap-2 bg-white p-3 rounded-lg border border-gray-200">
+                            <code class="text-sm font-mono break-all text-primary font-medium" id="invite-link">https://exurs7app.github.io/ForX/</code>
+                            <button id="copy-invite-link" class="copy-btn p-2 rounded-lg bg-purple-500 text-white hover:bg-purple-600 transition shadow-sm">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <p class="text-xs text-secondary mt-2">هذا هو الرابط الرسمي الجديد لمنصة ForX – أسرع وأكثر أماناً.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl border border-light-border">
+                        <p class="font-bold text-primary mb-2 flex items-center gap-1">
+                            <i class="fas fa-key text-crypto-blue"></i> أو استخدم كود الدعوة
+                        </p>
+                        <div class="flex items-center gap-2">
+                            <code class="text-xl font-bold text-crypto-blue bg-white px-3 py-2 rounded-lg border border-gray-200">EXURS2024</code>
+                            <button id="copy-invite-code" class="copy-btn p-2 rounded-lg bg-gray-100 text-crypto-blue hover:bg-gray-200 transition">
+                                <i class="fas fa-copy text-sm"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="bg-gray-50 p-3 rounded-xl border border-light-border">
-                        <p class="font-bold text-primary mb-1">أو استخدم كود الدعوة</p>
-                        <code class="text-lg font-bold text-crypto-blue">INVITE2024</code>
+                    <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-xl border border-yellow-200">
+                        <h4 class="font-bold text-primary flex items-center gap-1 mb-2">
+                            <i class="fas fa-gift text-yellow-500"></i> المكافآت والفوائد
+                        </h4>
+                        <ul class="space-y-2 text-xs text-secondary">
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-crypto-green mt-0.5"></i>
+                                <span><strong>5 USDT</strong> مكافأة فورية لكل صديق يقوم بالإيداع والتداول لأول مرة.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-crypto-green mt-0.5"></i>
+                                <span>عمولة دائمة <strong>0.5%</strong> من جميع عمولات تداول أصدقائك مدى الحياة.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-crypto-green mt-0.5"></i>
+                                <span>دخول تلقائي في سحب شهري على جائزة <strong>1000 USDT</strong> عند دعوة 3 أصدقاء نشطين.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fas fa-check-circle text-crypto-green mt-0.5"></i>
+                                <span>وصول مبكر إلى الميزات الجديدة وعروض حصرية للمُحيلين.</span>
+                            </li>
+                        </ul>
                     </div>
-                    <p class="text-xs text-secondary"><i class="fas fa-gift text-yellow-500 ml-1"></i> المكافأة: 5 USDT لكل صديق نشط، و0.5% من عمولات تداوله مدى الحياة!</p>
+                    <p class="text-xs text-secondary text-center">
+                        لمزيد من التفاصيل، تفضل بزيارة <span class="text-crypto-blue font-medium">مركز المساعدة</span>.
+                    </p>
                 </div>
-                <button id="close-invite-btn" class="w-full mt-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-primary font-medium transition">حسناً</button>
+                <button id="close-invite-btn" class="w-full mt-5 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-primary font-medium transition">حسناً</button>
             </div>
         </div>
     </div>
@@ -2408,7 +2447,7 @@
                 document.getElementById('close-news-modal').addEventListener('click', function() { newsModal.classList.add(
                         'hidden'); });
 
-                // مودال الدعوة
+                // مودال الدعوة - تم تحديثه مع الرابط الجديد والكود ونسخ الكود
                 var inviteModal = document.getElementById('invite-modal');
                 document.getElementById('invite-btn').addEventListener('click', function() {
                     inviteModal.classList.remove('hidden');
@@ -2419,16 +2458,30 @@
                 document.getElementById('close-invite-btn').addEventListener('click', function() {
                     inviteModal.classList.add('hidden');
                 });
+                // نسخ رابط الدعوة الجديد
                 document.getElementById('copy-invite-link').addEventListener('click', function() {
                     var link = document.getElementById('invite-link').textContent;
                     if (navigator.clipboard) {
                         navigator.clipboard.writeText(link).then(function() {
-                            showToast('تم نسخ رابط الدعوة');
+                            showToast('تم نسخ رابط الدعوة الجديد');
                         }).catch(function() {
                             showToast('انسخ الرابط يدوياً', true);
                         });
                     } else {
                         showToast('انسخ الرابط يدوياً', true);
+                    }
+                });
+                // نسخ كود الدعوة EXURS2024
+                document.getElementById('copy-invite-code').addEventListener('click', function() {
+                    var code = 'EXURS2024';
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(code).then(function() {
+                            showToast('تم نسخ كود الدعوة EXURS2024');
+                        }).catch(function() {
+                            showToast('انسخ الكود يدوياً', true);
+                        });
+                    } else {
+                        showToast('انسخ الكود يدوياً', true);
                     }
                 });
 
