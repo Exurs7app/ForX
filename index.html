@@ -18,7 +18,7 @@
     <link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='152' height='152'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" sizes="120x120" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='120' height='120'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
-    <link rel="manifest" id="pwa-manifest">
+    <!-- manifest سيوضع ديناميكياً عبر JavaScript -->
 
     <title>ForX · الأسواق</title>
 
@@ -1113,23 +1113,108 @@
 
     <script>
         (function() {
-            // ==================== إعداد PWA محسّن ====================
-            // المتغير العام لتخزين حدث beforeinstallprompt
-            let deferredPrompt = null;
-            // هل التطبيق مثبت بالفعل
-            let isAppInstalled = false;
+            // ==================== أولاً: تعريف دوال مساعدة ====================
+            function showToast(msg, isError) {
+                isError = isError || false;
+                var toast = document.createElement('div');
+                toast.className = 'toast';
+                toast.style.background = isError ? '#f84960' : '#1e293b';
+                toast.textContent = msg;
+                document.body.appendChild(toast);
+                setTimeout(function() { toast.remove(); }, 3000);
+            }
 
-            function setupPWA() {
-                // التحقق من حالة التثبيت
-                function checkInstallState() {
-                    return window.matchMedia('(display-mode: standalone)').matches ||
-                        window.navigator.standalone === true ||
-                        document.referrer.includes('android-app://');
+            // ==================== ثانياً: إعداد PWA احترافي ====================
+            var deferredPrompt = null;
+            var isAppInstalled = false;
+
+            // التحقق من حالة التثبيت
+            function checkInstallState() {
+                return window.matchMedia('(display-mode: standalone)').matches ||
+                    window.navigator.standalone === true ||
+                    document.referrer.includes('android-app://');
+            }
+
+            isAppInstalled = checkInstallState();
+
+            // عناصر أيقونة التثبيت
+            var installIconAuth = document.getElementById('install-icon-auth');
+            var installIconMain = document.getElementById('install-icon-main');
+            var allInstallIcons = [installIconAuth, installIconMain].filter(Boolean);
+
+            // إظهار أيقونات التثبيت
+            function showInstallIcons() {
+                if (isAppInstalled) return;
+                if (deferredPrompt || isInstallableBrowser()) {
+                    allInstallIcons.forEach(function(icon) {
+                        if (icon) icon.classList.remove('hidden');
+                    });
                 }
-                isAppInstalled = checkInstallState();
+            }
 
-                // إنشاء ملف manifest مع جميع الخصائص المطلوبة
-                const manifestData = {
+            // إخفاء أيقونات التثبيت
+            function hideInstallIcons() {
+                allInstallIcons.forEach(function(icon) {
+                    if (icon) icon.classList.add('hidden');
+                });
+            }
+
+            // هل المتصفح يدعم التثبيت
+            function isInstallableBrowser() {
+                var ua = navigator.userAgent.toLowerCase();
+                // Chrome/Edge على Android، Safari على iOS
+                if (ua.includes('chrome') || ua.includes('edge') || ua.includes('samsung')) return true;
+                if (ua.includes('safari') && !ua.includes('chrome') && /iphone|ipad|ipod/.test(ua)) return true;
+                if (ua.includes('firefox') && /android/.test(ua)) return true;
+                return false;
+            }
+
+            // معالج التثبيت الموحد
+            async function handleInstallClick() {
+                if (isAppInstalled) {
+                    showToast('✅ التطبيق مثبت بالفعل في درج التطبيقات');
+                    hideInstallIcons();
+                    return;
+                }
+
+                if (deferredPrompt) {
+                    try {
+                        await deferredPrompt.prompt();
+                        var choiceResult = await deferredPrompt.userChoice;
+                        deferredPrompt = null;
+                        if (choiceResult.outcome === 'accepted') {
+                            isAppInstalled = true;
+                            hideInstallIcons();
+                            showToast('🎉 تم تثبيت ForX في درج التطبيقات!');
+                        } else {
+                            showToast('تم إلغاء التثبيت - يمكنك التثبيت لاحقاً');
+                        }
+                    } catch (err) {
+                        console.warn('خطأ في التثبيت:', err);
+                        showInstallGuide();
+                    }
+                } else {
+                    showInstallGuide();
+                }
+            }
+
+            // دليل التثبيت حسب المتصفح
+            function showInstallGuide() {
+                var ua = navigator.userAgent.toLowerCase();
+                if (ua.includes('chrome') || ua.includes('edge') || ua.includes('samsung')) {
+                    showToast('📱 من قائمة المتصفح: ⋮ > تثبيت التطبيق أو "إضافة إلى الشاشة الرئيسية"');
+                } else if (ua.includes('safari') && !ua.includes('chrome') && /iphone|ipad|ipod/.test(ua)) {
+                    showToast('📱 من شريط الأدوات السفلي: ↑ (مشاركة) > إضافة إلى الشاشة الرئيسية');
+                } else if (ua.includes('firefox') && /android/.test(ua)) {
+                    showToast('📱 اضغط على أيقونة المنزل 🏠 في شريط العنوان للتثبيت');
+                } else {
+                    showToast('📱 استخدم قائمة المتصفح > "تثبيت التطبيق" أو "Add to Home Screen"');
+                }
+            }
+
+            // إنشاء manifest باستخدام Blob URL (أكثر توافقاً من data URI)
+            function createManifest() {
+                var manifestData = {
                     name: "ForX - تداول العملات الرقمية",
                     short_name: "ForX",
                     description: "منصة تداول العملات الرقمية ForX - تداول آمن وسريع",
@@ -1147,21 +1232,21 @@
                     icons: [{
                         src: "data:image/svg+xml," + encodeURIComponent(
                             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'
-                            ),
+                        ),
                         sizes: "512x512",
                         type: "image/svg+xml",
                         purpose: "any maskable"
                     }, {
                         src: "data:image/svg+xml," + encodeURIComponent(
                             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="192" height="192"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'
-                            ),
+                        ),
                         sizes: "192x192",
                         type: "image/svg+xml",
                         purpose: "any maskable"
                     }, {
                         src: "data:image/svg+xml," + encodeURIComponent(
                             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="384" height="384"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'
-                            ),
+                        ),
                         sizes: "384x384",
                         type: "image/svg+xml",
                         purpose: "any maskable"
@@ -1169,7 +1254,7 @@
                     screenshots: [{
                         src: "data:image/svg+xml," + encodeURIComponent(
                             '<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920"><rect width="1080" height="1920" fill="#3772ff"/><text x="540" y="960" font-size="80" fill="white" text-anchor="middle" font-family="Arial">ForX</text></svg>'
-                            ),
+                        ),
                         sizes: "1080x1920",
                         type: "image/svg+xml",
                         form_factor: "narrow",
@@ -1177,218 +1262,174 @@
                     }]
                 };
 
-                // تحويل manifest إلى data URI (أكثر استقراراً من blob URL)
-                const manifestJSON = JSON.stringify(manifestData);
-                const manifestDataUri = 'data:application/json;base64,' + btoa(unescape(encodeURIComponent(
-                    manifestJSON)));
+                var manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+                var manifestUrl = URL.createObjectURL(manifestBlob);
 
-                // تعيين رابط manifest
-                const manifestLink = document.getElementById('pwa-manifest');
-                if (manifestLink) {
-                    manifestLink.href = manifestDataUri;
-                }
+                // إنشاء عنصر link للمانيفست
+                var linkEl = document.createElement('link');
+                linkEl.rel = 'manifest';
+                linkEl.href = manifestUrl;
+                linkEl.id = 'pwa-manifest-dynamic';
+                document.head.appendChild(linkEl);
 
-                // تسجيل Service Worker
-                if ('serviceWorker' in navigator) {
-                    const swCode = `
-                        const CACHE_NAME = 'forx-pwa-v2';
-                        const urlsToCache = [
-                            './',
-                            './index.html',
-                            '${window.location.href}'
-                        ];
-
-                        self.addEventListener('install', function(event) {
-                            event.waitUntil(
-                                caches.open(CACHE_NAME).then(function(cache) {
-                                    return cache.addAll(urlsToCache).catch(function(err) {
-                                        console.log('Cache addAll error (non-critical):', err);
-                                    });
-                                })
-                            );
-                            self.skipWaiting();
-                        });
-
-                        self.addEventListener('activate', function(event) {
-                            event.waitUntil(
-                                caches.keys().then(function(keys) {
-                                    return Promise.all(
-                                        keys.map(function(key) {
-                                            if (key !== CACHE_NAME) {
-                                                return caches.delete(key);
-                                            }
-                                        })
-                                    );
-                                })
-                            );
-                            clients.claim();
-                        });
-
-                        self.addEventListener('fetch', function(event) {
-                            if (event.request.method !== 'GET') return;
-                            event.respondWith(
-                                caches.match(event.request).then(function(resp) {
-                                    return resp || fetch(event.request).then(function(response) {
-                                        if (!response || response.status !== 200) return response;
-                                        var responseToCache = response.clone();
-                                        caches.open(CACHE_NAME).then(function(cache) {
-                                            cache.put(event.request, responseToCache);
-                                        });
-                                        return response;
-                                    }).catch(function() {
-                                        return caches.match('./index.html');
-                                    });
-                                })
-                            );
-                        });
-                    `;
-                    const swBlob = new Blob([swCode], { type: 'application/javascript' });
-                    const swUrl = URL.createObjectURL(swBlob);
-                    navigator.serviceWorker.register(swUrl, { scope: '/' })
-                        .then(function(reg) {
-                            console.log('✅ Service Worker مسجل بنجاح:', reg.scope);
-                        })
-                        .catch(function(err) {
-                            console.warn('⚠️ فشل تسجيل Service Worker:', err);
-                        });
-                }
+                return manifestUrl;
             }
 
-            // عناصر واجهة التثبيت
-            const installIconAuth = document.getElementById('install-icon-auth');
-            const installIconMain = document.getElementById('install-icon-main');
-            const allInstallIcons = [installIconAuth, installIconMain].filter(Boolean);
-
-            // دالة إظهار أيقونات التثبيت
-            function showAllInstallIcons() {
-                if (isAppInstalled) return;
-                if (deferredPrompt) {
-                    allInstallIcons.forEach(function(icon) {
-                        if (icon) icon.classList.remove('hidden');
-                    });
-                }
-            }
-
-            // دالة إخفاء أيقونات التثبيت
-            function hideAllInstallIcons() {
-                allInstallIcons.forEach(function(icon) {
-                    if (icon) icon.classList.add('hidden');
-                });
-            }
-
-            // دالة معالجة التثبيت
-            async function handleInstallClick() {
-                if (isAppInstalled) {
-                    showToast('✅ التطبيق مثبت بالفعل في درج التطبيقات');
-                    hideAllInstallIcons();
+            // تسجيل Service Worker (محسّن للعمل عبر blob URL)
+            function registerServiceWorker() {
+                if (!('serviceWorker' in navigator)) {
+                    console.log('⚠️ Service Worker غير مدعوم في هذا المتصفح');
                     return;
                 }
 
-                if (!deferredPrompt) {
-                    // توجيه المستخدم للتثبيت اليدوي حسب المتصفح
-                    const ua = navigator.userAgent.toLowerCase();
-                    if (ua.includes('chrome') || ua.includes('edge')) {
-                        showToast('📱 من قائمة المتصفح: ⋮ > تثبيت التطبيق أو إضافة إلى الشاشة الرئيسية');
-                    } else if (ua.includes('safari') && !ua.includes('chrome')) {
-                        showToast('📱 من شريط الأدوات: ↑ > إضافة إلى الشاشة الرئيسية');
-                    } else if (ua.includes('firefox')) {
-                        showToast('📱 اضغط على أيقونة المنزل في شريط العنوان للتثبيت');
-                    } else {
-                        showToast('📱 استخدم قائمة المتصفح > تثبيت التطبيق');
-                    }
-                    return;
-                }
+                var swCode = [
+                    'var CACHE_NAME = "forx-pwa-v3";',
+                    'var urlsToCache = [',
+                    '  "./",',
+                    '  "./index.html",',
+                    '  "' + window.location.href + '"',
+                    '];',
+                    '',
+                    'self.addEventListener("install", function(event) {',
+                    '  event.waitUntil(',
+                    '    caches.open(CACHE_NAME).then(function(cache) {',
+                    '      return cache.addAll(urlsToCache).catch(function(err) {',
+                    '        console.log("Cache addAll (non-critical):", err);',
+                    '      });',
+                    '    })',
+                    '  );',
+                    '  self.skipWaiting();',
+                    '});',
+                    '',
+                    'self.addEventListener("activate", function(event) {',
+                    '  event.waitUntil(',
+                    '    caches.keys().then(function(keys) {',
+                    '      return Promise.all(',
+                    '        keys.map(function(key) {',
+                    '          if (key !== CACHE_NAME) return caches.delete(key);',
+                    '        })',
+                    '      );',
+                    '    })',
+                    '  );',
+                    '  clients.claim();',
+                    '});',
+                    '',
+                    'self.addEventListener("fetch", function(event) {',
+                    '  if (event.request.method !== "GET") return;',
+                    '  event.respondWith(',
+                    '    caches.match(event.request).then(function(resp) {',
+                    '      return resp || fetch(event.request).then(function(response) {',
+                    '        if (!response || response.status !== 200) return response;',
+                    '        var responseToCache = response.clone();',
+                    '        caches.open(CACHE_NAME).then(function(cache) {',
+                    '          cache.put(event.request, responseToCache);',
+                    '        });',
+                    '        return response;',
+                    '      }).catch(function() {',
+                    '        return caches.match("./index.html");',
+                    '      });',
+                    '    })',
+                    '  );',
+                    '});'
+                ].join('\n');
 
-                try {
-                    // إظهار حوار التثبيت
-                    await deferredPrompt.prompt();
-                    const choiceResult = await deferredPrompt.userChoice;
-                    if (choiceResult.outcome === 'accepted') {
-                        showToast('🎉 تم تثبيت ForX في درج التطبيقات!');
-                        isAppInstalled = true;
-                        hideAllInstallIcons();
-                    } else {
-                        showToast('تم إلغاء التثبيت - يمكنك التثبيت لاحقاً');
-                    }
-                } catch (err) {
-                    console.warn('خطأ في التثبيت:', err);
-                    showToast('⚠️ حدث خطأ. جرب من قائمة المتصفح.');
-                }
-                // إعادة تعيين deferredPrompt
-                deferredPrompt = null;
-                hideAllInstallIcons();
-            }
+                var swBlob = new Blob([swCode], { type: 'application/javascript' });
+                var swUrl = URL.createObjectURL(swBlob);
 
-            // مراقبة حدث beforeinstallprompt
-            window.addEventListener('beforeinstallprompt', function(e) {
-                // منع ظهور حوار التثبيت التلقائي من المتصفح
-                e.preventDefault();
-                // حفظ الحدث
-                deferredPrompt = e;
-                // إظهار أيقونات التثبيت
-                if (!isAppInstalled) {
-                    showAllInstallIcons();
-                }
-                console.log('✅ beforeinstallprompt جاهز - يمكن تثبيت التطبيق');
-            });
-
-            // عند نجاح التثبيت
-            window.addEventListener('appinstalled', function() {
-                isAppInstalled = true;
-                deferredPrompt = null;
-                hideAllInstallIcons();
-                showToast('🎉 تم تثبيت ForX بنجاح في درج التطبيقات!');
-                console.log('✅ تم تثبيت التطبيق');
-            });
-
-            // مراقبة تغير وضع العرض
-            window.matchMedia('(display-mode: standalone)').addEventListener('change', function(evt) {
-                if (evt.matches) {
-                    isAppInstalled = true;
-                    hideAllInstallIcons();
-                }
-            });
-
-            // إضافة مستمعي النقر على أيقونات التثبيت
-            allInstallIcons.forEach(function(icon) {
-                if (icon) {
-                    icon.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleInstallClick();
+                // محاولة التسجيل مع scope صحيح
+                navigator.serviceWorker.register(swUrl, { scope: '/' })
+                    .then(function(reg) {
+                        console.log('✅ Service Worker مسجل بنجاح:', reg.scope);
+                        // تحديث service worker عند وجود نسخة جديدة
+                        reg.addEventListener('updatefound', function() {
+                            var newWorker = reg.installing;
+                            if (newWorker) {
+                                newWorker.addEventListener('statechange', function() {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        showToast('🔄 تحديث جديد متاح - سيتم التفعيل تلقائياً');
+                                    }
+                                });
+                            }
+                        });
+                    })
+                    .catch(function(err) {
+                        console.warn('⚠️ فشل تسجيل Service Worker:', err.message);
+                        // محاولة بديلة مع scope أضيق
+                        navigator.serviceWorker.register(swUrl, { scope: './' })
+                            .then(function(reg) {
+                                console.log('✅ Service Worker مسجل (fallback):', reg.scope);
+                            })
+                            .catch(function(err2) {
+                                console.warn('⚠️ فشل تسجيل Service Worker بالكامل:', err2.message);
+                            });
                     });
-                }
-            });
+            }
 
             // بدء إعداد PWA
-            setupPWA();
+            function setupPWA() {
+                createManifest();
+                registerServiceWorker();
 
-            // التحقق بعد فترة قصيرة إذا كان التطبيق قابلاً للتثبيت ولكن لم يتم تشغيل beforeinstallprompt بعد
-            setTimeout(function() {
-                if (!isAppInstalled && !deferredPrompt) {
-                    // قد يكون المتصفح لا يدعم beforeinstallprompt لكنه يدعم التثبيت
-                    // نتحقق من وجود طريقة تثبيت بديلة
-                    if ('getInstalledRelatedApps' in navigator) {
-                        navigator.getInstalledRelatedApps().then(function(apps) {
+                // مراقبة حدث beforeinstallprompt (Chrome, Edge, Samsung Internet)
+                window.addEventListener('beforeinstallprompt', function(e) {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    if (!isAppInstalled) {
+                        showInstallIcons();
+                    }
+                    console.log('✅ beforeinstallprompt جاهز - يمكن تثبيت التطبيق');
+                });
+
+                // عند نجاح التثبيت
+                window.addEventListener('appinstalled', function() {
+                    isAppInstalled = true;
+                    deferredPrompt = null;
+                    hideInstallIcons();
+                    showToast('🎉 تم تثبيت ForX بنجاح في درج التطبيقات!');
+                    console.log('✅ تم تثبيت التطبيق');
+                });
+
+                // مراقبة تغير وضع العرض (للكشف عن التثبيت اليدوي)
+                window.matchMedia('(display-mode: standalone)').addEventListener('change', function(evt) {
+                    if (evt.matches) {
+                        isAppInstalled = true;
+                        hideInstallIcons();
+                    }
+                });
+
+                // إضافة مستمعي النقر على أيقونات التثبيت
+                allInstallIcons.forEach(function(icon) {
+                    if (icon) {
+                        icon.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleInstallClick();
+                        });
+                    }
+                });
+
+                // محاولة إظهار أيقونات التثبيت بعد فترة (للمتصفحات التي تؤخر beforeinstallprompt)
+                setTimeout(function() {
+                    if (!isAppInstalled && !deferredPrompt && isInstallableBrowser()) {
+                        showInstallIcons();
+                    }
+                }, 2500);
+
+                // التحقق من التطبيقات المثبتة (Android)
+                if ('getInstalledRelatedApps' in navigator) {
+                    navigator.getInstalledRelatedApps()
+                        .then(function(apps) {
                             if (apps.length > 0) {
                                 isAppInstalled = true;
-                                hideAllInstallIcons();
+                                hideInstallIcons();
                             }
-                        }).catch(function() {});
-                    }
+                        })
+                        .catch(function() { /* غير مدعوم في بعض المتصفحات */ });
                 }
-            }, 3000);
-
-            // ==================== دوال مساعدة ====================
-            function showToast(msg, isError) {
-                isError = isError || false;
-                var toast = document.createElement('div');
-                toast.className = 'toast';
-                toast.style.background = isError ? '#f84960' : '#1e293b';
-                toast.textContent = msg;
-                document.body.appendChild(toast);
-                setTimeout(function() { toast.remove(); }, 3000);
             }
+
+            // بدء إعداد PWA فوراً
+            setupPWA();
 
             // ==================== إدارة المستخدمين والجلسة ====================
             var STORAGE_KEY = 'forx_users_db';
@@ -1671,10 +1712,8 @@
                 refreshBalanceAndTransactions();
                 switchPage('home');
                 initMarketData();
-                // إظهار أيقونة التثبيت في الشاشة الرئيسية إذا كان متاحاً
-                if (deferredPrompt && !isAppInstalled) {
-                    showAllInstallIcons();
-                }
+                // إظهار أيقونة التثبيت في الشاشة الرئيسية
+                showInstallIcons();
             }
 
             function switchPage(pageId) {
