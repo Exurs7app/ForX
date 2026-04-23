@@ -13,61 +13,12 @@
     <meta name="theme-color" content="#3772ff">
     <meta name="description" content="منصة تداول العملات الرقمية ForX - تداول آمن وسريع">
 
-    <!-- أيقونات متعددة لأجهزة iOS -->
+    <!-- أيقونات متعددة الأحجام لأجهزة iOS -->
     <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='152' height='152'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" sizes="120x120" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='120' height='120'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
-
-    <!-- manifest سيتم إنشاؤه ديناميكياً مبكراً جداً -->
-    <script>
-        (function createManifestEarly() {
-            var manifestData = {
-                name: "ForX - تداول العملات الرقمية",
-                short_name: "ForX",
-                description: "منصة تداول العملات الرقمية ForX - تداول آمن وسريع",
-                theme_color: "#3772ff",
-                background_color: "#f8fafc",
-                display: "standalone",
-                display_override: ["standalone", "minimal-ui"],
-                orientation: "portrait",
-                scope: location.origin + "/",
-                start_url: location.origin + location.pathname + location.search,
-                lang: "ar",
-                dir: "rtl",
-                categories: ["finance", "business"],
-                prefer_related_applications: false,
-                icons: [
-                    {
-                        src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'),
-                        sizes: "512x512",
-                        type: "image/svg+xml",
-                        purpose: "any maskable"
-                    },
-                    {
-                        src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="192" height="192"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'),
-                        sizes: "192x192",
-                        type: "image/svg+xml",
-                        purpose: "any maskable"
-                    },
-                    {
-                        src: "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="384" height="384"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'),
-                        sizes: "384x384",
-                        type: "image/svg+xml",
-                        purpose: "any maskable"
-                    }
-                ]
-            };
-            var manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
-            var manifestUrl = URL.createObjectURL(manifestBlob);
-            var linkEl = document.createElement('link');
-            linkEl.rel = 'manifest';
-            linkEl.href = manifestUrl;
-            linkEl.id = 'pwa-manifest-dynamic';
-            document.head.appendChild(linkEl);
-            window.__pwaManifestUrl = manifestUrl;
-        })();
-    </script>
+    <!-- manifest سيوضع ديناميكياً عبر JavaScript -->
 
     <title>ForX · الأسواق</title>
 
@@ -111,16 +62,6 @@
         body {
             background-color: #f8fafc;
             color: #1e293b;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        input,
-        textarea,
-        [contenteditable] {
-            -webkit-user-select: text;
-            user-select: text;
         }
 
         .no-scrollbar::-webkit-scrollbar {
@@ -151,16 +92,10 @@
             box-shadow: 0 8px 20px rgba(55, 114, 255, 0.2);
         }
 
-        .btn-primary:active {
-            transform: scale(0.97);
-            opacity: 0.85;
-        }
-
         .bottom-nav-item {
             transition: all 0.2s ease;
             color: #94a3b8;
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
 
         .bottom-nav-item.active {
@@ -233,22 +168,18 @@
 
         .toast {
             position: fixed;
-            bottom: 90px;
+            bottom: 20px;
             left: 20px;
             right: 20px;
             background: #1e293b;
             color: white;
-            padding: 14px 24px;
+            padding: 12px 20px;
             border-radius: 40px;
             text-align: center;
-            z-index: 9999;
+            z-index: 100;
             animation: slideUp 0.3s;
             max-width: 400px;
             margin: 0 auto;
-            font-weight: 500;
-            font-size: 0.95rem;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            pointer-events: none;
         }
 
         @keyframes slideUp {
@@ -353,8 +284,6 @@
             background: #f1f5f9;
             color: #64748b;
             transition: all 0.2s;
-            cursor: pointer;
-            border: none;
         }
 
         .timeframe-btn.active {
@@ -509,15 +438,12 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
-            background: rgba(55, 114, 255, 0.12);
+            background: rgba(55, 114, 255, 0.1);
             color: #3772ff;
-            font-size: 1.1rem;
-            border: none;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
+            font-size: 1rem;
         }
 
         .install-icon-btn:hover {
@@ -526,7 +452,7 @@
         }
 
         .install-icon-btn:active {
-            transform: scale(0.92);
+            transform: scale(0.95);
         }
 
         .install-badge {
@@ -539,7 +465,7 @@
                 box-shadow: 0 0 0 0 rgba(55, 114, 255, 0.4);
             }
             50% {
-                box-shadow: 0 0 0 10px rgba(55, 114, 255, 0);
+                box-shadow: 0 0 0 8px rgba(55, 114, 255, 0);
             }
         }
     </style>
@@ -668,8 +594,9 @@
                 </div>
             </div>
 
-            <!-- ========== الصفحات ========== -->
+            <!-- ========== الصفحات (الرئيسية، الأسواق، التزامن، المحفظة، الحساب) ========== -->
             <div id="page-home" class="page active-page px-4 py-3 space-y-4 fade-in">
+                <!-- بطاقة الإيداع - الرصيد حي -->
                 <div class="glass-card rounded-2xl p-5 bg-white border border-light-border shadow-md">
                     <div class="flex items-center gap-2 text-secondary mb-2"><i class="fas fa-wallet text-crypto-blue"></i><span class="text-sm font-medium">الإيداع</span></div>
                     <div class="text-4xl font-bold tracking-tight text-primary" id="home-balance">0.00 USDT</div>
@@ -679,12 +606,14 @@
                         <button id="home-withdraw-btn" class="flex-1 py-2.5 rounded-xl border border-light-border text-secondary font-semibold text-sm flex items-center justify-center gap-2 hover:bg-gray-50 transition"><i class="fas fa-arrow-up"></i> سحب</button>
                     </div>
                 </div>
+                <!-- صف سريع -->
                 <div class="grid grid-cols-4 gap-2">
                     <div id="new-news-btn" class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white cursor-pointer hover:shadow-md transition"><i class="fas fa-star text-yellow-500 text-lg"></i><span class="text-xs mt-1 text-secondary">New</span></div>
                     <div id="v-wallet-btn" class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white cursor-pointer hover:shadow-md transition"><i class="fas fa-credit-card text-purple-500 text-lg"></i><span class="text-xs mt-1 text-secondary">V-Wallet</span></div>
-                    <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white"><i class="fas fa-newspaper text-crypto-green text-lg"></i><span class="text-xs mt-1 text-secondary">أخبار</span></div>
+                    <div id="invite-btn" class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white cursor-pointer hover:shadow-md transition"><i class="fas fa-user-plus text-purple-500 text-lg"></i><span class="text-xs mt-1 text-secondary">دعوة</span></div>
                     <div class="flex flex-col items-center glass-card rounded-xl py-3 px-1 bg-white"><i class="fas fa-calendar-alt text-orange-400 text-lg"></i><span class="text-xs mt-1 text-secondary">التقويم</span></div>
                 </div>
+                <!-- أفضل مزودي الإشارات -->
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
                         <h2 class="text-lg font-bold flex items-center gap-2 text-primary"><i class="fas fa-trophy text-yellow-500"></i> أفضل 20 مزود إشارات</h2>
@@ -692,23 +621,43 @@
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div class="glass-card rounded-xl p-4 bg-white border border-light-border shadow-sm">
-                            <div class="flex items-start justify-between mb-2"><div><h3 class="font-bold text-base text-primary">GROW MORE T...</h3><span class="text-xs text-secondary flex items-center gap-1 mt-1"><i class="fab fa-bitcoin text-yellow-500"></i> Crypto</span></div><i class="fas fa-chevron-left text-gray-400 text-xs"></i></div>
+                            <div class="flex items-start justify-between mb-2">
+                                <div>
+                                    <h3 class="font-bold text-base text-primary">GROW MORE T...</h3><span class="text-xs text-secondary flex items-center gap-1 mt-1"><i class="fab fa-bitcoin text-yellow-500"></i> Crypto</span></div><i class="fas fa-chevron-left text-gray-400 text-xs"></i>
+                            </div>
                             <div class="mt-3"><span class="text-xs text-secondary">عائد 30 يوم</span><div class="text-2xl font-bold text-crypto-green">+153.65%</div></div>
                             <div class="mt-3 h-10 w-full"><svg viewBox="0 0 100 20" class="w-full h-full"><polyline points="0,15 10,12 20,14 30,8 40,10 50,5 60,7 70,3 80,6 90,2 100,4" stroke="#02c076" stroke-width="1.5" fill="none"/></svg></div>
                         </div>
                         <div class="glass-card rounded-xl p-4 bg-white border border-light-border shadow-sm">
-                            <div class="flex items-start justify-between mb-2"><div><h3 class="font-bold text-base text-primary">G Horizon Fund...</h3><span class="text-xs text-secondary flex items-center gap-1 mt-1"><i class="fas fa-oil-can text-orange-400"></i> Commodities</span></div><i class="fas fa-chevron-left text-gray-400 text-xs"></i></div>
+                            <div class="flex items-start justify-between mb-2">
+                                <div>
+                                    <h3 class="font-bold text-base text-primary">G Horizon Fund...</h3><span class="text-xs text-secondary flex items-center gap-1 mt-1"><i class="fas fa-oil-can text-orange-400"></i> Commodities</span></div><i class="fas fa-chevron-left text-gray-400 text-xs"></i>
+                            </div>
                             <div class="mt-3"><span class="text-xs text-secondary">عائد 30 يوم</span><div class="text-2xl font-bold text-crypto-green">+70.58%</div></div>
                             <div class="mt-3 h-10 w-full"><svg viewBox="0 0 100 20" class="w-full h-full"><polyline points="0,12 10,10 20,13 30,6 40,8 50,4 60,5 70,2 80,4 90,1 100,3" stroke="#02c076" stroke-width="1.5" fill="none"/></svg></div>
                         </div>
                     </div>
                 </div>
+                <!-- قائمة المراقبة -->
                 <div class="space-y-3">
-                    <div class="flex items-center justify-between"><h2 class="text-lg font-bold flex items-center gap-2 text-primary"><i class="fas fa-eye text-crypto-blue"></i> قائمة المراقبة</h2><button class="text-crypto-blue text-sm font-medium"><i class="fas fa-plus-circle"></i> إضافة</button></div>
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold flex items-center gap-2 text-primary"><i class="fas fa-eye text-crypto-blue"></i> قائمة المراقبة</h2><button class="text-crypto-blue text-sm font-medium"><i class="fas fa-plus-circle"></i> إضافة</button></div>
                     <div class="glass-card rounded-xl overflow-hidden border border-light-border bg-white shadow-sm">
-                        <div class="grid grid-cols-3 text-xs text-secondary py-3 px-3 border-b border-light-border bg-gray-50/80"><div>الزوج</div><div class="text-center">آخر سعر</div><div class="text-right">24س تغير</div></div>
-                        <div class="asset-row grid grid-cols-3 py-3 px-3 items-center"><div class="flex items-center gap-2"><i class="fab fa-bitcoin text-yellow-500 text-lg"></i><div><div class="font-semibold text-primary">BTC/USDT</div><div class="text-xs text-secondary">Bitcoin</div></div></div><div class="text-center font-semibold text-primary">$68,245.50</div><div class="text-right text-crypto-green font-semibold">+2.34%</div></div>
-                        <div class="asset-row grid grid-cols-3 py-3 px-3 items-center"><div class="flex items-center gap-2"><i class="fab fa-ethereum text-purple-500 text-lg"></i><div><div class="font-semibold text-primary">ETH/USDT</div><div class="text-xs text-secondary">Ethereum</div></div></div><div class="text-center font-semibold text-primary">$3,421.80</div><div class="text-right text-crypto-green font-semibold">+1.87%</div></div>
+                        <div class="grid grid-cols-3 text-xs text-secondary py-3 px-3 border-b border-light-border bg-gray-50/80">
+                            <div>الزوج</div>
+                            <div class="text-center">آخر سعر</div>
+                            <div class="text-right">24س تغير</div>
+                        </div>
+                        <div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                            <div class="flex items-center gap-2"><i class="fab fa-bitcoin text-yellow-500 text-lg"></i><div><div class="font-semibold text-primary">BTC/USDT</div><div class="text-xs text-secondary">Bitcoin</div></div></div>
+                            <div class="text-center font-semibold text-primary">$68,245.50</div>
+                            <div class="text-right text-crypto-green font-semibold">+2.34%</div>
+                        </div>
+                        <div class="asset-row grid grid-cols-3 py-3 px-3 items-center">
+                            <div class="flex items-center gap-2"><i class="fab fa-ethereum text-purple-500 text-lg"></i><div><div class="font-semibold text-primary">ETH/USDT</div><div class="text-xs text-secondary">Ethereum</div></div></div>
+                            <div class="text-center font-semibold text-primary">$3,421.80</div>
+                            <div class="text-right text-crypto-green font-semibold">+1.87%</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -717,10 +666,13 @@
             <div id="page-markets" class="page px-4 py-3 space-y-4 fade-in">
                 <div class="flex items-center justify-between">
                     <h2 class="text-xl font-bold flex items-center gap-2" id="market-title"><i class="fab fa-bitcoin text-yellow-500"></i> BTC/USDT</h2>
-                    <div class="flex items-center gap-2"><span class="text-xl font-bold" id="current-price">68,245.50</span><span class="text-sm font-medium text-crypto-green bg-green-50 px-2 py-1 rounded-lg" id="price-change">+2.34%</span></div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl font-bold" id="current-price">68,245.50</span>
+                        <span class="text-sm font-medium text-crypto-green bg-green-50 px-2 py-1 rounded-lg" id="price-change">+2.34%</span>
+                    </div>
                 </div>
                 <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2" id="symbols-container"></div>
-                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1" id="timeframe-buttons-container">
+                <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
                     <button class="timeframe-btn active" data-tf="1D">1 يوم</button>
                     <button class="timeframe-btn" data-tf="1W">1 أسبوع</button>
                     <button class="timeframe-btn" data-tf="1M">1 شهر</button>
@@ -733,7 +685,10 @@
                     <div id="crosshair-v" class="crosshair-line" style="width:1px; height:100%; top:0; display:none;"></div>
                     <div id="crosshair-h" class="crosshair-line" style="height:1px; width:100%; left:0; display:none;"></div>
                     <div class="chart-controls">
-                        <div class="flex items-center gap-2"><span class="text-xs text-secondary" id="chart-start-label">00:00</span><span class="text-xs text-secondary" id="chart-end-label">23:59</span></div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs text-secondary" id="chart-start-label">00:00</span>
+                            <span class="text-xs text-secondary" id="chart-end-label">23:59</span>
+                        </div>
                         <div class="flex items-center gap-2">
                             <button id="chart-zoom-in" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition"><i class="fas fa-search-plus text-gray-600 text-xs"></i></button>
                             <button id="chart-zoom-out" class="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition"><i class="fas fa-search-minus text-gray-600 text-xs"></i></button>
@@ -745,25 +700,33 @@
                 <div class="space-y-2">
                     <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-fire text-orange-400"></i> الأكثر تداولاً</h3>
                     <div class="glass-card rounded-xl overflow-hidden border border-light-border bg-white">
-                        <div class="grid grid-cols-3 text-xs text-secondary py-3 px-3 border-b border-light-border bg-gray-50/80"><div>الزوج</div><div class="text-center">آخر سعر</div><div class="text-right">24س</div></div>
+                        <div class="grid grid-cols-3 text-xs text-secondary py-3 px-3 border-b border-light-border bg-gray-50/80">
+                            <div>الزوج</div>
+                            <div class="text-center">آخر سعر</div>
+                            <div class="text-right">24س</div>
+                        </div>
                         <div id="top-markets-list"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- صفحة التزامن -->
+            <!-- صفحة التزامن بالصفقة -->
             <div id="page-sync" class="page px-4 py-3 fade-in">
                 <div class="glass-card rounded-2xl p-6 bg-white border border-light-border text-center space-y-4">
                     <i class="fas fa-handshake text-5xl text-crypto-blue mx-auto"></i>
                     <h3 class="text-xl font-bold">مزامنة الصفقة</h3>
                     <p class="text-secondary text-sm">أدخل كود الطلب للمزامنة مع المتداول</p>
-                    <div class="mt-4"><input type="text" id="sync-order-code" class="profile-input text-center" placeholder="أدخل كود الطلب" dir="ltr"></div>
-                    <button id="sync-submit-btn" class="btn-primary w-full py-3 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2 mt-4"><i class="fas fa-sync-alt"></i> مزامنة الآن</button>
+                    <div class="mt-4">
+                        <input type="text" id="sync-order-code" class="profile-input text-center" placeholder="أدخل كود الطلب" dir="ltr">
+                    </div>
+                    <button id="sync-submit-btn" class="btn-primary w-full py-3 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2 mt-4">
+                        <i class="fas fa-sync-alt"></i> مزامنة الآن
+                    </button>
                     <div id="sync-message" class="text-sm mt-2 hidden"></div>
                 </div>
             </div>
 
-            <!-- صفحة المحفظة -->
+            <!-- صفحة المحفظة الجديدة -->
             <div id="page-wallet" class="page px-4 py-3 space-y-4 fade-in">
                 <div class="glass-card rounded-2xl p-5 bg-gradient-to-r from-crypto-blue to-purple-500 text-white">
                     <p class="text-sm opacity-80 mb-1">الرصيد الإجمالي (تقديري)</p>
@@ -778,7 +741,10 @@
                     <div id="wallet-page-assets" class="divide-y divide-gray-100"></div>
                 </div>
                 <div class="transfer-card">
-                    <div class="flex items-center gap-2 mb-4"><i class="fas fa-exchange-alt text-crypto-blue text-xl"></i><h3 class="text-lg font-bold">تحويل</h3></div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fas fa-exchange-alt text-crypto-blue text-xl"></i>
+                        <h3 class="text-lg font-bold">تحويل</h3>
+                    </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-secondary mb-2">العملة</label>
                         <div class="asset-selector" id="transfer-asset-selector">
@@ -796,22 +762,41 @@
                         </div>
                         <p class="warning-text flex items-center gap-1 mt-1"><i class="fas fa-exclamation-triangle"></i> تأكد من اختيار الشبكة المطابقة لعنوان المستلم.</p>
                     </div>
-                    <div class="mb-4"><label class="block text-sm font-medium text-secondary mb-2">عنوان المستلم</label><input type="text" id="transfer-recipient" class="profile-input" placeholder="أدخل عنوان المحفظة"></div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-secondary mb-2">عنوان المستلم</label>
+                        <input type="text" id="transfer-recipient" class="profile-input" placeholder="أدخل عنوان المحفظة">
+                    </div>
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-secondary mb-2">المبلغ</label>
-                        <div class="relative"><input type="number" id="transfer-amount" min="0.000001" step="0.000001" class="profile-input" placeholder="0.00"><span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-secondary" id="transfer-asset-symbol">USDT</span></div>
-                        <div class="flex justify-between mt-1"><span class="text-xs text-secondary">المتاح: <span id="transfer-available">0.00</span> <span id="transfer-available-symbol">USDT</span></span><button id="transfer-max-btn" class="text-xs text-crypto-blue font-medium">الحد الأقصى</button></div>
+                        <div class="relative">
+                            <input type="number" id="transfer-amount" min="0.000001" step="0.000001" class="profile-input" placeholder="0.00">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-sm text-secondary" id="transfer-asset-symbol">USDT</span>
+                        </div>
+                        <div class="flex justify-between mt-1">
+                            <span class="text-xs text-secondary">المتاح: <span id="transfer-available">0.00</span> <span id="transfer-available-symbol">USDT</span></span>
+                            <button id="transfer-max-btn" class="text-xs text-crypto-blue font-medium">الحد الأقصى</button>
+                        </div>
                     </div>
                     <div class="bg-gray-100 p-3 rounded-xl mb-4">
-                        <div class="flex justify-between text-sm"><span class="text-secondary">رسوم الشبكة</span><span class="font-medium" id="transfer-fee-amount">1.00 USDT</span></div>
-                        <div class="flex justify-between text-sm mt-1"><span class="text-secondary">المبلغ المستلم</span><span class="font-medium" id="transfer-receive-amount">0.00 USDT</span></div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-secondary">رسوم الشبكة</span>
+                            <span class="font-medium" id="transfer-fee-amount">1.00 USDT</span>
+                        </div>
+                        <div class="flex justify-between text-sm mt-1">
+                            <span class="text-secondary">المبلغ المستلم</span>
+                            <span class="font-medium" id="transfer-receive-amount">0.00 USDT</span>
+                        </div>
                     </div>
-                    <button id="transfer-submit-btn" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2"><i class="fas fa-paper-plane"></i> تأكيد التحويل</button>
+                    <button id="transfer-submit-btn" class="btn-primary w-full py-3.5 rounded-xl text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2">
+                        <i class="fas fa-paper-plane"></i> تأكيد التحويل
+                    </button>
                     <div id="transfer-error" class="error-message hidden mt-2"></div>
                 </div>
                 <div class="glass-card rounded-xl p-4 bg-white border border-light-border">
                     <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-history text-gray-500"></i> آخر التحويلات</h3>
-                    <div id="transfer-history-list" class="space-y-2 text-sm max-h-60 overflow-y-auto"><p class="text-secondary text-center py-2">لا توجد تحويلات حديثة</p></div>
+                    <div id="transfer-history-list" class="space-y-2 text-sm max-h-60 overflow-y-auto">
+                        <p class="text-secondary text-center py-2">لا توجد تحويلات حديثة</p>
+                    </div>
                 </div>
             </div>
 
@@ -819,27 +804,59 @@
             <div id="page-account" class="page px-4 py-4 space-y-5 fade-in">
                 <div class="glass-card rounded-2xl p-5 bg-white border border-light-border">
                     <div class="flex items-center gap-4">
-                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-crypto-blue to-purple-500 flex items-center justify-center text-white text-2xl font-bold shadow-md"><span id="account-avatar-letter">U</span></div>
-                        <div><h2 class="text-xl font-bold" id="account-fullname">---</h2><p class="text-secondary text-sm flex items-center gap-1" id="account-email"><i class="fas fa-envelope text-xs"></i> ---</p><p class="text-secondary text-xs mt-1"><i class="far fa-calendar-alt"></i> عضو منذ <span id="account-join-date">2024</span></p></div>
+                        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-crypto-blue to-purple-500 flex items-center justify-center text-white text-2xl font-bold shadow-md">
+                            <span id="account-avatar-letter">U</span>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold" id="account-fullname">---</h2>
+                            <p class="text-secondary text-sm flex items-center gap-1" id="account-email"><i class="fas fa-envelope text-xs"></i> ---</p>
+                            <p class="text-secondary text-xs mt-1"><i class="far fa-calendar-alt"></i> عضو منذ <span id="account-join-date">2024</span></p>
+                        </div>
                     </div>
                 </div>
                 <div class="glass-card rounded-2xl p-5 bg-white border border-light-border">
-                    <div class="flex items-center justify-between"><span class="text-secondary"><i class="fas fa-coins text-crypto-blue ml-1"></i> الرصيد الإجمالي</span><span class="text-3xl font-bold" id="account-balance">0.00 USDT</span></div>
-                    <div class="flex gap-2 mt-4"><button id="account-deposit-btn" class="btn-primary flex-1 py-2.5 rounded-xl text-white font-semibold text-sm"><i class="fas fa-plus-circle"></i> إيداع</button><button id="account-withdraw-btn" class="flex-1 py-2.5 rounded-xl border border-light-border text-secondary font-semibold text-sm"><i class="fas fa-minus-circle"></i> سحب</button></div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-secondary"><i class="fas fa-coins text-crypto-blue ml-1"></i> الرصيد الإجمالي</span>
+                        <span class="text-3xl font-bold" id="account-balance">0.00 USDT</span>
+                    </div>
+                    <div class="flex gap-2 mt-4">
+                        <button id="account-deposit-btn" class="btn-primary flex-1 py-2.5 rounded-xl text-white font-semibold text-sm"><i class="fas fa-plus-circle"></i> إيداع</button>
+                        <button id="account-withdraw-btn" class="flex-1 py-2.5 rounded-xl border border-light-border text-secondary font-semibold text-sm"><i class="fas fa-minus-circle"></i> سحب</button>
+                    </div>
                 </div>
                 <div class="glass-card rounded-2xl p-4 bg-white border border-light-border">
-                    <div class="flex items-center justify-between mb-2"><h3 class="font-bold flex items-center gap-2"><i class="fas fa-shield-alt text-crypto-blue"></i> مستوى التحقق</h3><span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">المستوى الأساسي</span></div>
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="font-bold flex items-center gap-2"><i class="fas fa-shield-alt text-crypto-blue"></i> مستوى التحقق</h3>
+                        <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">المستوى الأساسي</span>
+                    </div>
                     <p class="text-sm text-secondary mb-2">أكمل التحقق لزيادة حدود السحب والتمتع بميزات متقدمة.</p>
-                    <div class="progress-bar mb-1"><div class="progress-fill" style="width: 35%"></div></div>
-                    <div class="flex justify-between text-xs text-secondary"><span>35% مكتمل</span><span class="text-crypto-blue font-medium cursor-pointer hover:underline">التحقق من الهوية <i class="fas fa-chevron-left text-[10px]"></i></span></div>
+                    <div class="progress-bar mb-1">
+                        <div class="progress-fill" style="width: 35%"></div>
+                    </div>
+                    <div class="flex justify-between text-xs text-secondary">
+                        <span>35% مكتمل</span>
+                        <span class="text-crypto-blue font-medium cursor-pointer hover:underline">التحقق من الهوية <i class="fas fa-chevron-left text-[10px]"></i></span>
+                    </div>
                 </div>
                 <div class="glass-card rounded-2xl p-4 bg-white border border-light-border">
                     <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-chart-pie text-crypto-blue"></i> ملخص الحساب</h3>
                     <div class="grid grid-cols-2 gap-3 text-sm">
-                        <div class="bg-gray-50 p-3 rounded-xl"><span class="text-secondary block text-xs mb-1"><i class="fas fa-download ml-1"></i> إجمالي الإيداعات</span><span class="text-lg font-bold text-crypto-green" id="summary-deposits">0.00 USDT</span></div>
-                        <div class="bg-gray-50 p-3 rounded-xl"><span class="text-secondary block text-xs mb-1"><i class="fas fa-upload ml-1"></i> إجمالي السحوبات</span><span class="text-lg font-bold text-crypto-red" id="summary-withdrawals">0.00 USDT</span></div>
-                        <div class="bg-gray-50 p-3 rounded-xl"><span class="text-secondary block text-xs mb-1"><i class="fas fa-exchange-alt ml-1"></i> عدد الصفقات</span><span class="text-lg font-bold text-primary" id="summary-trades">0</span></div>
-                        <div class="bg-gray-50 p-3 rounded-xl"><span class="text-secondary block text-xs mb-1"><i class="fas fa-clock ml-1"></i> آخر نشاط</span><span class="text-sm font-medium text-primary" id="summary-last-active">اليوم</span></div>
+                        <div class="bg-gray-50 p-3 rounded-xl">
+                            <span class="text-secondary block text-xs mb-1"><i class="fas fa-download ml-1"></i> إجمالي الإيداعات</span>
+                            <span class="text-lg font-bold text-crypto-green" id="summary-deposits">0.00 USDT</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-xl">
+                            <span class="text-secondary block text-xs mb-1"><i class="fas fa-upload ml-1"></i> إجمالي السحوبات</span>
+                            <span class="text-lg font-bold text-crypto-red" id="summary-withdrawals">0.00 USDT</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-xl">
+                            <span class="text-secondary block text-xs mb-1"><i class="fas fa-exchange-alt ml-1"></i> عدد الصفقات</span>
+                            <span class="text-lg font-bold text-primary" id="summary-trades">0</span>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-xl">
+                            <span class="text-secondary block text-xs mb-1"><i class="fas fa-clock ml-1"></i> آخر نشاط</span>
+                            <span class="text-sm font-medium text-primary" id="summary-last-active">اليوم</span>
+                        </div>
                     </div>
                 </div>
                 <div class="glass-card rounded-2xl p-4 bg-white border border-light-border">
@@ -848,8 +865,14 @@
                 </div>
                 <div class="glass-card rounded-2xl p-4 bg-white border border-light-border space-y-3">
                     <h3 class="font-bold flex items-center gap-2"><i class="fas fa-sliders-h text-crypto-blue"></i> الإعدادات</h3>
-                    <button id="change-password-btn" class="w-full flex items-center justify-between py-2 px-1 hover:bg-gray-50 rounded-lg transition"><span><i class="fas fa-key text-gray-500 ml-2"></i> تغيير كلمة المرور</span><i class="fas fa-chevron-left text-gray-400 text-xs"></i></button>
-                    <button id="logout-btn-account" class="w-full flex items-center justify-between py-2 px-1 hover:bg-gray-50 rounded-lg transition text-crypto-red"><span><i class="fas fa-sign-out-alt ml-2"></i> تسجيل الخروج</span><i class="fas fa-chevron-left text-gray-400 text-xs"></i></button>
+                    <button id="change-password-btn" class="w-full flex items-center justify-between py-2 px-1 hover:bg-gray-50 rounded-lg transition">
+                        <span><i class="fas fa-key text-gray-500 ml-2"></i> تغيير كلمة المرور</span>
+                        <i class="fas fa-chevron-left text-gray-400 text-xs"></i>
+                    </button>
+                    <button id="logout-btn-account" class="w-full flex items-center justify-between py-2 px-1 hover:bg-gray-50 rounded-lg transition text-crypto-red">
+                        <span><i class="fas fa-sign-out-alt ml-2"></i> تسجيل الخروج</span>
+                        <i class="fas fa-chevron-left text-gray-400 text-xs"></i>
+                    </button>
                 </div>
             </div>
 
@@ -873,10 +896,15 @@
                     <button id="network-trc20" class="network-btn active-network flex-1 py-2 rounded-lg border text-sm font-medium transition">TRC20</button>
                     <button id="network-bep20" class="network-btn flex-1 py-2 rounded-lg border border-light-border text-sm font-medium transition">BEP20 (BSC)</button>
                 </div>
-                <div class="flex justify-center my-4"><canvas id="deposit-qrcode" width="200" height="200" class="rounded-xl border border-light-border bg-white p-1 shadow-sm"></canvas></div>
+                <div class="flex justify-center my-4">
+                    <canvas id="deposit-qrcode" width="200" height="200" class="rounded-xl border border-light-border bg-white p-1 shadow-sm"></canvas>
+                </div>
                 <div class="bg-gray-100 p-3 rounded-xl text-center border border-light-border mb-3">
                     <span class="text-xs text-secondary block mb-1" id="network-label">عنوان المحفظة (TRC20)</span>
-                    <div class="flex items-center justify-between gap-2"><code class="text-sm font-mono break-all text-primary" id="deposit-address">TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN</code><button id="copy-address-btn" class="copy-btn p-2 rounded-lg bg-white border border-light-border text-crypto-blue hover:bg-gray-50 transition"><i class="fas fa-copy"></i></button></div>
+                    <div class="flex items-center justify-between gap-2">
+                        <code class="text-sm font-mono break-all text-primary" id="deposit-address">TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN</code>
+                        <button id="copy-address-btn" class="copy-btn p-2 rounded-lg bg-white border border-light-border text-crypto-blue hover:bg-gray-50 transition"><i class="fas fa-copy"></i></button>
+                    </div>
                 </div>
                 <div class="flex"><button id="cancel-deposit" class="w-full py-2.5 border border-light-border rounded-xl">إلغاء</button></div>
             </div>
@@ -892,9 +920,19 @@
                     <button id="withdraw-network-bep20" class="network-btn flex-1 py-2 rounded-lg border border-light-border text-sm font-medium transition">BEP20 (BSC)</button>
                 </div>
                 <p class="warning-text flex items-center gap-1 mb-3"><i class="fas fa-exclamation-triangle"></i> تأكد من اختيار الشبكة المطابقة لعنوان المستلم.</p>
-                <div class="mb-3"><label class="block text-sm font-medium text-secondary mb-1" id="withdraw-address-label">عنوان المحفظة (TRC20)</label><input type="text" id="withdraw-address" class="profile-input" placeholder="أدخل عنوان المحفظة على شبكة TRC20"></div>
-                <div class="mb-4"><label class="block text-sm font-medium text-secondary mb-1">المبلغ (USDT)</label><input type="number" id="withdraw-amount" min="0.01" step="0.01" class="profile-input" placeholder="الحد الأدنى 10 USDT"><div id="withdraw-error" class="error-message hidden"></div></div>
-                <div class="flex gap-3"><button id="cancel-withdraw" class="flex-1 py-2.5 border border-light-border rounded-xl">إلغاء</button><button id="confirm-withdraw" class="flex-1 btn-primary text-white py-2.5 rounded-xl">تأكيد السحب</button></div>
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-secondary mb-1" id="withdraw-address-label">عنوان المحفظة (TRC20)</label>
+                    <input type="text" id="withdraw-address" class="profile-input" placeholder="أدخل عنوان المحفظة على شبكة TRC20">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-secondary mb-1">المبلغ (USDT)</label>
+                    <input type="number" id="withdraw-amount" min="0.01" step="0.01" class="profile-input" placeholder="الحد الأدنى 10 USDT">
+                    <div id="withdraw-error" class="error-message hidden"></div>
+                </div>
+                <div class="flex gap-3">
+                    <button id="cancel-withdraw" class="flex-1 py-2.5 border border-light-border rounded-xl">إلغاء</button>
+                    <button id="confirm-withdraw" class="flex-1 btn-primary text-white py-2.5 rounded-xl">تأكيد السحب</button>
+                </div>
             </div>
         </div>
 
@@ -909,14 +947,20 @@
                     <div id="password-error" class="error-message hidden"></div>
                     <div id="password-success" class="success-message hidden"></div>
                 </div>
-                <div class="flex gap-3 mt-5"><button id="cancel-password" class="flex-1 py-2.5 border border-light-border rounded-xl">إلغاء</button><button id="save-password" class="flex-1 btn-primary text-white py-2.5 rounded-xl">حفظ</button></div>
+                <div class="flex gap-3 mt-5">
+                    <button id="cancel-password" class="flex-1 py-2.5 border border-light-border rounded-xl">إلغاء</button>
+                    <button id="save-password" class="flex-1 btn-primary text-white py-2.5 rounded-xl">حفظ</button>
+                </div>
             </div>
         </div>
 
         <!-- مودال أفضل 20 مزود إشارات -->
         <div id="providers-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
             <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar">
-                <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10"><h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-trophy text-yellow-500"></i> أفضل 20 مزود إشارات</h3><button id="close-providers-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button></div>
+                <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
+                    <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-trophy text-yellow-500"></i> أفضل 20 مزود إشارات</h3>
+                    <button id="close-providers-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+                </div>
                 <p class="text-sm text-secondary mb-3">قائمة بأفضل مزودي الإشارات بناءً على الأداء خلال 30 يومًا.</p>
                 <div id="providers-list-container" class="space-y-2"></div>
             </div>
@@ -925,47 +969,78 @@
         <!-- مودال ترخيص المنصة -->
         <div id="license-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
             <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
-                <div class="flex items-center justify-between mb-4"><h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-certificate text-crypto-blue"></i> ترخيص المنصة</h3><button id="close-license-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button></div>
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-certificate text-crypto-blue"></i> ترخيص المنصة</h3>
+                    <button id="close-license-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+                </div>
                 <div class="space-y-3 text-sm">
                     <p><span class="font-bold text-primary">ForX</span> منصة مرخصة ومنظمة من قبل:</p>
-                    <div class="bg-gray-50 p-3 rounded-xl border border-light-border"><p class="font-bold">هيئة الخدمات المالية (FSA)</p><p class="text-secondary text-xs mt-1">رقم الترخيص: FSA-2024-0789-AB</p></div>
+                    <div class="bg-gray-50 p-3 rounded-xl border border-light-border">
+                        <p class="font-bold">هيئة الخدمات المالية (FSA)</p>
+                        <p class="text-secondary text-xs mt-1">رقم الترخيص: FSA-2024-0789-AB</p>
+                    </div>
                     <p class="text-secondary">تخضع جميع العمليات للرقابة وفقاً لأعلى معايير الأمان والشفافية المالية.</p>
                     <p class="text-secondary">تاريخ الإصدار: 1 يناير 2024</p>
                     <p class="text-crypto-blue text-xs flex items-center gap-1 mt-2"><i class="fas fa-shield-alt"></i> منصة آمنة ومتوافقة مع قوانين مكافحة غسل الأموال (AML).</p>
                 </div>
-                <div class="mt-5"><button id="close-license-btn" class="w-full py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-primary font-medium transition">حسناً</button></div>
+                <div class="mt-5">
+                    <button id="close-license-btn" class="w-full py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-primary font-medium transition">حسناً</button>
+                </div>
             </div>
         </div>
 
         <!-- مودال الأخبار الجديدة -->
         <div id="news-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
             <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar">
-                <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10"><h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-star text-yellow-500"></i> ما الجديد في ForX</h3><button id="close-news-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button></div>
+                <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
+                    <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-star text-yellow-500"></i> ما الجديد في ForX</h3>
+                    <button id="close-news-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+                </div>
                 <div class="space-y-4">
                     <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-xl border border-purple-100">
-                        <div class="flex items-center gap-2 mb-2"><span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-rocket ml-1"></i> إطلاق جديد</span><span class="text-xs text-secondary">منذ ساعتين</span></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-rocket ml-1"></i> إطلاق جديد</span>
+                            <span class="text-xs text-secondary">منذ ساعتين</span>
+                        </div>
                         <h4 class="font-bold text-primary mb-1">عملات رقمية جديدة متاحة للتداول</h4>
                         <p class="text-sm text-secondary mb-3">تمت إضافة 5 عملات رقمية واعدة إلى منصتنا، مع سيولة عالية ورسوم تداول 0.1% فقط.</p>
-                        <div class="flex flex-wrap gap-2"><span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fab fa-bitcoin text-yellow-500 ml-1"></i> ARB/USDT</span><span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-chart-line text-blue-500 ml-1"></i> OP/USDT</span><span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-link text-purple-500 ml-1"></i> LINK/USDT</span><span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-feather text-green-500 ml-1"></i> NEAR/USDT</span><span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-atom text-indigo-500 ml-1"></i> ATOM/USDT</span></div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fab fa-bitcoin text-yellow-500 ml-1"></i> ARB/USDT</span>
+                            <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-chart-line text-blue-500 ml-1"></i> OP/USDT</span>
+                            <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-link text-purple-500 ml-1"></i> LINK/USDT</span>
+                            <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-feather text-green-500 ml-1"></i> NEAR/USDT</span>
+                            <span class="bg-white border border-gray-200 rounded-full px-3 py-1 text-xs font-medium"><i class="fas fa-atom text-indigo-500 ml-1"></i> ATOM/USDT</span>
+                        </div>
                     </div>
                     <div class="bg-gradient-to-r from-green-50 to-teal-50 p-4 rounded-xl border border-green-100">
-                        <div class="flex items-center gap-2 mb-2"><span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-sync-alt ml-1"></i> تحديث النظام</span><span class="text-xs text-secondary">أمس</span></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-sync-alt ml-1"></i> تحديث النظام</span>
+                            <span class="text-xs text-secondary">أمس</span>
+                        </div>
                         <h4 class="font-bold text-primary mb-1">تحديث واجهة المستخدم وتحسين الأداء</h4>
                         <p class="text-sm text-secondary">قمنا بتحديث التصميم ليكون أكثر سلاسة، مع تحسين سرعة تنفيذ الصفقات بنسبة 40% وإضافة ميزة الإشعارات الفورية.</p>
                     </div>
                     <div class="bg-gradient-to-r from-orange-50 to-yellow-50 p-4 rounded-xl border border-orange-100">
-                        <div class="flex items-center gap-2 mb-2"><span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-gift ml-1"></i> عرض لفترة محدودة</span><span class="text-xs text-secondary">3 أيام متبقية</span></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-gift ml-1"></i> عرض لفترة محدودة</span>
+                            <span class="text-xs text-secondary">3 أيام متبقية</span>
+                        </div>
                         <h4 class="font-bold text-primary mb-1">🎉 استرداد 50% من رسوم التداول</h4>
-                        <p class="text-sm text-secondary">لكل مستخدم يقوم بإيداع 100 USDT أو أكثر خلال الأسبوع الحالي.</p>
+                        <p class="text-sm text-secondary">لكل مستخدم يقوم بإيداع 100 USDT أو أكثر خلال الأسبوع الحالي، سيتم استرداد 50% من رسوم التداول في صورة USDT.</p>
                         <button class="mt-3 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium py-2 px-4 rounded-xl w-full transition">تفعيل العرض الآن</button>
                     </div>
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                        <div class="flex items-center gap-2 mb-2"><span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-newspaper ml-1"></i> أخبار السوق</span><span class="text-xs text-secondary">3 أيام</span></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-newspaper ml-1"></i> أخبار السوق</span>
+                            <span class="text-xs text-secondary">3 أيام</span>
+                        </div>
                         <h4 class="font-bold text-primary mb-1">بيتكوين تتجاوز 70,000$ للمرة الأولى</h4>
                         <p class="text-sm text-secondary">ارتفاع قياسي جديد لعملة البيتكوين مع تزايد التبني المؤسسي والموافقة على صناديق الاستثمار المتداولة.</p>
                     </div>
                     <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                        <div class="flex items-center gap-2 mb-2"><span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-clock ml-1"></i> قريباً</span></div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full font-medium"><i class="fas fa-clock ml-1"></i> قريباً</span>
+                        </div>
                         <h4 class="font-bold text-primary mb-1">المحفظة الرقمية ForX Wallet</h4>
                         <p class="text-sm text-secondary">قريباً يمكنك تخزين وإدارة جميع عملاتك الرقمية في محفظة ForX الآمنة مع دعم Staking وعوائد تصل إلى 12% سنوياً.</p>
                     </div>
@@ -976,11 +1051,17 @@
         <!-- مودال المحفظة الرقمية V-Wallet -->
         <div id="wallet-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
             <div class="bg-white w-11/12 max-w-md rounded-2xl p-4 shadow-2xl max-h-[85vh] overflow-y-auto no-scrollbar">
-                <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10"><h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-credit-card text-purple-500"></i> محفظة ForX الرقمية</h3><button id="close-wallet-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button></div>
+                <div class="flex items-center justify-between mb-4 sticky top-0 bg-white py-2 z-10">
+                    <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-credit-card text-purple-500"></i> محفظة ForX الرقمية</h3>
+                    <button id="close-wallet-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+                </div>
                 <div class="bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl p-5 text-white mb-4">
                     <p class="text-sm opacity-80 mb-1">الرصيد الإجمالي (تقديري)</p>
                     <div class="text-3xl font-bold" id="wallet-total-balance">0.00 USDT</div>
-                    <div class="flex items-center gap-2 mt-2"><i class="fas fa-shield-alt text-xs"></i><span class="text-xs opacity-80">مؤمن بالكامل</span></div>
+                    <div class="flex items-center gap-2 mt-2">
+                        <i class="fas fa-shield-alt text-xs"></i>
+                        <span class="text-xs opacity-80">مؤمن بالكامل</span>
+                    </div>
                 </div>
                 <div class="flex gap-3 mb-4">
                     <button id="wallet-deposit-btn" class="flex-1 bg-crypto-blue text-white py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2"><i class="fas fa-arrow-down"></i> إيداع</button>
@@ -990,12 +1071,68 @@
                 <div class="mb-4">
                     <h4 class="font-bold text-primary mb-2 flex items-center gap-2"><i class="fas fa-coins text-yellow-500"></i> عملاتي</h4>
                     <div class="bg-gray-50 rounded-xl border border-light-border overflow-hidden">
-                        <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"><i class="fas fa-dollar-sign text-green-600"></i></div><div><p class="font-semibold text-primary">USDT</p><p class="text-xs text-secondary">Tether</p></div></div><div class="text-right"><p class="font-bold text-primary" id="wallet-usdt-balance">0.00</p><p class="text-xs text-secondary">≈ 0.00 $</p></div></div>
-                        <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center"><i class="fab fa-bitcoin text-yellow-600"></i></div><div><p class="font-semibold text-primary">BTC</p><p class="text-xs text-secondary">Bitcoin</p></div></div><div class="text-right"><p class="font-bold text-primary" id="wallet-btc-balance">0.0000</p><p class="text-xs text-secondary">≈ 0.00 $</p></div></div>
-                        <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center"><i class="fab fa-ethereum text-purple-600"></i></div><div><p class="font-semibold text-primary">ETH</p><p class="text-xs text-secondary">Ethereum</p></div></div><div class="text-right"><p class="font-bold text-primary" id="wallet-eth-balance">0.0000</p><p class="text-xs text-secondary">≈ 0.00 $</p></div></div>
+                        <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"><i class="fas fa-dollar-sign text-green-600"></i></div>
+                                <div><p class="font-semibold text-primary">USDT</p><p class="text-xs text-secondary">Tether</p></div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-primary" id="wallet-usdt-balance">0.00</p>
+                                <p class="text-xs text-secondary">≈ 0.00 $</p>
+                            </div>
+                        </div>
+                        <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center"><i class="fab fa-bitcoin text-yellow-600"></i></div>
+                                <div><p class="font-semibold text-primary">BTC</p><p class="text-xs text-secondary">Bitcoin</p></div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-primary" id="wallet-btc-balance">0.0000</p>
+                                <p class="text-xs text-secondary">≈ 0.00 $</p>
+                            </div>
+                        </div>
+                        <div class="wallet-asset-row flex items-center justify-between p-3 hover:bg-gray-100 transition">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center"><i class="fab fa-ethereum text-purple-600"></i></div>
+                                <div><p class="font-semibold text-primary">ETH</p><p class="text-xs text-secondary">Ethereum</p></div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-primary" id="wallet-eth-balance">0.0000</p>
+                                <p class="text-xs text-secondary">≈ 0.00 $</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div><h4 class="font-bold text-primary mb-2 flex items-center gap-2"><i class="fas fa-history text-gray-500"></i> آخر العمليات</h4><div id="wallet-transactions-list" class="space-y-2 text-sm max-h-40 overflow-y-auto"></div></div>
+                <div>
+                    <h4 class="font-bold text-primary mb-2 flex items-center gap-2"><i class="fas fa-history text-gray-500"></i> آخر العمليات</h4>
+                    <div id="wallet-transactions-list" class="space-y-2 text-sm max-h-40 overflow-y-auto"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- مودال الدعوة (إحالة) -->
+        <div id="invite-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+            <div class="bg-white w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-user-plus text-purple-500"></i> دعوة صديق</h3>
+                    <button id="close-invite-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+                </div>
+                <div class="space-y-3 text-sm">
+                    <p class="text-secondary">ادعُ أصدقائك للانضمام إلى ForX واحصل على مكافآت USDT عن كل صديق يقوم بالإيداع والتداول.</p>
+                    <div class="bg-gradient-to-r from-purple-50 to-blue-50 p-4 rounded-xl border border-purple-100">
+                        <p class="font-bold text-primary mb-1">رابط الدعوة الخاص بك</p>
+                        <div class="flex items-center justify-between gap-2 bg-white p-2 rounded-lg border">
+                            <code class="text-sm font-mono break-all text-primary" id="invite-link">https://forx.com/ref/12345</code>
+                            <button id="copy-invite-link" class="copy-btn p-2 rounded-lg bg-gray-100 text-crypto-blue hover:bg-gray-200 transition"><i class="fas fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-xl border border-light-border">
+                        <p class="font-bold text-primary mb-1">أو استخدم كود الدعوة</p>
+                        <code class="text-lg font-bold text-crypto-blue">INVITE2024</code>
+                    </div>
+                    <p class="text-xs text-secondary"><i class="fas fa-gift text-yellow-500 ml-1"></i> المكافأة: 5 USDT لكل صديق نشط، و0.5% من عمولات تداوله مدى الحياة!</p>
+                </div>
+                <button id="close-invite-btn" class="w-full mt-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-xl text-primary font-medium transition">حسناً</button>
             </div>
         </div>
     </div>
@@ -1005,20 +1142,19 @@
             // ==================== أولاً: تعريف دوال مساعدة ====================
             function showToast(msg, isError) {
                 isError = isError || false;
-                var existing = document.querySelector('.toast');
-                if (existing) existing.remove();
                 var toast = document.createElement('div');
                 toast.className = 'toast';
                 toast.style.background = isError ? '#f84960' : '#1e293b';
                 toast.textContent = msg;
                 document.body.appendChild(toast);
-                setTimeout(function() { if (toast.parentNode) toast.remove(); }, 3200);
+                setTimeout(function() { toast.remove(); }, 3000);
             }
 
             // ==================== ثانياً: إعداد PWA احترافي ====================
             var deferredPrompt = null;
             var isAppInstalled = false;
 
+            // التحقق من حالة التثبيت
             function checkInstallState() {
                 return window.matchMedia('(display-mode: standalone)').matches ||
                     window.navigator.standalone === true ||
@@ -1027,53 +1163,46 @@
 
             isAppInstalled = checkInstallState();
 
+            // عناصر أيقونة التثبيت
+            var installIconAuth = document.getElementById('install-icon-auth');
+            var installIconMain = document.getElementById('install-icon-main');
+            var allInstallIcons = [installIconAuth, installIconMain].filter(Boolean);
+
+            // إظهار أيقونات التثبيت
+            function showInstallIcons() {
+                if (isAppInstalled) return;
+                if (deferredPrompt || isInstallableBrowser()) {
+                    allInstallIcons.forEach(function(icon) {
+                        if (icon) icon.classList.remove('hidden');
+                    });
+                }
+            }
+
+            // إخفاء أيقونات التثبيت
+            function hideInstallIcons() {
+                allInstallIcons.forEach(function(icon) {
+                    if (icon) icon.classList.add('hidden');
+                });
+            }
+
+            // هل المتصفح يدعم التثبيت
             function isInstallableBrowser() {
                 var ua = navigator.userAgent.toLowerCase();
+                // Chrome/Edge على Android، Safari على iOS
                 if (ua.includes('chrome') || ua.includes('edge') || ua.includes('samsung')) return true;
                 if (ua.includes('safari') && !ua.includes('chrome') && /iphone|ipad|ipod/.test(ua)) return true;
                 if (ua.includes('firefox') && /android/.test(ua)) return true;
                 return false;
             }
 
-            function getInstallIcons() {
-                var icons = [];
-                var auth = document.getElementById('install-icon-auth');
-                var main = document.getElementById('install-icon-main');
-                if (auth) icons.push(auth);
-                if (main) icons.push(main);
-                return icons;
-            }
-
-            function showInstallIcons() {
-                if (isAppInstalled) return;
-                if (deferredPrompt || isInstallableBrowser()) {
-                    getInstallIcons().forEach(function(icon) { icon.classList.remove('hidden'); });
-                }
-            }
-
-            function hideInstallIcons() {
-                getInstallIcons().forEach(function(icon) { icon.classList.add('hidden'); });
-            }
-
-            function showInstallGuide() {
-                var ua = navigator.userAgent.toLowerCase();
-                if (ua.includes('chrome') || ua.includes('edge') || ua.includes('samsung')) {
-                    showToast('📱 من قائمة المتصفح: ⋮ > تثبيت التطبيق أو "إضافة إلى الشاشة الرئيسية"');
-                } else if (ua.includes('safari') && !ua.includes('chrome') && /iphone|ipad|ipod/.test(ua)) {
-                    showToast('📱 من شريط الأدوات السفلي: ↑ (مشاركة) > إضافة إلى الشاشة الرئيسية');
-                } else if (ua.includes('firefox') && /android/.test(ua)) {
-                    showToast('📱 اضغط على أيقونة المنزل 🏠 في شريط العنوان للتثبيت');
-                } else {
-                    showToast('📱 استخدم قائمة المتصفح > "تثبيت التطبيق" أو "Add to Home Screen"');
-                }
-            }
-
+            // معالج التثبيت الموحد
             async function handleInstallClick() {
                 if (isAppInstalled) {
                     showToast('✅ التطبيق مثبت بالفعل في درج التطبيقات');
                     hideInstallIcons();
                     return;
                 }
+
                 if (deferredPrompt) {
                     try {
                         await deferredPrompt.prompt();
@@ -1088,7 +1217,6 @@
                         }
                     } catch (err) {
                         console.warn('خطأ في التثبيت:', err);
-                        deferredPrompt = null;
                         showInstallGuide();
                     }
                 } else {
@@ -1096,23 +1224,92 @@
                 }
             }
 
-            function bindInstallIcons() {
-                getInstallIcons().forEach(function(icon) {
-                    icon.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleInstallClick();
-                    });
-                });
+            // دليل التثبيت حسب المتصفح
+            function showInstallGuide() {
+                var ua = navigator.userAgent.toLowerCase();
+                if (ua.includes('chrome') || ua.includes('edge') || ua.includes('samsung')) {
+                    showToast('📱 من قائمة المتصفح: ⋮ > تثبيت التطبيق أو "إضافة إلى الشاشة الرئيسية"');
+                } else if (ua.includes('safari') && !ua.includes('chrome') && /iphone|ipad|ipod/.test(ua)) {
+                    showToast('📱 من شريط الأدوات السفلي: ↑ (مشاركة) > إضافة إلى الشاشة الرئيسية');
+                } else if (ua.includes('firefox') && /android/.test(ua)) {
+                    showToast('📱 اضغط على أيقونة المنزل 🏠 في شريط العنوان للتثبيت');
+                } else {
+                    showToast('📱 استخدم قائمة المتصفح > "تثبيت التطبيق" أو "Add to Home Screen"');
+                }
             }
 
+            // إنشاء manifest باستخدام Blob URL (أكثر توافقاً من data URI)
+            function createManifest() {
+                var manifestData = {
+                    name: "ForX - تداول العملات الرقمية",
+                    short_name: "ForX",
+                    description: "منصة تداول العملات الرقمية ForX - تداول آمن وسريع",
+                    theme_color: "#3772ff",
+                    background_color: "#f8fafc",
+                    display: "standalone",
+                    display_override: ["standalone", "minimal-ui"],
+                    orientation: "portrait",
+                    scope: window.location.origin + "/",
+                    start_url: window.location.origin + window.location.pathname + window.location.search,
+                    lang: "ar",
+                    dir: "rtl",
+                    categories: ["finance", "business"],
+                    prefer_related_applications: false,
+                    icons: [{
+                        src: "data:image/svg+xml," + encodeURIComponent(
+                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'
+                        ),
+                        sizes: "512x512",
+                        type: "image/svg+xml",
+                        purpose: "any maskable"
+                    }, {
+                        src: "data:image/svg+xml," + encodeURIComponent(
+                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="192" height="192"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'
+                        ),
+                        sizes: "192x192",
+                        type: "image/svg+xml",
+                        purpose: "any maskable"
+                    }, {
+                        src: "data:image/svg+xml," + encodeURIComponent(
+                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="384" height="384"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'
+                        ),
+                        sizes: "384x384",
+                        type: "image/svg+xml",
+                        purpose: "any maskable"
+                    }],
+                    screenshots: [{
+                        src: "data:image/svg+xml," + encodeURIComponent(
+                            '<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1920"><rect width="1080" height="1920" fill="#3772ff"/><text x="540" y="960" font-size="80" fill="white" text-anchor="middle" font-family="Arial">ForX</text></svg>'
+                        ),
+                        sizes: "1080x1920",
+                        type: "image/svg+xml",
+                        form_factor: "narrow",
+                        label: "الشاشة الرئيسية"
+                    }]
+                };
+
+                var manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+                var manifestUrl = URL.createObjectURL(manifestBlob);
+
+                // إنشاء عنصر link للمانيفست
+                var linkEl = document.createElement('link');
+                linkEl.rel = 'manifest';
+                linkEl.href = manifestUrl;
+                linkEl.id = 'pwa-manifest-dynamic';
+                document.head.appendChild(linkEl);
+
+                return manifestUrl;
+            }
+
+            // تسجيل Service Worker (محسّن للعمل عبر blob URL)
             function registerServiceWorker() {
                 if (!('serviceWorker' in navigator)) {
                     console.log('⚠️ Service Worker غير مدعوم في هذا المتصفح');
                     return;
                 }
+
                 var swCode = [
-                    'var CACHE_NAME = "forx-pwa-v4";',
+                    'var CACHE_NAME = "forx-pwa-v3";',
                     'var urlsToCache = [',
                     '  "./",',
                     '  "./index.html",',
@@ -1165,9 +1362,11 @@
                 var swBlob = new Blob([swCode], { type: 'application/javascript' });
                 var swUrl = URL.createObjectURL(swBlob);
 
+                // محاولة التسجيل مع scope صحيح
                 navigator.serviceWorker.register(swUrl, { scope: '/' })
                     .then(function(reg) {
                         console.log('✅ Service Worker مسجل بنجاح:', reg.scope);
+                        // تحديث service worker عند وجود نسخة جديدة
                         reg.addEventListener('updatefound', function() {
                             var newWorker = reg.installing;
                             if (newWorker) {
@@ -1181,15 +1380,23 @@
                     })
                     .catch(function(err) {
                         console.warn('⚠️ فشل تسجيل Service Worker:', err.message);
+                        // محاولة بديلة مع scope أضيق
                         navigator.serviceWorker.register(swUrl, { scope: './' })
-                            .then(function(reg) { console.log('✅ Service Worker مسجل (fallback):', reg.scope); })
-                            .catch(function(err2) { console.warn('⚠️ فشل تسجيل Service Worker بالكامل:', err2.message); });
+                            .then(function(reg) {
+                                console.log('✅ Service Worker مسجل (fallback):', reg.scope);
+                            })
+                            .catch(function(err2) {
+                                console.warn('⚠️ فشل تسجيل Service Worker بالكامل:', err2.message);
+                            });
                     });
             }
 
+            // بدء إعداد PWA
             function setupPWA() {
+                createManifest();
                 registerServiceWorker();
 
+                // مراقبة حدث beforeinstallprompt (Chrome, Edge, Samsung Internet)
                 window.addEventListener('beforeinstallprompt', function(e) {
                     e.preventDefault();
                     deferredPrompt = e;
@@ -1199,6 +1406,7 @@
                     console.log('✅ beforeinstallprompt جاهز - يمكن تثبيت التطبيق');
                 });
 
+                // عند نجاح التثبيت
                 window.addEventListener('appinstalled', function() {
                     isAppInstalled = true;
                     deferredPrompt = null;
@@ -1207,6 +1415,7 @@
                     console.log('✅ تم تثبيت التطبيق');
                 });
 
+                // مراقبة تغير وضع العرض (للكشف عن التثبيت اليدوي)
                 window.matchMedia('(display-mode: standalone)').addEventListener('change', function(evt) {
                     if (evt.matches) {
                         isAppInstalled = true;
@@ -1214,17 +1423,34 @@
                     }
                 });
 
+                // إضافة مستمعي النقر على أيقونات التثبيت
+                allInstallIcons.forEach(function(icon) {
+                    if (icon) {
+                        icon.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleInstallClick();
+                        });
+                    }
+                });
+
+                // محاولة إظهار أيقونات التثبيت بعد فترة (للمتصفحات التي تؤخر beforeinstallprompt)
                 setTimeout(function() {
                     if (!isAppInstalled && !deferredPrompt && isInstallableBrowser()) {
                         showInstallIcons();
                     }
                 }, 2500);
 
+                // التحقق من التطبيقات المثبتة (Android)
                 if ('getInstalledRelatedApps' in navigator) {
                     navigator.getInstalledRelatedApps()
-                        .then(function(apps) { if (apps.length > 0) { isAppInstalled = true;
-                                hideInstallIcons(); } })
-                        .catch(function() {});
+                        .then(function(apps) {
+                            if (apps.length > 0) {
+                                isAppInstalled = true;
+                                hideInstallIcons();
+                            }
+                        })
+                        .catch(function() { /* غير مدعوم في بعض المتصفحات */ });
                 }
             }
 
@@ -1255,7 +1481,8 @@
 
             function saveUsers(users) { localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); }
 
-            function findUserByEmail(email) { return getUsers().find(function(u) { return u.email.toLowerCase() === email.toLowerCase(); }); }
+            function findUserByEmail(email) { return getUsers().find(function(u) { return u.email.toLowerCase() ===
+                    email.toLowerCase(); }); }
 
             function updateUser(email, updates) {
                 var users = getUsers();
@@ -1266,7 +1493,8 @@
             }
 
             function getCurrentUser() {
-                var session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || 'null');
+                var session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) ||
+                    'null');
                 if (session) return findUserByEmail(session.email);
                 return null;
             }
@@ -1301,42 +1529,59 @@
                 var balance = user.balance || 0;
                 var btcBalance = user.btcBalance || 0;
                 var ethBalance = user.ethBalance || 0;
-                var totalDeposited = (user.transactions || []).filter(function(t) { return t.type === 'deposit'; }).reduce(function(s, t) { return s + t.amount; }, 0);
-                var totalWithdrawn = (user.transactions || []).filter(function(t) { return t.type === 'withdraw'; }).reduce(function(s, t) { return s + t.amount; }, 0);
+                var totalDeposited = (user.transactions || []).filter(function(t) { return t.type === 'deposit'; }).reduce(
+                    function(s, t) { return s + t.amount; }, 0);
+                var totalWithdrawn = (user.transactions || []).filter(function(t) { return t.type === 'withdraw'; }).reduce(
+                    function(s, t) { return s + t.amount; }, 0);
 
                 document.getElementById('home-balance').textContent = balance.toFixed(2) + ' USDT';
                 document.getElementById('home-deposited').textContent = totalDeposited.toFixed(2);
                 document.getElementById('home-withdrawn').textContent = totalWithdrawn.toFixed(2);
+
                 document.getElementById('account-balance').textContent = balance.toFixed(2) + ' USDT';
                 document.getElementById('account-fullname').textContent = user.fullName || 'مستخدم';
-                document.getElementById('account-email').innerHTML = '<i class="fas fa-envelope text-xs"></i> ' + user.email;
+                document.getElementById('account-email').innerHTML =
+                    '<i class="fas fa-envelope text-xs"></i> ' + user.email;
                 document.getElementById('account-avatar-letter').textContent = (user.fullName || 'U').charAt(0).toUpperCase();
                 document.getElementById('account-join-date').textContent = user.joinDate || '2024';
                 document.getElementById('summary-deposits').textContent = totalDeposited.toFixed(2) + ' USDT';
                 document.getElementById('summary-withdrawals').textContent = totalWithdrawn.toFixed(2) + ' USDT';
 
-                var btcPrice = 68245.50,
-                    ethPrice = 3421.80;
-                var totalUsdValue = balance + (btcBalance * btcPrice) + (ethBalance * ethPrice);
+                var totalUsdValue = balance + (btcBalance * 68245.50) + (ethBalance * 3421.80);
                 document.getElementById('wallet-page-total-balance').textContent = totalUsdValue.toFixed(2) + ' USDT';
 
                 var assetsContainer = document.getElementById('wallet-page-assets');
                 assetsContainer.innerHTML =
-                    '<div class="flex items-center justify-between py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"><i class="fas fa-dollar-sign text-green-600"></i></div><div><p class="font-semibold">USDT</p><p class="text-xs text-secondary">Tether</p></div></div><div class="text-right"><p class="font-bold">' + balance.toFixed(2) + '</p><p class="text-xs text-secondary">≈ ' + balance.toFixed(2) + ' $</p></div></div>' +
-                    '<div class="flex items-center justify-between py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center"><i class="fab fa-bitcoin text-yellow-600"></i></div><div><p class="font-semibold">BTC</p><p class="text-xs text-secondary">Bitcoin</p></div></div><div class="text-right"><p class="font-bold">' + btcBalance.toFixed(6) + '</p><p class="text-xs text-secondary">≈ ' + (btcBalance * btcPrice).toFixed(2) + ' $</p></div></div>' +
-                    '<div class="flex items-center justify-between py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center"><i class="fab fa-ethereum text-purple-600"></i></div><div><p class="font-semibold">ETH</p><p class="text-xs text-secondary">Ethereum</p></div></div><div class="text-right"><p class="font-bold">' + ethBalance.toFixed(6) + '</p><p class="text-xs text-secondary">≈ ' + (ethBalance * ethPrice).toFixed(2) + ' $</p></div></div>';
+                    '<div class="flex items-center justify-between py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center"><i class="fas fa-dollar-sign text-green-600"></i></div><div><p class="font-semibold">USDT</p><p class="text-xs text-secondary">Tether</p></div></div><div class="text-right"><p class="font-bold">' +
+                    balance.toFixed(2) + '</p><p class="text-xs text-secondary">≈ ' + balance.toFixed(2) +
+                    ' $</p></div></div>' +
+                    '<div class="flex items-center justify-between py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center"><i class="fab fa-bitcoin text-yellow-600"></i></div><div><p class="font-semibold">BTC</p><p class="text-xs text-secondary">Bitcoin</p></div></div><div class="text-right"><p class="font-bold">' +
+                    btcBalance.toFixed(6) + '</p><p class="text-xs text-secondary">≈ ' + (btcBalance * 68245.50).toFixed(
+                        2) + ' $</p></div></div>' +
+                    '<div class="flex items-center justify-between py-3"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center"><i class="fab fa-ethereum text-purple-600"></i></div><div><p class="font-semibold">ETH</p><p class="text-xs text-secondary">Ethereum</p></div></div><div class="text-right"><p class="font-bold">' +
+                    ethBalance.toFixed(6) + '</p><p class="text-xs text-secondary">≈ ' + (ethBalance * 3421.80).toFixed(
+                        2) + ' $</p></div></div>';
 
                 var txList = document.getElementById('transactions-list');
                 var txs = (user.transactions || []).slice().reverse().slice(0, 5);
-                if (txs.length === 0) txList.innerHTML = '<p class="text-secondary text-center py-2">لا توجد عمليات حديثة</p>';
+                if (txs.length === 0) txList.innerHTML =
+                    '<p class="text-secondary text-center py-2">لا توجد عمليات حديثة</p>';
                 else {
                     txList.innerHTML = txs.map(function(tx) {
-                        if (tx.type === 'deposit') return '<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-down text-crypto-green"></i><span>إيداع</span></div><div class="font-medium text-crypto-green">+' + tx.amount.toFixed(2) + ' USDT</div><div class="text-xs text-secondary">' + tx.date + '</div></div>';
-                        if (tx.type === 'withdraw') return '<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-up text-crypto-red"></i><span>سحب</span></div><div class="font-medium text-crypto-red">-' + tx.amount.toFixed(2) + ' USDT</div><div class="text-xs text-secondary">' + tx.date + '</div></div>';
-                        if (tx.type === 'transfer') return '<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-exchange-alt text-crypto-blue"></i><span>تحويل ' + tx.asset + '</span></div><div class="font-medium text-crypto-red">-' + tx.amount.toFixed(6) + ' ' + tx.asset + '</div><div class="text-xs text-secondary">' + tx.date + '</div></div>';
+                        if (tx.type === 'deposit') return '<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-down text-crypto-green"></i><span>إيداع</span></div><div class="font-medium text-crypto-green">+' +
+                            tx.amount.toFixed(2) + ' USDT</div><div class="text-xs text-secondary">' + tx
+                            .date + '</div></div>';
+                        if (tx.type === 'withdraw') return '<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-arrow-up text-crypto-red"></i><span>سحب</span></div><div class="font-medium text-crypto-red">-' +
+                            tx.amount.toFixed(2) + ' USDT</div><div class="text-xs text-secondary">' + tx
+                            .date + '</div></div>';
+                        if (tx.type === 'transfer') return '<div class="flex justify-between items-center border-b border-gray-100 pb-2"><div class="flex items-center gap-2"><i class="fas fa-exchange-alt text-crypto-blue"></i><span>تحويل ' +
+                            tx.asset + '</span></div><div class="font-medium text-crypto-red">-' + tx.amount
+                            .toFixed(6) + ' ' + tx.asset + '</div><div class="text-xs text-secondary">' + tx
+                            .date + '</div></div>';
                         return '';
                     }).join('');
                 }
+
                 updateTransferHistory();
                 updateWalletModalData();
                 updateTransferAvailable();
@@ -1345,11 +1590,18 @@
             function updateTransferHistory() {
                 var user = getCurrentUser();
                 if (!user) return;
-                var transfers = (user.transactions || []).filter(function(t) { return t.type === 'transfer'; }).slice(-5).reverse();
+                var transfers = (user.transactions || []).filter(function(t) { return t.type === 'transfer'; }).slice(-5)
+                    .reverse();
                 var container = document.getElementById('transfer-history-list');
-                if (transfers.length === 0) { container.innerHTML = '<p class="text-secondary text-center py-2">لا توجد تحويلات حديثة</p>'; return; }
+                if (transfers.length === 0) {
+                    container.innerHTML = '<p class="text-secondary text-center py-2">لا توجد تحويلات حديثة</p>';
+                    return;
+                }
                 container.innerHTML = transfers.map(function(t) {
-                    return '<div class="flex items-center justify-between py-2 border-b border-gray-100"><div><i class="fas fa-exchange-alt text-crypto-blue ml-2"></i>' + t.asset + ' - ' + t.network + '</div><div class="text-left"><span class="font-medium">' + t.amount.toFixed(6) + '</span> <span class="text-xs text-secondary">إلى ' + t.recipient.substring(0, 8) + '...</span></div></div>';
+                    return '<div class="flex items-center justify-between py-2 border-b border-gray-100"><div><i class="fas fa-exchange-alt text-crypto-blue ml-2"></i>' +
+                        t.asset + ' - ' + t.network + '</div><div class="text-left"><span class="font-medium">' +
+                        t.amount.toFixed(6) + '</span> <span class="text-xs text-secondary">إلى ' + t.recipient
+                        .substring(0, 8) + '...</span></div></div>';
                 }).join('');
             }
 
@@ -1366,14 +1618,19 @@
                 document.getElementById('wallet-usdt-balance').textContent = usdtBalance.toFixed(2);
                 document.getElementById('wallet-btc-balance').textContent = btcBalance.toFixed(6);
                 document.getElementById('wallet-eth-balance').textContent = ethBalance.toFixed(6);
+
                 var walletTxList = document.getElementById('wallet-transactions-list');
                 var txs = (user.transactions || []).slice().reverse().slice(0, 3);
-                if (txs.length === 0) walletTxList.innerHTML = '<p class="text-secondary text-center py-2 text-sm">لا توجد عمليات حديثة</p>';
+                if (txs.length === 0) walletTxList.innerHTML =
+                    '<p class="text-secondary text-center py-2 text-sm">لا توجد عمليات حديثة</p>';
                 else {
                     walletTxList.innerHTML = txs.map(function(tx) {
-                        if (tx.type === 'deposit') return '<div class="flex justify-between"><span>إيداع USDT</span><span class="text-crypto-green">+' + tx.amount.toFixed(2) + '</span></div>';
-                        if (tx.type === 'withdraw') return '<div class="flex justify-between"><span>سحب USDT</span><span class="text-crypto-red">-' + tx.amount.toFixed(2) + '</span></div>';
-                        if (tx.type === 'transfer') return '<div class="flex justify-between"><span>تحويل ' + tx.asset + '</span><span class="text-crypto-red">-' + tx.amount.toFixed(6) + '</span></div>';
+                        if (tx.type === 'deposit') return '<div class="flex justify-between"><span>إيداع USDT</span><span class="text-crypto-green">+' +
+                            tx.amount.toFixed(2) + '</span></div>';
+                        if (tx.type === 'withdraw') return '<div class="flex justify-between"><span>سحب USDT</span><span class="text-crypto-red">-' +
+                            tx.amount.toFixed(2) + '</span></div>';
+                        if (tx.type === 'transfer') return '<div class="flex justify-between"><span>تحويل ' + tx.asset +
+                            '</span><span class="text-crypto-red">-' + tx.amount.toFixed(6) + '</span></div>';
                         return '';
                     }).join('');
                 }
@@ -1388,7 +1645,8 @@
                 if (currentTransferAsset === 'USDT') available = user.balance || 0;
                 else if (currentTransferAsset === 'BTC') available = user.btcBalance || 0;
                 else if (currentTransferAsset === 'ETH') available = user.ethBalance || 0;
-                document.getElementById('transfer-available').textContent = available.toFixed(currentTransferAsset === 'USDT' ? 2 : 6);
+                document.getElementById('transfer-available').textContent = available.toFixed(currentTransferAsset ===
+                    'USDT' ? 2 : 6);
                 document.getElementById('transfer-available-symbol').textContent = currentTransferAsset;
                 document.getElementById('transfer-asset-symbol').textContent = currentTransferAsset;
                 calculateReceiveAmount();
@@ -1400,9 +1658,11 @@
                 if (currentTransferAsset === 'USDT') fee = 1.0;
                 else if (currentTransferAsset === 'BTC') fee = 0.0001;
                 else if (currentTransferAsset === 'ETH') fee = 0.002;
-                document.getElementById('transfer-fee-amount').textContent = fee.toFixed(currentTransferAsset === 'USDT' ? 2 : 6) + ' ' + currentTransferAsset;
+                document.getElementById('transfer-fee-amount').textContent = fee.toFixed(currentTransferAsset === 'USDT' ?
+                    2 : 6) + ' ' + currentTransferAsset;
                 var receive = Math.max(0, amount - fee);
-                document.getElementById('transfer-receive-amount').textContent = receive.toFixed(currentTransferAsset === 'USDT' ? 2 : 6) + ' ' + currentTransferAsset;
+                document.getElementById('transfer-receive-amount').textContent = receive.toFixed(currentTransferAsset ===
+                    'USDT' ? 2 : 6) + ' ' + currentTransferAsset;
             }
 
             function processTransfer(asset, network, recipent, amount) {
@@ -1410,6 +1670,7 @@
                 if (!user) return { success: false, message: 'جلسة غير صالحة' };
                 if (!recipent || recipent.trim().length < 5) return { success: false, message: 'عنوان المستلم غير صالح' };
                 if (isNaN(amount) || amount <= 0) return { success: false, message: 'المبلغ غير صالح' };
+
                 var fee = 0,
                     balanceField = '',
                     minAmount = 0;
@@ -1420,11 +1681,22 @@
                     minAmount = 0.001; } else if (asset === 'ETH') { fee = 0.002;
                     balanceField = 'ethBalance';
                     minAmount = 0.01; } else return { success: false, message: 'عملة غير مدعومة' };
+
                 if (amount < minAmount) return { success: false, message: 'الحد الأدنى للتحويل ' + minAmount + ' ' + asset };
                 var currentBalance = user[balanceField] || 0;
                 if (amount + fee > currentBalance) return { success: false, message: 'رصيد غير كافٍ (يشمل الرسوم)' };
+
                 var newBalance = currentBalance - amount - fee;
-                var transaction = { type: 'transfer', asset: asset, network: network, recipient: recipent.trim(), amount: amount, fee: fee, date: new Date().toLocaleString('ar-EG', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' }) };
+                var transaction = {
+                    type: 'transfer',
+                    asset: asset,
+                    network: network,
+                    recipent: recipent.trim(),
+                    amount: amount,
+                    fee: fee,
+                    date: new Date().toLocaleString('ar-EG', { hour: '2-digit', minute: '2-digit', day: 'numeric',
+                        month: 'numeric' })
+                };
                 var updates = {};
                 updates[balanceField] = newBalance;
                 updates.transactions = (user.transactions || []).concat([transaction]);
@@ -1440,7 +1712,8 @@
                 if (isNaN(amount) || amount <= 0) { showToast('المبلغ غير صالح', true); return false; }
                 if (amount > (user.balance || 0)) { showToast('رصيدك غير كافٍ', true); return false; }
                 var newBalance = (user.balance || 0) - amount;
-                var transaction = { type: 'withdraw', amount: amount, date: new Date().toLocaleString('ar-EG', { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'numeric' }), address: address.trim() };
+                var transaction = { type: 'withdraw', amount: amount, date: new Date().toLocaleString('ar-EG', { hour: '2-digit',
+                        minute: '2-digit', day: 'numeric', month: 'numeric' }), address: address.trim() };
                 var transactions = (user.transactions || []).concat([transaction]);
                 updateUser(user.email, { balance: newBalance, transactions: transactions });
                 refreshBalanceAndTransactions();
@@ -1465,6 +1738,7 @@
                 refreshBalanceAndTransactions();
                 switchPage('home');
                 initMarketData();
+                // إظهار أيقونة التثبيت في الشاشة الرئيسية
                 showInstallIcons();
             }
 
@@ -1482,7 +1756,8 @@
             }
 
             function restoreSession() {
-                var session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || 'null');
+                var session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) ||
+                'null');
                 if (session) {
                     var user = findUserByEmail(session.email);
                     if (user) { enterPlatform(user); return true; }
@@ -1492,26 +1767,46 @@
 
             // ==================== بيانات مزودي الإشارات ====================
             var providersData = [
-                { rank: 1, name: "Alpha Crypto", category: "Crypto", return30d: 187.23, followers: "12.4K", rating: 4.9, icon: "fab fa-bitcoin text-yellow-500" },
-                { rank: 2, name: "FX Leaders", category: "Forex", return30d: 152.67, followers: "9.8K", rating: 4.8, icon: "fas fa-chart-line text-blue-500" },
-                { rank: 3, name: "Gold Signals", category: "Commodities", return30d: 134.50, followers: "7.2K", rating: 4.7, icon: "fas fa-coins text-yellow-600" },
-                { rank: 4, name: "ETH Whales", category: "Crypto", return30d: 121.34, followers: "15.1K", rating: 4.9, icon: "fab fa-ethereum text-purple-500" },
-                { rank: 5, name: "Stock Master", category: "Stocks", return30d: 98.76, followers: "5.4K", rating: 4.6, icon: "fas fa-chart-bar text-green-600" },
-                { rank: 6, name: "Crypto Bull", category: "Crypto", return30d: 87.12, followers: "8.7K", rating: 4.7, icon: "fab fa-bitcoin text-yellow-500" },
-                { rank: 7, name: "Pips Hunter", category: "Forex", return30d: 76.45, followers: "4.2K", rating: 4.5, icon: "fas fa-dollar-sign text-green-500" },
-                { rank: 8, name: "Oil Trader", category: "Commodities", return30d: 68.33, followers: "3.9K", rating: 4.4, icon: "fas fa-oil-can text-orange-400" },
-                { rank: 9, name: "BNB Signals", category: "Crypto", return30d: 59.21, followers: "11.2K", rating: 4.8, icon: "fas fa-coins text-yellow-500" },
-                { rank: 10, name: "Swing Trade Pro", category: "Stocks", return30d: 52.10, followers: "6.5K", rating: 4.5, icon: "fas fa-chart-pie text-blue-500" },
-                { rank: 11, name: "Solana Surf", category: "Crypto", return30d: 48.67, followers: "13.4K", rating: 4.7, icon: "fas fa-sun text-orange-400" },
-                { rank: 12, name: "Forex Elite", category: "Forex", return30d: 44.23, followers: "3.1K", rating: 4.3, icon: "fas fa-globe text-blue-400" },
-                { rank: 13, name: "Silver Signals", category: "Commodities", return30d: 39.87, followers: "2.8K", rating: 4.2, icon: "fas fa-circle text-gray-400" },
-                { rank: 14, name: "DeFi Alerts", category: "Crypto", return30d: 35.45, followers: "9.1K", rating: 4.6, icon: "fas fa-link text-blue-600" },
-                { rank: 15, name: "Index Trader", category: "Indices", return30d: 31.22, followers: "5.7K", rating: 4.4, icon: "fas fa-chart-line text-indigo-500" },
-                { rank: 16, name: "NFT Whisper", category: "NFT", return30d: 27.89, followers: "7.8K", rating: 4.5, icon: "fas fa-paint-brush text-pink-500" },
-                { rank: 17, name: "Metaverse Pro", category: "Metaverse", return30d: 23.56, followers: "6.2K", rating: 4.3, icon: "fas fa-vr-cardboard text-purple-400" },
-                { rank: 18, name: "Crypto Arbitrage", category: "Crypto", return30d: 19.34, followers: "4.5K", rating: 4.1, icon: "fas fa-arrows-alt-h text-teal-500" },
-                { rank: 19, name: "SPX Signals", category: "Indices", return30d: 15.78, followers: "3.3K", rating: 4.0, icon: "fas fa-chart-bar text-gray-600" },
-                { rank: 20, name: "Penny Stock Gems", category: "Stocks", return30d: 12.45, followers: "2.1K", rating: 3.9, icon: "fas fa-gem text-blue-300" }
+                { rank: 1, name: "Alpha Crypto", category: "Crypto", return30d: 187.23, followers: "12.4K", rating: 4.9,
+                    icon: "fab fa-bitcoin text-yellow-500" },
+                { rank: 2, name: "FX Leaders", category: "Forex", return30d: 152.67, followers: "9.8K", rating: 4.8,
+                    icon: "fas fa-chart-line text-blue-500" },
+                { rank: 3, name: "Gold Signals", category: "Commodities", return30d: 134.50, followers: "7.2K", rating: 4.7,
+                    icon: "fas fa-coins text-yellow-600" },
+                { rank: 4, name: "ETH Whales", category: "Crypto", return30d: 121.34, followers: "15.1K", rating: 4.9,
+                    icon: "fab fa-ethereum text-purple-500" },
+                { rank: 5, name: "Stock Master", category: "Stocks", return30d: 98.76, followers: "5.4K", rating: 4.6,
+                    icon: "fas fa-chart-bar text-green-600" },
+                { rank: 6, name: "Crypto Bull", category: "Crypto", return30d: 87.12, followers: "8.7K", rating: 4.7,
+                    icon: "fab fa-bitcoin text-yellow-500" },
+                { rank: 7, name: "Pips Hunter", category: "Forex", return30d: 76.45, followers: "4.2K", rating: 4.5,
+                    icon: "fas fa-dollar-sign text-green-500" },
+                { rank: 8, name: "Oil Trader", category: "Commodities", return30d: 68.33, followers: "3.9K", rating: 4.4,
+                    icon: "fas fa-oil-can text-orange-400" },
+                { rank: 9, name: "BNB Signals", category: "Crypto", return30d: 59.21, followers: "11.2K", rating: 4.8,
+                    icon: "fas fa-coins text-yellow-500" },
+                { rank: 10, name: "Swing Trade Pro", category: "Stocks", return30d: 52.10, followers: "6.5K", rating: 4.5,
+                    icon: "fas fa-chart-pie text-blue-500" },
+                { rank: 11, name: "Solana Surf", category: "Crypto", return30d: 48.67, followers: "13.4K", rating: 4.7,
+                    icon: "fas fa-sun text-orange-400" },
+                { rank: 12, name: "Forex Elite", category: "Forex", return30d: 44.23, followers: "3.1K", rating: 4.3,
+                    icon: "fas fa-globe text-blue-400" },
+                { rank: 13, name: "Silver Signals", category: "Commodities", return30d: 39.87, followers: "2.8K", rating: 4.2,
+                    icon: "fas fa-circle text-gray-400" },
+                { rank: 14, name: "DeFi Alerts", category: "Crypto", return30d: 35.45, followers: "9.1K", rating: 4.6,
+                    icon: "fas fa-link text-blue-600" },
+                { rank: 15, name: "Index Trader", category: "Indices", return30d: 31.22, followers: "5.7K", rating: 4.4,
+                    icon: "fas fa-chart-line text-indigo-500" },
+                { rank: 16, name: "NFT Whisper", category: "NFT", return30d: 27.89, followers: "7.8K", rating: 4.5,
+                    icon: "fas fa-paint-brush text-pink-500" },
+                { rank: 17, name: "Metaverse Pro", category: "Metaverse", return30d: 23.56, followers: "6.2K", rating: 4.3,
+                    icon: "fas fa-vr-cardboard text-purple-400" },
+                { rank: 18, name: "Crypto Arbitrage", category: "Crypto", return30d: 19.34, followers: "4.5K", rating: 4.1,
+                    icon: "fas fa-arrows-alt-h text-teal-500" },
+                { rank: 19, name: "SPX Signals", category: "Indices", return30d: 15.78, followers: "3.3K", rating: 4.0,
+                    icon: "fas fa-chart-bar text-gray-600" },
+                { rank: 20, name: "Penny Stock Gems", category: "Stocks", return30d: 12.45, followers: "2.1K", rating: 3.9,
+                    icon: "fas fa-gem text-blue-300" }
             ];
 
             function renderProvidersList() {
@@ -1522,16 +1817,27 @@
                     if (p.rank === 1) rankClass += ' top1';
                     else if (p.rank === 2) rankClass += ' top2';
                     else if (p.rank === 3) rankClass += ' top3';
-                    html += '<div class="provider-row flex items-center gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg transition"><div class="' + rankClass + '">' + p.rank + '</div><div class="flex-1"><div class="flex items-center gap-2"><i class="' + p.icon + ' text-lg"></i><div><h4 class="font-bold text-sm">' + p.name + '</h4><span class="text-xs text-secondary">' + p.category + '</span></div></div></div><div class="text-left"><div class="font-bold text-crypto-green text-base">+' + p.return30d + '%</div><div class="flex items-center gap-1 text-xs text-secondary justify-end"><i class="fas fa-users text-[10px]"></i> ' + p.followers + '<span class="mx-1">•</span><i class="fas fa-star text-yellow-500 text-[10px]"></i> ' + p.rating + '</div></div></div>';
+                    html += '<div class="provider-row flex items-center gap-3 py-3 px-1 hover:bg-gray-50 rounded-lg transition"><div class="' +
+                        rankClass + '">' + p.rank + '</div><div class="flex-1"><div class="flex items-center gap-2"><i class="' +
+                        p.icon + ' text-lg"></i><div><h4 class="font-bold text-sm">' + p.name +
+                        '</h4><span class="text-xs text-secondary">' + p.category +
+                        '</span></div></div></div><div class="text-left"><div class="font-bold text-crypto-green text-base">+' +
+                        p.return30d +
+                        '%</div><div class="flex items-center gap-1 text-xs text-secondary justify-end"><i class="fas fa-users text-[10px]"></i> ' +
+                        p.followers + '<span class="mx-1">•</span><i class="fas fa-star text-yellow-500 text-[10px]"></i> ' +
+                        p.rating + '</div></div></div>';
                 });
                 container.innerHTML = html;
             }
 
             // ==================== بيانات السوق والرسم البياني ====================
             var symbols = [
-                { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', basePrice: 68245.50, volatility: 0.005 },
-                { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', basePrice: 3421.80, volatility: 0.008 },
-                { id: 'BNB', name: 'Binance Coin', icon: 'fas fa-coins text-yellow-500', basePrice: 602.10, volatility: 0.006 },
+                { id: 'BTC', name: 'Bitcoin', icon: 'fab fa-bitcoin text-yellow-500', basePrice: 68245.50,
+                volatility: 0.005 },
+                { id: 'ETH', name: 'Ethereum', icon: 'fab fa-ethereum text-purple-500', basePrice: 3421.80,
+                volatility: 0.008 },
+                { id: 'BNB', name: 'Binance Coin', icon: 'fas fa-coins text-yellow-500', basePrice: 602.10,
+                volatility: 0.006 },
                 { id: 'SOL', name: 'Solana', icon: 'fas fa-sun text-orange-400', basePrice: 172.35, volatility: 0.012 }
             ];
 
@@ -1541,7 +1847,11 @@
             var simulationInterval = null;
             var chartScale = 1.0,
                 chartOffsetX = 0;
-            var canvas, ctx, tooltip, crosshairV, crosshairH;
+            var canvas = document.getElementById('candlestick-chart');
+            var ctx = canvas.getContext('2d');
+            var tooltip = document.getElementById('chart-tooltip');
+            var crosshairV = document.getElementById('crosshair-v');
+            var crosshairH = document.getElementById('crosshair-h');
 
             function generateInitialCandles(count, basePrice, volatility) {
                 var data = [];
@@ -1566,8 +1876,14 @@
                 last.close = newClose;
                 last.high = Math.max(last.high, newClose + Math.random() * volatility * 0.3);
                 last.low = Math.min(last.low, newClose - Math.random() * volatility * 0.3);
+
                 if (Math.random() < 0.2) {
-                    var newCandle = { open: last.close, high: last.close + Math.random() * volatility * 0.5, low: last.close - Math.random() * volatility * 0.5, close: last.close + (Math.random() - 0.5) * volatility };
+                    var newCandle = {
+                        open: last.close,
+                        high: last.close + Math.random() * volatility * 0.5,
+                        low: last.close - Math.random() * volatility * 0.5,
+                        close: last.close + (Math.random() - 0.5) * volatility
+                    };
                     marketChartData.push(newCandle);
                     if (marketChartData.length > 60) marketChartData.shift();
                 }
@@ -1577,7 +1893,7 @@
             }
 
             function drawChart() {
-                if (!canvas || !ctx || !marketChartData.length) return;
+                if (!marketChartData.length) return;
                 var w = canvas.clientWidth || 400;
                 var h = 240;
                 canvas.width = w;
@@ -1585,21 +1901,27 @@
                 var padding = { top: 20, bottom: 25, left: 55, right: 15 };
                 var graphWidth = w - padding.left - padding.right;
                 var graphHeight = h - padding.top - padding.bottom;
+
                 var visibleCandlesCount = Math.floor(marketChartData.length / chartScale);
-                var startIndex = Math.max(0, Math.min(marketChartData.length - visibleCandlesCount, Math.floor(chartOffsetX / 100 * marketChartData.length)));
+                var startIndex = Math.max(0, Math.min(marketChartData.length - visibleCandlesCount, Math.floor(chartOffsetX /
+                    100 * marketChartData.length)));
                 var endIndex = Math.min(marketChartData.length, startIndex + visibleCandlesCount);
                 var visibleData = marketChartData.slice(startIndex, endIndex);
                 if (visibleData.length === 0) return;
+
                 var prices = visibleData.flatMap(function(d) { return [d.high, d.low]; });
                 var maxPrice = Math.max.apply(null, prices) * 1.02;
                 var minPrice = Math.min.apply(null, prices) * 0.98;
                 var priceRange = maxPrice - minPrice;
+
                 ctx.clearRect(0, 0, w, h);
+
                 ctx.strokeStyle = '#e2e8f0';
                 ctx.lineWidth = 0.5;
                 ctx.fillStyle = '#64748b';
                 ctx.font = '10px Cairo';
                 ctx.textAlign = 'right';
+
                 var gridLines = 5;
                 for (var i = 0; i <= gridLines; i++) {
                     var price = maxPrice - (i / gridLines) * priceRange;
@@ -1610,8 +1932,10 @@
                     ctx.stroke();
                     ctx.fillText(price.toFixed(2), padding.left - 5, y + 3);
                 }
+
                 var candleWidth = Math.max(3, (graphWidth / visibleData.length) * 0.7);
                 var spacing = (graphWidth - candleWidth * visibleData.length) / (visibleData.length + 1);
+
                 visibleData.forEach(function(d, i) {
                     var x = padding.left + spacing + i * (candleWidth + spacing);
                     var yHigh = padding.top + ((maxPrice - d.high) / priceRange) * graphHeight;
@@ -1628,13 +1952,17 @@
                     ctx.lineTo(x + candleWidth / 2, yLow);
                     ctx.stroke();
                 });
+
                 ctx.strokeStyle = '#cbd5e1';
                 ctx.lineWidth = 1;
                 ctx.strokeRect(padding.left, padding.top, graphWidth, graphHeight);
+
                 var startTime = new Date(Date.now() - marketChartData.length * 3600000);
                 var endTime = new Date();
-                document.getElementById('chart-start-label').textContent = startTime.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
-                document.getElementById('chart-end-label').textContent = endTime.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+                document.getElementById('chart-start-label').textContent = startTime.toLocaleTimeString('ar-EG', { hour: '2-digit',
+                    minute: '2-digit' });
+                document.getElementById('chart-end-label').textContent = endTime.toLocaleTimeString('ar-EG', { hour: '2-digit',
+                    minute: '2-digit' });
                 document.getElementById('zoom-level').textContent = Math.round(chartScale * 100) + '%';
             }
 
@@ -1645,30 +1973,38 @@
                 document.getElementById('current-price').textContent = last.close.toFixed(2);
                 var changeSpan = document.getElementById('price-change');
                 changeSpan.textContent = (change > 0 ? '+' : '') + change.toFixed(2) + '%';
-                changeSpan.className = 'text-sm font-medium px-2 py-1 rounded-lg ' + (change >= 0 ? 'text-crypto-green bg-green-50' : 'text-crypto-red bg-red-50');
+                changeSpan.className = 'text-sm font-medium px-2 py-1 rounded-lg ' + (change >= 0 ?
+                    'text-crypto-green bg-green-50' : 'text-crypto-red bg-red-50');
             }
 
             function switchSymbol(symbol) {
                 currentSymbol = symbol;
-                document.getElementById('market-title').innerHTML = '<i class="' + symbol.icon + '"></i> ' + symbol.id + '/USDT';
-                var count = currentTf === '1D' ? 24 : (currentTf === '1W' ? 7 * 24 : (currentTf === '1M' ? 30 : (currentTf === '3M' ? 90 : 365)));
+                document.getElementById('market-title').innerHTML = '<i class="' + symbol.icon + '"></i> ' + symbol.id +
+                    '/USDT';
+                var count = currentTf === '1D' ? 24 : (currentTf === '1W' ? 7 * 24 : (currentTf === '1M' ? 30 : (currentTf ===
+                    '3M' ? 90 : 365)));
                 marketChartData = generateInitialCandles(Math.min(count, 60), symbol.basePrice, symbol.volatility);
                 chartScale = 1.0;
                 chartOffsetX = 0;
                 drawChart();
                 updatePriceDisplay();
+
                 document.querySelectorAll('.symbol-chip').forEach(function(chip) {
                     chip.classList.remove('active', 'bg-crypto-blue', 'text-white');
                     chip.classList.add('bg-gray-100', 'text-primary');
-                    if (chip.dataset.symbol === symbol.id) { chip.classList.add('active', 'bg-crypto-blue', 'text-white');
-                        chip.classList.remove('bg-gray-100', 'text-primary'); }
+                    if (chip.dataset.symbol === symbol.id) {
+                        chip.classList.add('active', 'bg-crypto-blue', 'text-white');
+                        chip.classList.remove('bg-gray-100', 'text-primary');
+                    }
                 });
             }
 
             function renderSymbolChips() {
                 var container = document.getElementById('symbols-container');
                 container.innerHTML = symbols.map(function(s) {
-                    return '<div class="symbol-chip ' + (s.id === currentSymbol.id ? 'active bg-crypto-blue text-white' : 'bg-gray-100 text-primary') + '" data-symbol="' + s.id + '"><i class="' + s.icon + '"></i> ' + s.id + '/USDT</div>';
+                    return '<div class="symbol-chip ' + (s.id === currentSymbol.id ?
+                        'active bg-crypto-blue text-white' : 'bg-gray-100 text-primary') + '" data-symbol="' + s
+                        .id + '"><i class="' + s.icon + '"></i> ' + s.id + '/USDT</div>';
                 }).join('');
                 document.querySelectorAll('.symbol-chip').forEach(function(chip) {
                     chip.addEventListener('click', function() {
@@ -1682,76 +2018,79 @@
                 var container = document.getElementById('top-markets-list');
                 var top = symbols.slice(0, 4);
                 container.innerHTML = top.map(function(s) {
-                    var price = s.id === currentSymbol.id ? marketChartData[marketChartData.length - 1].close : s.basePrice * (1 + (Math.random() - 0.5) * 0.02);
+                    var price = s.id === currentSymbol.id ? marketChartData[marketChartData.length - 1].close :
+                        s.basePrice * (1 + (Math.random() - 0.5) * 0.02);
                     var change = (Math.random() * 6 - 2).toFixed(2);
                     var changeClass = change >= 0 ? 'text-crypto-green' : 'text-crypto-red';
-                    return '<div class="asset-row grid grid-cols-3 py-3 px-3 items-center"><div class="flex items-center gap-2"><i class="' + s.icon + ' text-lg"></i><div><div class="font-semibold text-primary">' + s.id + '/USDT</div></div></div><div class="text-center font-semibold">$' + price.toFixed(2) + '</div><div class="text-right ' + changeClass + '">' + (change > 0 ? '+' : '') + change + '%</div></div>';
+                    return '<div class="asset-row grid grid-cols-3 py-3 px-3 items-center"><div class="flex items-center gap-2"><i class="' +
+                        s.icon + ' text-lg"></i><div><div class="font-semibold text-primary">' + s.id +
+                        '/USDT</div></div></div><div class="text-center font-semibold">$' + price.toFixed(2) +
+                        '</div><div class="text-right ' + changeClass + '">' + (change > 0 ? '+' : '') + change +
+                        '%</div></div>';
                 }).join('');
             }
 
             function changeTimeframe(tf) {
                 currentTf = tf;
                 var count = tf === '1D' ? 24 : (tf === '1W' ? 7 * 24 : (tf === '1M' ? 30 : (tf === '3M' ? 90 : 365)));
-                marketChartData = generateInitialCandles(Math.min(count, 60), currentSymbol.basePrice, currentSymbol.volatility);
+                marketChartData = generateInitialCandles(Math.min(count, 60), currentSymbol.basePrice, currentSymbol
+                    .volatility);
                 chartScale = 1.0;
                 chartOffsetX = 0;
                 drawChart();
                 updatePriceDisplay();
-                document.querySelectorAll('.timeframe-btn').forEach(function(btn) { btn.classList.remove('active'); if (btn.dataset.tf === tf) btn.classList.add('active'); });
+                document.querySelectorAll('.timeframe-btn').forEach(function(btn) {
+                    btn.classList.remove('active');
+                    if (btn.dataset.tf === tf) btn.classList.add('active');
+                });
             }
 
             function drawChartForCurrentSymbol() { if (marketChartData.length) drawChart(); }
 
             function initMarketData() {
-                canvas = document.getElementById('candlestick-chart');
-                ctx = canvas.getContext('2d');
-                tooltip = document.getElementById('chart-tooltip');
-                crosshairV = document.getElementById('crosshair-v');
-                crosshairH = document.getElementById('crosshair-h');
                 renderSymbolChips();
                 switchSymbol(symbols[0]);
                 if (simulationInterval) clearInterval(simulationInterval);
                 simulationInterval = setInterval(function() { updateMarketSimulation(); }, 3000);
 
-                document.getElementById('chart-zoom-in').addEventListener('click', function() { chartScale = Math.min(3.0, chartScale * 1.2);
-                    drawChart(); });
-                document.getElementById('chart-zoom-out').addEventListener('click', function() { chartScale = Math.max(0.5, chartScale / 1.2);
-                    drawChart(); });
-                document.getElementById('chart-reset').addEventListener('click', function() { chartScale = 1.0;
+                document.getElementById('chart-zoom-in').addEventListener('click', function() {
+                    chartScale = Math.min(3.0, chartScale * 1.2);
+                    drawChart();
+                });
+                document.getElementById('chart-zoom-out').addEventListener('click', function() {
+                    chartScale = Math.max(0.5, chartScale / 1.2);
+                    drawChart();
+                });
+                document.getElementById('chart-reset').addEventListener('click', function() {
+                    chartScale = 1.0;
                     chartOffsetX = 0;
-                    drawChart(); });
+                    drawChart();
+                });
 
                 var isDragging = false,
                     dragStartX = 0,
                     dragStartOffset = 0;
-                canvas.addEventListener('mousedown', function(e) { isDragging = true;
+                canvas.addEventListener('mousedown', function(e) {
+                    isDragging = true;
                     dragStartX = e.clientX;
                     dragStartOffset = chartOffsetX;
                     canvas.style.cursor = 'grabbing';
-                    e.preventDefault(); });
-                canvas.addEventListener('touchstart', function(e) { if (e.touches.length === 1) { isDragging = true;
-                        dragStartX = e.touches[0].clientX;
-                        dragStartOffset = chartOffsetX; } });
-                window.addEventListener('mousemove', function(e) {
-                    if (isDragging) { var deltaX = e.clientX - dragStartX;
-                        chartOffsetX = Math.max(0, Math.min(100, dragStartOffset - (deltaX / canvas.clientWidth) * 100 * chartScale));
-                        drawChart(); }
+                    e.preventDefault();
                 });
-                window.addEventListener('touchmove', function(e) {
-                    if (isDragging && e.touches.length === 1) { var deltaX = e.touches[0].clientX - dragStartX;
-                        chartOffsetX = Math.max(0, Math.min(100, dragStartOffset - (deltaX / canvas.clientWidth) * 100 * chartScale));
-                        drawChart(); }
+                window.addEventListener('mousemove', function(e) {
+                    if (isDragging) {
+                        var deltaX = e.clientX - dragStartX;
+                        chartOffsetX = Math.max(0, Math.min(100, dragStartOffset - (deltaX / canvas.clientWidth) *
+                            100 * chartScale));
+                        drawChart();
+                    }
                 });
                 window.addEventListener('mouseup', function() { isDragging = false;
                     canvas.style.cursor = 'default'; });
-                window.addEventListener('touchend', function() { isDragging = false; });
             }
 
             // ==================== ربط الأحداث ====================
             document.addEventListener('DOMContentLoaded', function() {
-                // ربط أيقونات التثبيت بعد تحميل DOM
-                bindInstallIcons();
-
                 var TRC20_ADDRESS = 'TKs99vRna6QHmdLJ7Bjp3bpeVafJVTTrSN';
                 var BEP20_ADDRESS = '0xe0e64955c9d15c093858902B9cb5A18507870BA5';
 
@@ -1764,12 +2103,16 @@
                     if (!code) { syncMsg.textContent = 'الرجاء إدخال كود الطلب';
                         syncMsg.className = 'text-sm mt-2 error-message';
                         syncMsg.classList.remove('hidden'); return; }
-                    if (code.toUpperCase() === 'SYNC2024') { syncMsg.textContent = '✅ تمت المزامنة بنجاح! جاري تنفيذ الصفقة...';
+                    if (code.toUpperCase() === 'SYNC2024') {
+                        syncMsg.textContent = '✅ تمت المزامنة بنجاح! جاري تنفيذ الصفقة...';
                         syncMsg.className = 'text-sm mt-2 success-message';
                         syncMsg.classList.remove('hidden');
-                        showToast('تمت مزامنة الصفقة بنجاح'); } else { syncMsg.textContent = '❌ كود الطلب غير صحيح. تأكد من الكود وحاول مجدداً.';
+                        showToast('تمت مزامنة الصفقة بنجاح');
+                    } else {
+                        syncMsg.textContent = '❌ كود الطلب غير صحيح. تأكد من الكود وحاول مجدداً.';
                         syncMsg.className = 'text-sm mt-2 error-message';
-                        syncMsg.classList.remove('hidden'); }
+                        syncMsg.classList.remove('hidden');
+                    }
                 });
 
                 var tabLogin = document.getElementById('tab-login'),
@@ -1808,7 +2151,8 @@
                     if (!email || !pass) { loginError.textContent = 'أدخل البريد وكلمة المرور';
                         loginError.classList.remove('hidden'); return; }
                     var user = findUserByEmail(email);
-                    if (!user || user.password !== btoa(pass)) { loginError.textContent = 'بيانات الدخول غير صحيحة';
+                    if (!user || user.password !== btoa(pass)) { loginError.textContent =
+                        'بيانات الدخول غير صحيحة';
                         loginError.classList.remove('hidden'); return; }
                     setSession(user, document.getElementById('remember-me').checked);
                     enterPlatform(user);
@@ -1823,7 +2167,8 @@
                         confirm = signupConfirm.value;
                     signupError.classList.add('hidden');
                     signupSuccess.classList.add('hidden');
-                    if (!name || !email || !pass || !confirm) { signupError.textContent = 'جميع الحقول مطلوبة';
+                    if (!name || !email || !pass || !confirm) { signupError.textContent =
+                        'جميع الحقول مطلوبة';
                         signupError.classList.remove('hidden'); return; }
                     if (!/^\S+@\S+\.\S+$/.test(email)) { signupError.textContent = 'بريد إلكتروني غير صالح';
                         signupError.classList.remove('hidden'); return; }
@@ -1835,7 +2180,9 @@
                         signupError.classList.remove('hidden'); return; }
                     if (findUserByEmail(email)) { signupError.textContent = 'البريد مسجل مسبقاً';
                         signupError.classList.remove('hidden'); return; }
-                    var newUser = { fullName: name, email: email.toLowerCase(), password: btoa(pass), balance: 10000, btcBalance: 0.15, ethBalance: 1.2, transactions: [], joinDate: new Date().toISOString().split('T')[0] };
+                    var newUser = { fullName: name, email: email.toLowerCase(), password: btoa(pass),
+                        balance: 10000, btcBalance: 0.15, ethBalance: 1.2, transactions: [],
+                        joinDate: new Date().toISOString().split('T')[0] };
                     var users = getUsers();
                     users.push(newUser);
                     saveUsers(users);
@@ -1862,7 +2209,7 @@
                 var withdrawAddressLabel = document.getElementById('withdraw-address-label');
 
                 function generateQRCode(text) {
-                    if (!text || !qrCanvas) return;
+                    if (!text) return;
                     try {
                         var qr = qrcode(0, 'M');
                         qr.addData(text);
@@ -1879,7 +2226,8 @@
                         qrCtx.fillStyle = '#1e293b';
                         for (var row = 0; row < cells; row++)
                             for (var col = 0; col < cells; col++)
-                                if (qr.isDark(row, col)) qrCtx.fillRect(col * cellSize, row * cellSize, cellSize, cellSize);
+                                if (qr.isDark(row, col)) qrCtx.fillRect(col * cellSize, row * cellSize, cellSize,
+                                    cellSize);
                     } catch (e) {}
                 }
 
@@ -1947,10 +2295,9 @@
                 document.getElementById('cancel-deposit').addEventListener('click', closeModals);
                 document.getElementById('cancel-withdraw').addEventListener('click', closeModals);
                 copyBtn.addEventListener('click', function() {
-                    var addr = depositAddressSpan.textContent;
-                    if (navigator.clipboard) {
-                        navigator.clipboard.writeText(addr).then(function() { showToast('تم نسخ العنوان'); }).catch(function() { showToast('انسخ يدوياً', true); });
-                    } else { showToast('انسخ يدوياً', true); }
+                    navigator.clipboard ? navigator.clipboard.writeText(depositAddressSpan.textContent).then(
+                        function() { showToast('تم نسخ العنوان'); }).catch(function() { showToast(
+                        'انسخ يدوياً', true); }) : showToast('انسخ يدوياً', true);
                 });
 
                 document.getElementById('confirm-withdraw').addEventListener('click', function() {
@@ -1976,11 +2323,13 @@
                 var transferSubmit = document.getElementById('transfer-submit-btn');
                 var transferError = document.getElementById('transfer-error');
                 var transferRecipient = document.getElementById('transfer-recipient');
+
                 var currentTransferNetwork = 'TRC20';
 
                 transferAssetOptions.forEach(function(opt) {
                     opt.addEventListener('click', function() {
-                        transferAssetOptions.forEach(function(o) { o.classList.remove('active'); });
+                        transferAssetOptions.forEach(function(o) { o.classList.remove(
+                            'active'); });
                         opt.classList.add('active');
                         currentTransferAsset = opt.dataset.asset;
                         updateTransferAvailable();
@@ -1993,9 +2342,12 @@
                         btn.classList.remove('active-network', 'bg-crypto-blue', 'text-white');
                         btn.classList.add('border-light-border');
                     });
-                    if (network === 'TRC20') transferNetworkTRC20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
-                    else if (network === 'BEP20') transferNetworkBEP20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
-                    else if (network === 'ERC20') transferNetworkERC20.classList.add('active-network', 'bg-crypto-blue', 'text-white');
+                    if (network === 'TRC20') transferNetworkTRC20.classList.add('active-network', 'bg-crypto-blue',
+                        'text-white');
+                    else if (network === 'BEP20') transferNetworkBEP20.classList.add('active-network',
+                        'bg-crypto-blue', 'text-white');
+                    else if (network === 'ERC20') transferNetworkERC20.classList.add('active-network',
+                        'bg-crypto-blue', 'text-white');
                     calculateReceiveAmount();
                 }
 
@@ -2019,48 +2371,90 @@
                     var amount = parseFloat(transferAmount.value);
                     transferError.classList.add('hidden');
                     var result = processTransfer(currentTransferAsset, currentTransferNetwork, recipent, amount);
-                    if (!result.success) { transferError.textContent = result.message;
-                        transferError.classList.remove('hidden'); } else { showToast('تم تحويل ' + amount.toFixed(6) + ' ' + currentTransferAsset + ' بنجاح');
+                    if (!result.success) {
+                        transferError.textContent = result.message;
+                        transferError.classList.remove('hidden');
+                    } else {
+                        showToast('تم تحويل ' + amount.toFixed(6) + ' ' + currentTransferAsset + ' بنجاح');
                         transferRecipient.value = '';
                         transferAmount.value = '';
                         calculateReceiveAmount();
-                        updateTransferAvailable(); }
+                        updateTransferAvailable();
+                    }
                 });
 
                 // مودال المزودين
                 var providersModal = document.getElementById('providers-modal');
-                document.getElementById('show-more-providers-btn').addEventListener('click', function() { renderProvidersList();
-                    providersModal.classList.remove('hidden'); });
-                document.getElementById('close-providers-modal').addEventListener('click', function() { providersModal.classList.add('hidden'); });
+                document.getElementById('show-more-providers-btn').addEventListener('click', function() {
+                    renderProvidersList();
+                    providersModal.classList.remove('hidden');
+                });
+                document.getElementById('close-providers-modal').addEventListener('click', function() { providersModal
+                    .classList.add('hidden'); });
 
                 // مودال الترخيص
                 var licenseModal = document.getElementById('license-modal');
-                document.getElementById('bell-license-icon').addEventListener('click', function() { licenseModal.classList.remove('hidden'); });
-                document.getElementById('close-license-modal').addEventListener('click', function() { licenseModal.classList.add('hidden'); });
-                document.getElementById('close-license-btn').addEventListener('click', function() { licenseModal.classList.add('hidden'); });
+                document.getElementById('bell-license-icon').addEventListener('click', function() { licenseModal.classList
+                        .remove('hidden'); });
+                document.getElementById('close-license-modal').addEventListener('click', function() { licenseModal.classList
+                        .add('hidden'); });
+                document.getElementById('close-license-btn').addEventListener('click', function() { licenseModal.classList.add(
+                        'hidden'); });
 
                 // مودال الأخبار
                 var newsModal = document.getElementById('news-modal');
-                document.getElementById('new-news-btn').addEventListener('click', function() { newsModal.classList.remove('hidden'); });
-                document.getElementById('close-news-modal').addEventListener('click', function() { newsModal.classList.add('hidden'); });
+                document.getElementById('new-news-btn').addEventListener('click', function() { newsModal.classList.remove(
+                        'hidden'); });
+                document.getElementById('close-news-modal').addEventListener('click', function() { newsModal.classList.add(
+                        'hidden'); });
+
+                // مودال الدعوة
+                var inviteModal = document.getElementById('invite-modal');
+                document.getElementById('invite-btn').addEventListener('click', function() {
+                    inviteModal.classList.remove('hidden');
+                });
+                document.getElementById('close-invite-modal').addEventListener('click', function() {
+                    inviteModal.classList.add('hidden');
+                });
+                document.getElementById('close-invite-btn').addEventListener('click', function() {
+                    inviteModal.classList.add('hidden');
+                });
+                document.getElementById('copy-invite-link').addEventListener('click', function() {
+                    var link = document.getElementById('invite-link').textContent;
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(link).then(function() {
+                            showToast('تم نسخ رابط الدعوة');
+                        }).catch(function() {
+                            showToast('انسخ الرابط يدوياً', true);
+                        });
+                    } else {
+                        showToast('انسخ الرابط يدوياً', true);
+                    }
+                });
 
                 // مودال V-Wallet
                 var walletModal = document.getElementById('wallet-modal');
                 document.getElementById('v-wallet-btn').addEventListener('click', function() { updateWalletModalData();
                     walletModal.classList.remove('hidden'); });
-                document.getElementById('close-wallet-modal').addEventListener('click', function() { walletModal.classList.add('hidden'); });
-                document.getElementById('wallet-deposit-btn').addEventListener('click', function() { walletModal.classList.add('hidden');
+                document.getElementById('close-wallet-modal').addEventListener('click', function() { walletModal.classList
+                        .add('hidden'); });
+                document.getElementById('wallet-deposit-btn').addEventListener('click', function() { walletModal.classList.add(
+                        'hidden');
                     openDepositModal(); });
-                document.getElementById('wallet-withdraw-btn').addEventListener('click', function() { walletModal.classList.add('hidden');
+                document.getElementById('wallet-withdraw-btn').addEventListener('click', function() { walletModal.classList
+                        .add('hidden');
                     openWithdrawModal(); });
-                document.getElementById('wallet-transfer-btn').addEventListener('click', function() { walletModal.classList.add('hidden');
+                document.getElementById('wallet-transfer-btn').addEventListener('click', function() { walletModal.classList.add(
+                        'hidden');
                     switchPage('wallet'); });
 
                 // أزرار الإطار الزمني
-                document.querySelectorAll('.timeframe-btn').forEach(function(btn) { btn.addEventListener('click', function() { changeTimeframe(btn.dataset.tf); }); });
+                document.querySelectorAll('.timeframe-btn').forEach(function(btn) { btn.addEventListener('click',
+                        function() { changeTimeframe(btn.dataset.tf); }); });
 
                 // التنقل السفلي
-                navItems.forEach(function(item) { item.addEventListener('click', function() { switchPage(item.dataset.page); }); });
+                navItems.forEach(function(item) { item.addEventListener('click', function() { switchPage(item.dataset
+                        .page); }); });
 
                 // تسجيل الخروج
                 function logout() {
@@ -2076,8 +2470,10 @@
 
                 // تغيير كلمة المرور
                 var passModal = document.getElementById('password-modal');
-                document.getElementById('change-password-btn').addEventListener('click', function() { passModal.classList.remove('hidden'); });
-                document.getElementById('cancel-password').addEventListener('click', function() { passModal.classList.add('hidden'); });
+                document.getElementById('change-password-btn').addEventListener('click', function() { passModal.classList
+                        .remove('hidden'); });
+                document.getElementById('cancel-password').addEventListener('click', function() { passModal.classList.add(
+                        'hidden'); });
                 document.getElementById('save-password').addEventListener('click', function() {
                     var curr = document.getElementById('current-password').value;
                     var newP = document.getElementById('new-password').value;
@@ -2088,7 +2484,8 @@
                     succ.classList.add('hidden');
                     var res = changePassword(curr, newP, conf);
                     if (!res.success) { err.textContent = res.message;
-                        err.classList.remove('hidden'); } else { succ.textContent = '✅ تم تغيير كلمة المرور';
+                        err.classList.remove('hidden'); } else { succ.textContent =
+                        '✅ تم تغيير كلمة المرور';
                         succ.classList.remove('hidden');
                         setTimeout(function() { passModal.classList.add('hidden'); }, 1200); }
                 });
