@@ -1228,10 +1228,10 @@
                         fullName: 'متداول تجريبي',
                         email: 'demo@forx.com',
                         password: btoa('demo1234'),
-                        balance: 10000,
-                        btcBalance: 0.15,
-                        ethBalance: 1.2,
-                        solBalance: 5.0,
+                        balance: 0,
+                        btcBalance: 0,
+                        ethBalance: 0,
+                        solBalance: 0,
                         transactions: [],
                         priceAlerts: [],
                         trades: [],
@@ -2140,7 +2140,7 @@
                     if (findUserByEmail(email)) { signupError.textContent = 'البريد مسجل مسبقاً';
                         signupError.classList.remove('hidden'); return; }
                     var newUser = { fullName: name, email: email.toLowerCase(), password: btoa(pass),
-                        balance: 10000, btcBalance: 0.15, ethBalance: 1.2, solBalance: 5.0,
+                        balance: 0, btcBalance: 0, ethBalance: 0, solBalance: 0,
                         transactions: [], priceAlerts: [], trades: [], joinDate: new Date().toISOString()
                             .split('T')[0],
                         referralCode: generateReferralCode(email.toLowerCase()) };
