@@ -10,6 +10,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#3772ff">
     <meta name="description" content="منصة تداول العملات الرقمية ForX - تداول آمن وسريع مع ميزات متقدمة">
+
     <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='152' height='152'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
     <link rel="apple-touch-icon" sizes="120x120" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='120' height='120'%3E%3Crect width='512' height='512' rx='100' fill='%233772ff'/%3E%3Cpath fill='%23ffffff' d='M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z'/%3E%3C/svg%3E">
@@ -968,7 +969,6 @@
                     <div class="p-4 rounded-xl border" style="background: var(--input-bg); border-color: var(--border);">
                         <p class="font-bold mb-1">رابط الدعوة الخاص بك</p>
                         <div class="flex items-center justify-between gap-2 p-2 rounded-lg border" style="background: var(--card); border-color: var(--border);">
-                            <!-- تم تغيير الرابط إلى الرابط الجديد -->
                             <code class="text-sm font-mono break-all" id="invite-link">https://exurs7app.github.io/ForX/</code>
                             <button id="copy-invite-link" class="p-2 rounded-lg text-crypto-blue hover:opacity-80 transition" style="background: var(--input-bg);"><i class="fas fa-copy"></i></button>
                         </div>
@@ -1045,7 +1045,146 @@
 
     <script>
         (function() {
-            // ==================== أولاً: تعريف دوال مساعدة ====================
+            // ==================== توليد أيقونات PNG حقيقية للتثبيت في درج التطبيقات ====================
+            function generatePNGIcon(size) {
+                var canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                var ctx = canvas.getContext('2d');
+
+                var radius = size * 0.195;
+                ctx.beginPath();
+                ctx.moveTo(radius, 0);
+                ctx.lineTo(size - radius, 0);
+                ctx.quadraticCurveTo(size, 0, size, radius);
+                ctx.lineTo(size, size - radius);
+                ctx.quadraticCurveTo(size, size, size - radius, size);
+                ctx.lineTo(radius, size);
+                ctx.quadraticCurveTo(0, size, 0, size - radius);
+                ctx.lineTo(0, radius);
+                ctx.quadraticCurveTo(0, 0, radius, 0);
+                ctx.closePath();
+                ctx.fillStyle = '#3772ff';
+                ctx.fill();
+
+                var cx = size / 2;
+                var cy = size / 2;
+                var s = size * 0.28;
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.moveTo(cx - s * 0.12, cy - s * 1.05);
+                ctx.lineTo(cx + s * 0.55, cy - s * 0.25);
+                ctx.lineTo(cx - s * 0.15, cy - s * 0.15);
+                ctx.lineTo(cx + s * 0.08, cy + s * 1.05);
+                ctx.lineTo(cx - s * 0.55, cy + s * 0.35);
+                ctx.lineTo(cx + s * 0.15, cy + s * 0.08);
+                ctx.lineTo(cx - s * 0.08, cy - s * 1.05);
+                ctx.closePath();
+                ctx.fill();
+
+                return canvas.toDataURL('image/png');
+            }
+
+            var pngIcon192 = generatePNGIcon(192);
+            var pngIcon512 = generatePNGIcon(512);
+
+            // ==================== إنشاء بيان التطبيق (Manifest) بشكل دائم ====================
+            function createAndAttachManifest() {
+                var manifestData = {
+                    name: "ForX - تداول العملات الرقمية",
+                    short_name: "ForX",
+                    description: "منصة تداول العملات الرقمية ForX - تداول آمن وسريع",
+                    theme_color: "#3772ff",
+                    background_color: "#f8fafc",
+                    display: "standalone",
+                    orientation: "portrait",
+                    scope: "./",
+                    start_url: "./",
+                    lang: "ar",
+                    dir: "rtl",
+                    icons: [{
+                        src: pngIcon192,
+                        sizes: "192x192",
+                        type: "image/png",
+                        purpose: "any maskable"
+                    }, {
+                        src: pngIcon512,
+                        sizes: "512x512",
+                        type: "image/png",
+                        purpose: "any maskable"
+                    }]
+                };
+
+                var manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+                var manifestUrl = URL.createObjectURL(manifestBlob);
+
+                var existingLink = document.querySelector('link[rel="manifest"]');
+                if (existingLink) existingLink.remove();
+
+                var linkEl = document.createElement('link');
+                linkEl.rel = 'manifest';
+                linkEl.href = manifestUrl;
+                linkEl.id = 'pwa-manifest-dynamic';
+                document.head.appendChild(linkEl);
+
+                window._forxManifestUrl = manifestUrl;
+                window._forxManifestBlob = manifestBlob;
+                return manifestUrl;
+            }
+
+            // ==================== تسجيل Service Worker ====================
+            function registerServiceWorker() {
+                if (!('serviceWorker' in navigator)) return;
+                var swCode = [
+                    'var CACHE_NAME = "forx-pwa-v5";',
+                    'var urlsToCache = ["./"];',
+                    'self.addEventListener("install", function(e) {',
+                    '  e.waitUntil(',
+                    '    caches.open(CACHE_NAME).then(function(cache) {',
+                    '      return cache.addAll(urlsToCache).catch(function() {});',
+                    '    })',
+                    '  );',
+                    '  self.skipWaiting();',
+                    '});',
+                    'self.addEventListener("activate", function(e) {',
+                    '  e.waitUntil(',
+                    '    caches.keys().then(function(keys) {',
+                    '      return Promise.all(keys.map(function(k) {',
+                    '        if (k !== CACHE_NAME) return caches.delete(k);',
+                    '      }));',
+                    '    })',
+                    '  );',
+                    '  clients.claim();',
+                    '});',
+                    'self.addEventListener("fetch", function(e) {',
+                    '  if (e.request.method !== "GET") return;',
+                    '  e.respondWith(',
+                    '    caches.match(e.request).then(function(r) {',
+                    '      return r || fetch(e.request).then(function(resp) {',
+                    '        var r2 = resp.clone();',
+                    '        caches.open(CACHE_NAME).then(function(c) {',
+                    '          c.put(e.request, r2);',
+                    '        });',
+                    '        return resp;',
+                    '      }).catch(function() {',
+                    '        return caches.match("./");',
+                    '      });',
+                    '    })',
+                    '  );',
+                    '});'
+                ].join('\n');
+                var swBlob = new Blob([swCode], { type: 'application/javascript' });
+                var swUrl = URL.createObjectURL(swBlob);
+                navigator.serviceWorker.register(swUrl, { scope: './' }).then(function(reg) {
+                    console.log('✅ Service Worker مسجل بنجاح');
+                }).catch(function(err) {
+                    console.warn('⚠️ تعذر تسجيل Service Worker:', err);
+                });
+                window._forxSwUrl = swUrl;
+                window._forxSwBlob = swBlob;
+            }
+
+            // ==================== دوال مساعدة ====================
             function showToast(msg, isError) {
                 isError = isError || false;
                 var toast = document.createElement('div');
@@ -1125,90 +1264,69 @@
             }
 
             async function handleInstallClick() {
-                if (isAppInstalled) { showToast('✅ التطبيق مثبت بالفعل'); hideInstallIcons(); return; }
+                if (isAppInstalled) { showToast('✅ التطبيق مثبت بالفعل');
+                    hideInstallIcons(); return; }
                 if (deferredPrompt) {
                     try {
                         await deferredPrompt.prompt();
                         var choiceResult = await deferredPrompt.userChoice;
                         deferredPrompt = null;
-                        if (choiceResult.outcome === 'accepted') { isAppInstalled = true;
+                        if (choiceResult.outcome === 'accepted') {
+                            isAppInstalled = true;
                             hideInstallIcons();
-                            showToast('🎉 تم تثبيت ForX!'); } else { showToast('تم إلغاء التثبيت'); }
-                    } catch (err) { showInstallGuide(); }
-                } else { showInstallGuide(); }
+                            showToast('🎉 تم تثبيت ForX في درج التطبيقات!');
+                        } else {
+                            showToast('تم إلغاء التثبيت');
+                        }
+                    } catch (err) {
+                        showInstallGuide();
+                    }
+                } else {
+                    showInstallGuide();
+                }
             }
 
             function showInstallGuide() {
                 var ua = navigator.userAgent.toLowerCase();
-                if (ua.includes('chrome') || ua.includes('edge') || ua.includes('samsung')) showToast(
-                    '📱 من قائمة المتصفح: ⋮ > تثبيت التطبيق');
-                else if (ua.includes('safari') && /iphone|ipad|ipod/.test(ua)) showToast(
-                    '📱 من شريط الأدوات: ↑ > إضافة إلى الشاشة الرئيسية');
-                else showToast('📱 استخدم قائمة المتصفح > تثبيت التطبيق');
-            }
-
-            function createManifest() {
-                var manifestData = {
-                    name: "ForX - تداول العملات الرقمية",
-                    short_name: "ForX",
-                    description: "منصة تداول العملات الرقمية ForX - تداول آمن وسريع",
-                    theme_color: "#3772ff",
-                    background_color: "#f8fafc",
-                    display: "standalone",
-                    orientation: "portrait",
-                    scope: "/",
-                    start_url: window.location.href,
-                    lang: "ar",
-                    dir: "rtl",
-                    icons: [{
-                        src: "data:image/svg+xml," + encodeURIComponent(
-                            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="#3772ff"/><path fill="#ffffff" d="M256 128l64 128h-48l-16 128 48-96 48 96-16-128h-48l-32-128z"/></svg>'
-                            ),
-                        sizes: "512x512",
-                        type: "image/svg+xml",
-                        purpose: "any maskable"
-                    }]
-                };
-                var manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
-                var manifestUrl = URL.createObjectURL(manifestBlob);
-                var linkEl = document.createElement('link');
-                linkEl.rel = 'manifest';
-                linkEl.href = manifestUrl;
-                linkEl.id = 'pwa-manifest-dynamic';
-                document.head.appendChild(linkEl);
-                return manifestUrl;
-            }
-
-            function registerServiceWorker() {
-                if (!('serviceWorker' in navigator)) return;
-                var swCode = [
-                    'var CACHE_NAME = "forx-pwa-v4";',
-                    'self.addEventListener("install", function(e) { e.waitUntil(caches.open(CACHE_NAME).then(function(c) { return c.addAll(["./"]).catch(function(){}); })); self.skipWaiting(); });',
-                    'self.addEventListener("activate", function(e) { e.waitUntil(caches.keys().then(function(keys) { return Promise.all(keys.map(function(k) { if(k!==CACHE_NAME) return caches.delete(k); })); })); clients.claim(); });',
-                    'self.addEventListener("fetch", function(e) { if(e.request.method!=="GET") return; e.respondWith(caches.match(e.request).then(function(r) { return r||fetch(e.request).then(function(resp) { var r2=resp.clone(); caches.open(CACHE_NAME).then(function(c) { c.put(e.request,r2); }); return resp; }).catch(function() { return caches.match("./"); }); })); });'
-                ].join('\n');
-                var swBlob = new Blob([swCode], { type: 'application/javascript' });
-                var swUrl = URL.createObjectURL(swBlob);
-                navigator.serviceWorker.register(swUrl, { scope: '/' }).then(function(reg) {
-                    console.log('✅ Service Worker مسجل');
-                }).catch(function() {});
+                if (ua.includes('chrome') || ua.includes('edge') || ua.includes('samsung'))
+                    showToast('📱 من قائمة المتصفح: ⋮ > تثبيت التطبيق أو إضافة إلى الشاشة الرئيسية');
+                else if (ua.includes('safari') && /iphone|ipad|ipod/.test(ua))
+                    showToast('📱 من شريط الأدوات: ↑ > إضافة إلى الشاشة الرئيسية');
+                else
+                    showToast('📱 استخدم قائمة المتصفح > تثبيت التطبيق');
             }
 
             function setupPWA() {
-                createManifest();
+                createAndAttachManifest();
                 registerServiceWorker();
-                window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault();
-                    deferredPrompt = e; if (!isAppInstalled) showInstallIcons(); });
-                window.addEventListener('appinstalled', function() { isAppInstalled = true;
+
+                window.addEventListener('beforeinstallprompt', function(e) {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    if (!isAppInstalled) showInstallIcons();
+                });
+
+                window.addEventListener('appinstalled', function() {
+                    isAppInstalled = true;
                     deferredPrompt = null;
                     hideInstallIcons();
-                    showToast('🎉 تم تثبيت ForX بنجاح!'); });
-                allInstallIcons.forEach(function(icon) { if (icon) icon.addEventListener('click', function(e) { e
-                        .preventDefault();
-                        handleInstallClick(); }); });
-                setTimeout(function() { if (!isAppInstalled && !deferredPrompt && isInstallableBrowser())
-                    showInstallIcons(); }, 2500);
+                    showToast('🎉 تم تثبيت ForX بنجاح في درج التطبيقات!');
+                });
+
+                allInstallIcons.forEach(function(icon) {
+                    if (icon) icon.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        handleInstallClick();
+                    });
+                });
+
+                setTimeout(function() {
+                    if (!isAppInstalled && !deferredPrompt && isInstallableBrowser())
+                        showInstallIcons();
+                }, 2500);
             }
+
+            // تنفيذ إعداد PWA فوراً
             setupPWA();
 
             // ==================== إدارة المستخدمين والجلسة ====================
@@ -1216,7 +1334,6 @@
             var SESSION_KEY = 'forx_current_user';
 
             function generateReferralCode(email) {
-                // ينشئ كود إحالة ثابت للمستخدم من الإيميل
                 var base = email.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
                 var randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
                 return 'FX-' + base.substring(0, 6) + '-' + randomPart;
@@ -1239,7 +1356,6 @@
                         referralCode: 'FX-DEMO-AB12'
                     }]));
                 } else {
-                    // تأكد من وجود referralCode للمستخدمين القدامى وإعادة تعيين جميع الأرصدة إلى 0
                     var users = getUsers();
                     var updated = false;
                     users.forEach(function(u) {
@@ -1247,8 +1363,8 @@
                             u.referralCode = generateReferralCode(u.email);
                             updated = true;
                         }
-                        // إعادة تعيين جميع الأرصدة إلى 0
-                        if ((u.balance || 0) !== 0 || (u.btcBalance || 0) !== 0 || (u.ethBalance || 0) !== 0 || (u.solBalance || 0) !== 0) {
+                        if ((u.balance || 0) !== 0 || (u.btcBalance || 0) !== 0 || (u.ethBalance || 0) !==
+                            0 || (u.solBalance || 0) !== 0) {
                             u.balance = 0;
                             u.btcBalance = 0;
                             u.ethBalance = 0;
@@ -1736,9 +1852,8 @@
                 document.getElementById('account-fullname').textContent = user.fullName || 'مستخدم';
                 document.getElementById('account-email').innerHTML = '<i class="fas fa-envelope text-xs"></i> ' + user.email;
                 document.getElementById('account-avatar-letter').textContent = (user.fullName || 'U').charAt(0)
-                .toUpperCase();
+                    .toUpperCase();
                 document.getElementById('account-join-date').textContent = user.joinDate || '2024';
-                // عرض رمز الإحالة
                 document.getElementById('referral-code-display').textContent = user.referralCode || '------';
                 document.getElementById('summary-deposits').textContent = totalDeposited.toFixed(2) + ' USDT';
                 document.getElementById('summary-withdrawals').textContent = totalWithdrawn.toFixed(2) + ' USDT';
@@ -1823,13 +1938,13 @@
                 document.getElementById('wallet-total-balance').textContent = total.toFixed(2) + ' USDT';
                 var assetsHtml = [
                     { name: 'USDT', icon: 'fa-dollar-sign', color: 'green-600', balance: usdtBalance, price: 1,
-                    decimals: 2 },
+                        decimals: 2 },
                     { name: 'BTC', icon: 'fa-bitcoin', color: 'yellow-600', balance: btcBalance, price: btcPrice,
                         decimals: 6 },
                     { name: 'ETH', icon: 'fa-ethereum', color: 'purple-600', balance: ethBalance, price: ethPrice,
                         decimals: 6 },
                     { name: 'SOL', icon: 'fa-sun', color: 'orange-500', balance: solBalance, price: solPrice,
-                    decimals: 6 }
+                        decimals: 6 }
                 ].map(function(a) {
                     return '<div class="flex items-center justify-between p-3 rounded-lg" style="background: var(--input-bg);"><div class="flex items-center gap-2"><i class="fas ' +
                         a.icon + ' text-' + a.color + '"></i><span class="font-semibold">' + a.name +
@@ -1965,7 +2080,7 @@
 
             function restoreSession() {
                 var session = JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) ||
-                'null');
+                    'null');
                 if (session) { var user = findUserByEmail(session.email); if (user) { enterPlatform(user); return true; } }
                 return false;
             }
@@ -2018,14 +2133,9 @@
                 var container = document.getElementById('providers-list-container');
                 var html = '';
                 providersData.forEach(function(p) {
-                    var rankClass = 'rank-badge';
-                    if (p.rank === 1) rankClass += ' top1';
-                    else if (p.rank === 2) rankClass += ' top2';
-                    else if (p.rank === 3) rankClass += ' top3';
-                    html += '<div class="provider-row flex items-center gap-3 py-3 px-1 rounded-lg transition" style="cursor:pointer;"><div class="' +
-                        rankClass +
-                        '" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#f1f5f9;color:#64748b;font-weight:600;font-size:0.75rem;">' +
-                        p.rank + '</div><div class="flex-1"><div class="flex items-center gap-2"><i class="' + p.icon +
+                    html += '<div class="provider-row flex items-center gap-3 py-3 px-1 rounded-lg transition" style="cursor:pointer;"><div style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#f1f5f9;color:#64748b;font-weight:600;font-size:0.75rem;">' +
+                        p.rank +
+                        '</div><div class="flex-1"><div class="flex items-center gap-2"><i class="' + p.icon +
                         ' text-lg"></i><div><h4 class="font-bold text-sm">' + p.name +
                         '</h4><span class="text-xs" style="color: var(--text-secondary);">' + p.category +
                         '</span></div></div></div><div class="text-left"><div class="font-bold text-crypto-green text-base">+' +
@@ -2038,18 +2148,18 @@
             function renderNewsContent() {
                 var container = document.getElementById('news-content-container');
                 container.innerHTML = [
-                    { title: '🚀 عملات رقمية جديدة متاحة للتداول', badge: 'إطلاق جديد', badgeColor: 'purple',
+                    { title: '🚀 عملات رقمية جديدة متاحة للتداول', badge: 'إطلاق جديد',
                         text: 'تمت إضافة 5 عملات رقمية واعدة إلى منصتنا، مع سيولة عالية ورسوم تداول 0.1% فقط.',
                         pairs: ['ARB/USDT', 'OP/USDT', 'LINK/USDT', 'NEAR/USDT', 'ATOM/USDT'] },
-                    { title: 'تحديث واجهة المستخدم وتحسين الأداء', badge: 'تحديث النظام', badgeColor: 'green',
+                    { title: 'تحديث واجهة المستخدم وتحسين الأداء', badge: 'تحديث النظام',
                         text: 'قمنا بتحديث التصميم ليكون أكثر سلاسة، مع تحسين سرعة تنفيذ الصفقات بنسبة 40% وإضافة ميزة الإشعارات الفورية والوضع الليلي.' },
-                    { title: '🎉 استرداد 50% من رسوم التداول', badge: 'عرض محدود', badgeColor: 'orange',
+                    { title: '🎉 استرداد 50% من رسوم التداول', badge: 'عرض محدود',
                         text: 'لكل مستخدم يقوم بإيداع 100 USDT أو أكثر خلال الأسبوع الحالي، سيتم استرداد 50% من رسوم التداول.' },
-                    { title: 'بيتكوين تتجاوز 70,000$ للمرة الأولى', badge: 'أخبار السوق', badgeColor: 'gray',
+                    { title: 'بيتكوين تتجاوز 70,000$ للمرة الأولى', badge: 'أخبار السوق',
                         text: 'ارتفاع قياسي جديد لعملة البيتكوين مع تزايد التبني المؤسسي والموافقة على صناديق الاستثمار المتداولة.' },
-                    { title: 'المحفظة الرقمية ForX Wallet قريباً', badge: 'قريباً', badgeColor: 'gray',
+                    { title: 'المحفظة الرقمية ForX Wallet قريباً', badge: 'قريباً',
                         text: 'قريباً يمكنك تخزين وإدارة جميع عملاتك الرقمية في محفظة ForX الآمنة مع دعم Staking وعوائد تصل إلى 12% سنوياً.' }
-                ].map(function(n, i) {
+                ].map(function(n) {
                     var pairsHtml = n.pairs ? '<div class="flex flex-wrap gap-2 mt-2">' + n.pairs.map(function(p) {
                         return '<span class="px-3 py-1 rounded-full text-xs font-medium" style="background: var(--card); border: 1px solid var(--border);">' +
                             p + '</span>';
@@ -2075,11 +2185,11 @@
                         msg.className = 'text-sm mt-2 error-message';
                         msg.classList.remove('hidden'); return; }
                     if (code.toUpperCase() === 'SYNC2024') { msg.textContent =
-                            '✅ تمت المزامنة بنجاح!';
+                        '✅ تمت المزامنة بنجاح!';
                         msg.className = 'text-sm mt-2 success-message';
                         msg.classList.remove('hidden');
                         showToast('تمت مزامنة الصفقة بنجاح'); } else { msg.textContent =
-                            '❌ كود الطلب غير صحيح';
+                        '❌ كود الطلب غير صحيح';
                         msg.className = 'text-sm mt-2 error-message';
                         msg.classList.remove('hidden'); }
                 });
