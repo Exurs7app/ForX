@@ -765,6 +765,18 @@
                         <span class="text-crypto-blue font-medium cursor-pointer hover:underline">التحقق من الهوية <i class="fas fa-chevron-left text-[10px]"></i></span>
                     </div>
                 </div>
+                <!-- خانة رمز الإحالة -->
+                <div class="glass-card rounded-2xl p-4">
+                    <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-users text-purple-500"></i> رمز الإحالة</h3>
+                    <p class="text-sm mb-3" style="color: var(--text-secondary);">رمز الإحالة الخاص بك لمشاركته مع الأصدقاء وكسب المكافآت.</p>
+                    <div class="flex items-center gap-2 p-3 rounded-xl border" style="background: var(--input-bg); border-color: var(--border);">
+                        <code class="text-lg font-mono font-bold flex-1 text-center" id="referral-code-display" style="color: var(--text); letter-spacing: 2px;">------</code>
+                        <button id="copy-referral-code-btn" class="p-2 rounded-lg text-crypto-blue hover:opacity-80 transition" style="background: var(--card); border: 1px solid var(--border);" title="نسخ رمز الإحالة"><i class="fas fa-copy"></i></button>
+                    </div>
+                    <div class="mt-3 p-3 rounded-xl text-center" style="background: rgba(55,114,255,0.05); border: 1px dashed #3772ff;">
+                        <p class="text-xs" style="color: var(--text-secondary);"><i class="fas fa-gift text-crypto-blue ml-1"></i> شارك رمز الإحالة واحصل على <span class="font-bold text-crypto-blue">5 USDT</span> لكل صديق ينضم ويتداول!</p>
+                    </div>
+                </div>
                 <div class="glass-card rounded-2xl p-4">
                     <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-chart-pie text-crypto-blue"></i> ملخص الحساب</h3>
                     <div class="grid grid-cols-2 gap-3 text-sm">
@@ -1205,6 +1217,13 @@
             var STORAGE_KEY = 'forx_users_db_v2';
             var SESSION_KEY = 'forx_current_user';
 
+            function generateReferralCode(email) {
+                // ينشئ كود إحالة ثابت للمستخدم من الإيميل
+                var base = email.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+                var randomPart = Math.random().toString(36).substring(2, 6).toUpperCase();
+                return 'FX-' + base.substring(0, 6) + '-' + randomPart;
+            }
+
             function initDB() {
                 if (!localStorage.getItem(STORAGE_KEY)) {
                     localStorage.setItem(STORAGE_KEY, JSON.stringify([{
@@ -1218,8 +1237,20 @@
                         transactions: [],
                         priceAlerts: [],
                         trades: [],
-                        joinDate: new Date().toISOString().split('T')[0]
+                        joinDate: new Date().toISOString().split('T')[0],
+                        referralCode: 'FX-DEMO-AB12'
                     }]));
+                } else {
+                    // تأكد من وجود referralCode للمستخدمين القدامى
+                    var users = getUsers();
+                    var updated = false;
+                    users.forEach(function(u) {
+                        if (!u.referralCode) {
+                            u.referralCode = generateReferralCode(u.email);
+                            updated = true;
+                        }
+                    });
+                    if (updated) saveUsers(users);
                 }
             }
             initDB();
@@ -1659,7 +1690,6 @@
                     showToast('✅ تم شراء ' + amount.toFixed(4) + ' ' + currentSymbol.id + ' بقيمة ' + totalValue.toFixed(
                         2) + ' USDT');
                 } else {
-                    // بيع - تبسيط
                     var sellValue = totalValue * 0.98;
                     var newBalanceSell = (user.balance || 0) + sellValue;
                     var tradeRecordSell = { type: 'sell', symbol: currentSymbol.id, amount: amount, price: price,
@@ -1702,6 +1732,8 @@
                 document.getElementById('account-avatar-letter').textContent = (user.fullName || 'U').charAt(0)
                 .toUpperCase();
                 document.getElementById('account-join-date').textContent = user.joinDate || '2024';
+                // عرض رمز الإحالة
+                document.getElementById('referral-code-display').textContent = user.referralCode || '------';
                 document.getElementById('summary-deposits').textContent = totalDeposited.toFixed(2) + ' USDT';
                 document.getElementById('summary-withdrawals').textContent = totalWithdrawn.toFixed(2) + ' USDT';
                 document.getElementById('summary-trades').textContent = (user.trades || []).length;
@@ -2112,7 +2144,8 @@
                     var newUser = { fullName: name, email: email.toLowerCase(), password: btoa(pass),
                         balance: 10000, btcBalance: 0.15, ethBalance: 1.2, solBalance: 5.0,
                         transactions: [], priceAlerts: [], trades: [], joinDate: new Date().toISOString()
-                            .split('T')[0] };
+                            .split('T')[0],
+                        referralCode: generateReferralCode(email.toLowerCase()) };
                     var users = getUsers();
                     users.push(newUser);
                     saveUsers(users);
@@ -2227,6 +2260,18 @@
                     if (processWithdraw(address, amount)) closeModals();
                     else { err.textContent = 'رصيد غير كافٍ أو خطأ';
                         err.classList.remove('hidden'); }
+                });
+
+                // نسخ رمز الإحالة
+                document.getElementById('copy-referral-code-btn').addEventListener('click', function() {
+                    var code = document.getElementById('referral-code-display').textContent;
+                    if (navigator.clipboard) {
+                        navigator.clipboard.writeText(code).then(function() {
+                            showToast('✅ تم نسخ رمز الإحالة: ' + code);
+                        });
+                    } else {
+                        showToast('انسخ الكود يدوياً: ' + code, true);
+                    }
                 });
 
                 // التحويل
