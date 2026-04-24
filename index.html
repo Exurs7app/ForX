@@ -502,6 +502,13 @@
                         <input type="password" id="signup-confirm" class="auth-input pr-10" placeholder="أعد كتابة كلمة المرور">
                     </div>
                 </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1" style="color: var(--text-secondary);">كود الدعوة (اختياري)</label>
+                    <div class="relative">
+                        <i class="fas fa-gift absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="text" id="signup-referral-code" class="auth-input pr-10" placeholder="أدخل كود الدعوة إن وجد">
+                    </div>
+                </div>
                 <div id="signup-error" class="error-message hidden"></div>
                 <div id="signup-success" class="success-message hidden"></div>
                 <div class="flex items-start gap-2 mt-2">
@@ -752,20 +759,6 @@
                         <button id="account-withdraw-btn" class="flex-1 py-2.5 rounded-xl border font-semibold text-sm" style="border-color: var(--border); color: var(--text-secondary);"><i class="fas fa-minus-circle"></i> سحب</button>
                     </div>
                 </div>
-                <div class="glass-card rounded-2xl p-4">
-                    <div class="flex items-center justify-between mb-2">
-                        <h3 class="font-bold flex items-center gap-2"><i class="fas fa-shield-alt text-crypto-blue"></i> مستوى التحقق</h3>
-                        <span class="bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full font-medium">المستوى الأساسي</span>
-                    </div>
-                    <p class="text-sm mb-2" style="color: var(--text-secondary);">أكمل التحقق لزيادة حدود السحب والتمتع بميزات متقدمة.</p>
-                    <div class="progress-bar mb-1" style="height:6px; background: var(--input-bg); border-radius:10px; overflow:hidden;">
-                        <div class="progress-fill" style="height:100%; background: linear-gradient(90deg, #3772ff, #5a4cfa); width: 35%; border-radius:10px;"></div>
-                    </div>
-                    <div class="flex justify-between text-xs" style="color: var(--text-secondary);">
-                        <span>35% مكتمل</span>
-                        <span class="text-crypto-blue font-medium cursor-pointer hover:underline">التحقق من الهوية <i class="fas fa-chevron-left text-[10px]"></i></span>
-                    </div>
-                </div>
                 <!-- خانة رمز الإحالة -->
                 <div class="glass-card rounded-2xl p-4">
                     <h3 class="font-bold mb-3 flex items-center gap-2"><i class="fas fa-users text-purple-500"></i> رمز الإحالة</h3>
@@ -957,25 +950,49 @@
             </div>
         </div>
 
-        <!-- مودال الدعوة -->
+        <!-- مودال الدعوة (إحالة) - بدون QR وواتساب/تليجرام وكل القيم 0 -->
         <div id="invite-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
-            <div class="w-11/12 max-w-sm rounded-2xl p-5 shadow-2xl" style="background: var(--card);">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-user-plus text-purple-500"></i> دعوة صديق</h3>
+            <div class="w-11/12 max-w-md rounded-2xl p-5 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar" style="background: var(--card);">
+                <div class="flex items-center justify-between mb-4 sticky top-0 py-2 z-10" style="background: var(--card);">
+                    <h3 class="text-lg font-bold flex items-center gap-2"><i class="fas fa-user-plus text-purple-500"></i> برنامج الإحالة</h3>
                     <button id="close-invite-modal" class="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-80" style="background: var(--input-bg);"><i class="fas fa-times" style="color: var(--text-secondary);"></i></button>
                 </div>
-                <div class="space-y-3 text-sm">
-                    <p style="color: var(--text-secondary);">ادعُ أصدقائك للانضمام إلى ForX واحصل على مكافآت USDT.</p>
+
+                <!-- بطاقة الإحصائيات - كل القيم صفر -->
+                <div class="grid grid-cols-2 gap-3 mb-5">
                     <div class="p-4 rounded-xl border" style="background: var(--input-bg); border-color: var(--border);">
-                        <p class="font-bold mb-1">رابط الدعوة الخاص بك</p>
-                        <div class="flex items-center justify-between gap-2 p-2 rounded-lg border" style="background: var(--card); border-color: var(--border);">
-                            <code class="text-sm font-mono break-all" id="invite-link">https://exurs7app.github.io/ForX/</code>
-                            <button id="copy-invite-link" class="p-2 rounded-lg text-crypto-blue hover:opacity-80 transition" style="background: var(--input-bg);"><i class="fas fa-copy"></i></button>
-                        </div>
+                        <span class="text-xs" style="color: var(--text-secondary);"><i class="fas fa-users ml-1"></i> المدعوين</span>
+                        <div class="text-2xl font-bold mt-1" id="invite-referrals-count">0</div>
+                        <span class="text-xs" style="color: var(--text-secondary);" id="invite-active-count">0 نشط</span>
                     </div>
-                    <p class="text-xs" style="color: var(--text-secondary);"><i class="fas fa-gift text-yellow-500 ml-1"></i> المكافأة: 5 USDT لكل صديق نشط!</p>
+                    <div class="p-4 rounded-xl border" style="background: var(--input-bg); border-color: var(--border);">
+                        <span class="text-xs" style="color: var(--text-secondary);"><i class="fas fa-coins ml-1"></i> المكافآت</span>
+                        <div class="text-2xl font-bold mt-1" id="invite-earnings">0.00 USDT</div>
+                        <span class="text-xs" style="color: var(--text-secondary);" id="invite-pending-earnings">0.00 قيد الانتظار</span>
+                    </div>
                 </div>
-                <button id="close-invite-btn" class="w-full mt-4 py-2.5 rounded-xl font-medium transition" style="background: var(--input-bg);">حسناً</button>
+
+                <!-- رابط الإحالة فقط (بدون QR وبدون أزرار مشاركة) -->
+                <div class="p-4 rounded-xl border mb-4" style="background: var(--input-bg); border-color: var(--border);">
+                    <p class="font-bold text-sm mb-2">رابط الإحالة الخاص بك</p>
+                    <div class="flex items-center justify-between gap-2 p-2 rounded-lg border mb-3" style="background: var(--card); border-color: var(--border);">
+                        <code class="text-sm font-mono break-all flex-1" id="invite-link">https://exurs7app.github.io/ForX/</code>
+                        <button id="copy-invite-link" class="p-2 rounded-lg text-crypto-blue hover:opacity-80 transition flex-shrink-0" style="background: var(--input-bg);"><i class="fas fa-copy"></i></button>
+                    </div>
+                    <p class="text-xs" style="color: var(--text-secondary);">
+                        <i class="fas fa-gift text-yellow-500 ml-1"></i> اربح مكافآت عند دعوة أصدقائك. لم يتم تفعيل المكافآت بعد.
+                    </p>
+                </div>
+
+                <!-- قائمة المدعوين الأخيرة (فارغة) -->
+                <div>
+                    <h4 class="font-bold text-sm mb-3 flex items-center gap-2"><i class="fas fa-list text-gray-500"></i> آخر المدعوين</h4>
+                    <div id="invite-referrals-list" class="space-y-2 max-h-48 overflow-y-auto no-scrollbar">
+                        <p class="text-center py-3 text-sm" style="color: var(--text-secondary);">لا توجد دعوات بعد. شارك رابطك وابدأ الربح!</p>
+                    </div>
+                </div>
+
+                <button id="close-invite-btn" class="w-full mt-5 py-2.5 rounded-xl font-medium transition" style="background: var(--input-bg);">حسناً</button>
             </div>
         </div>
 
@@ -1353,7 +1370,10 @@
                         priceAlerts: [],
                         trades: [],
                         joinDate: new Date().toISOString().split('T')[0],
-                        referralCode: 'FX-DEMO-AB12'
+                        referralCode: 'FX-DEMO-AB12',
+                        referredUsers: [],
+                        referralEarnings: 0,
+                        pendingEarnings: 0
                     }]));
                 } else {
                     var users = getUsers();
@@ -1371,6 +1391,12 @@
                             u.solBalance = 0;
                             updated = true;
                         }
+                        if (!u.referredUsers) { u.referredUsers = [];
+                            updated = true; }
+                        if (u.referralEarnings === undefined) { u.referralEarnings = 0;
+                            updated = true; }
+                        if (u.pendingEarnings === undefined) { u.pendingEarnings = 0;
+                            updated = true; }
                     });
                     if (updated) saveUsers(users);
                 }
@@ -2060,6 +2086,7 @@
                 loadPriceAlerts();
                 updateAlertBadge();
                 refreshBalanceAndTransactions();
+                updateInviteModalData();
                 switchPage('home');
                 initMarketData();
                 showInstallIcons();
@@ -2083,6 +2110,19 @@
                     'null');
                 if (session) { var user = findUserByEmail(session.email); if (user) { enterPlatform(user); return true; } }
                 return false;
+            }
+
+            // ==================== بيانات الإحالة (القيم صفر دائمًا) ====================
+            function updateInviteModalData() {
+                // تعيين كل القيم إلى صفر بشكل دائم
+                document.getElementById('invite-referrals-count').textContent = '0';
+                document.getElementById('invite-active-count').textContent = '0 نشط';
+                document.getElementById('invite-earnings').textContent = '0.00 USDT';
+                document.getElementById('invite-pending-earnings').textContent = '0.00 قيد الانتظار';
+
+                var referralsList = document.getElementById('invite-referrals-list');
+                referralsList.innerHTML =
+                    '<p class="text-center py-3 text-sm" style="color: var(--text-secondary);">لا توجد دعوات بعد. شارك رابطك وابدأ الربح!</p>';
             }
 
             // ==================== بيانات مزودي الإشارات ====================
@@ -2204,6 +2244,7 @@
                     signupEmail = document.getElementById('signup-email'),
                     signupPass = document.getElementById('signup-password'),
                     signupConfirm = document.getElementById('signup-confirm'),
+                    signupReferralCode = document.getElementById('signup-referral-code'),
                     agreeTerms = document.getElementById('agree-terms');
                 var loginError = document.getElementById('login-error'),
                     signupError = document.getElementById('signup-error'),
@@ -2243,7 +2284,8 @@
                     var name = signupName.value.trim(),
                         email = signupEmail.value.trim(),
                         pass = signupPass.value,
-                        confirm = signupConfirm.value;
+                        confirm = signupConfirm.value,
+                        referralCode = signupReferralCode.value.trim();
                     signupError.classList.add('hidden');
                     signupSuccess.classList.add('hidden');
                     if (!name || !email || !pass || !confirm) { signupError.textContent =
@@ -2261,7 +2303,12 @@
                         balance: 0, btcBalance: 0, ethBalance: 0, solBalance: 0,
                         transactions: [], priceAlerts: [], trades: [], joinDate: new Date().toISOString()
                             .split('T')[0],
-                        referralCode: generateReferralCode(email.toLowerCase()) };
+                        referralCode: generateReferralCode(email.toLowerCase()),
+                        referredUsers: [],
+                        referralEarnings: 0,
+                        pendingEarnings: 0,
+                        referredBy: referralCode || ''
+                    };
                     var users = getUsers();
                     users.push(newUser);
                     saveUsers(users);
@@ -2284,7 +2331,7 @@
                 var withdrawBtnBEP20 = document.getElementById('withdraw-network-bep20');
                 var withdrawAddressLabel = document.getElementById('withdraw-address-label');
 
-                function generateQRCode(text) {
+                function generateQRCode(text, canvas) {
                     if (!text) return;
                     try {
                         var qr = qrcode(0, 'M');
@@ -2293,9 +2340,9 @@
                         var size = 200;
                         var cells = qr.getModuleCount();
                         var cellSize = Math.floor(size / cells);
-                        var qrCtx = qrCanvas.getContext('2d');
-                        qrCanvas.width = size;
-                        qrCanvas.height = size;
+                        var qrCtx = canvas.getContext('2d');
+                        canvas.width = size;
+                        canvas.height = size;
                         qrCtx.clearRect(0, 0, size, size);
                         qrCtx.fillStyle = '#ffffff';
                         qrCtx.fillRect(0, 0, size, size);
@@ -2313,13 +2360,13 @@
                         btnBEP20.classList.remove('active-network');
                         depositAddressSpan.textContent = TRC20_ADDRESS;
                         networkLabel.textContent = 'عنوان المحفظة (TRC20)';
-                        generateQRCode(TRC20_ADDRESS);
+                        generateQRCode(TRC20_ADDRESS, qrCanvas);
                     } else {
                         btnBEP20.classList.add('active-network');
                         btnTRC20.classList.remove('active-network');
                         depositAddressSpan.textContent = BEP20_ADDRESS;
                         networkLabel.textContent = 'عنوان المحفظة (BEP20 · BSC)';
-                        generateQRCode(BEP20_ADDRESS);
+                        generateQRCode(BEP20_ADDRESS, qrCanvas);
                     }
                 }
 
@@ -2476,10 +2523,12 @@
                 document.getElementById('close-news-modal').addEventListener('click', function() { newsModal.classList.add(
                         'hidden'); });
 
-                // مودال الدعوة
+                // مودال الدعوة - جميع القيم أصفار، بدون QR أو أزرار مشاركة
                 var inviteModal = document.getElementById('invite-modal');
-                document.getElementById('invite-btn').addEventListener('click', function() { inviteModal.classList.remove(
-                        'hidden'); });
+                document.getElementById('invite-btn').addEventListener('click', function() {
+                    updateInviteModalData();
+                    inviteModal.classList.remove('hidden');
+                });
                 document.getElementById('close-invite-modal').addEventListener('click', function() { inviteModal.classList.add(
                         'hidden'); });
                 document.getElementById('close-invite-btn').addEventListener('click', function() { inviteModal.classList.add(
