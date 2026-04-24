@@ -1239,12 +1239,20 @@
                         referralCode: 'FX-DEMO-AB12'
                     }]));
                 } else {
-                    // تأكد من وجود referralCode للمستخدمين القدامى
+                    // تأكد من وجود referralCode للمستخدمين القدامى وإعادة تعيين جميع الأرصدة إلى 0
                     var users = getUsers();
                     var updated = false;
                     users.forEach(function(u) {
                         if (!u.referralCode) {
                             u.referralCode = generateReferralCode(u.email);
+                            updated = true;
+                        }
+                        // إعادة تعيين جميع الأرصدة إلى 0
+                        if ((u.balance || 0) !== 0 || (u.btcBalance || 0) !== 0 || (u.ethBalance || 0) !== 0 || (u.solBalance || 0) !== 0) {
+                            u.balance = 0;
+                            u.btcBalance = 0;
+                            u.ethBalance = 0;
+                            u.solBalance = 0;
                             updated = true;
                         }
                     });
